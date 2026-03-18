@@ -895,45 +895,8 @@ nav{
     box-shadow:0 0 12px rgba(192,132,252,0.35);
   }
 
-  /* Accordion preview panel */
-  .proj-preview{
-    display:block;
-    overflow:hidden;
-    max-height:0;
-    transition:max-height .45s cubic-bezier(0.22,1,0.36,1);
-    background:#0d0d0d;
-    position:relative;
-  }
-  .project-row.open .proj-preview{
-    max-height:260px;
-  }
-  .proj-preview-vid{
-    width:100%;
-    height:200px;
-    object-fit:cover;
-    display:block;
-  }
-  .proj-preview-btn{
-    position:absolute;
-    bottom:.75rem; right:.75rem;
-    background:rgba(192,132,252,0.15);
-    border:1px solid rgba(192,132,252,0.4);
-    color:#c084fc;
-    padding:.4rem .9rem;
-    border-radius:6px;
-    font-size:.68rem;
-    font-weight:600;
-    letter-spacing:.05em;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    gap:.4rem;
-    transition:all .2s;
-    backdrop-filter:blur(8px);
-  }
-  .proj-preview-btn:hover{
-    background:rgba(192,132,252,0.3);
-  }
+  /* Accordion hidden — mobile uses full-page player directly */
+  .proj-preview{ display:none !important; }
 }
 
 /* CONTACT */
@@ -1054,7 +1017,8 @@ footer{
   .hamburger{display:flex;order:2;}
   .lang-switcher{order:1;}
   nav{padding:0 18px;}
-  .section{padding:62px 18px 42px;overflow-y:auto;}
+  .section{padding:62px 18px 160px;overflow-y:auto;}
+  #contact{padding-bottom:220px;}
   #about{overflow-y:auto !important;}
   .about-video-wrap{height:28vh;min-height:140px;}
   .about-text-wrap{padding:1.2rem 1.2rem 1rem;}
@@ -1473,42 +1437,60 @@ body.lang-en [data-de]{display:none !important;}
   color:#e2b96f;
 }
 
-/* ── Full-page video overlay (click) ── */
+/* ── Video modal (click) ── */
 .work-fullpage{
-  position:fixed;inset:0;z-index:9999;
-  background:#000;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
+  position:fixed;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(0.95);
+  z-index:9999;
   opacity:0;pointer-events:none;
-  transition:opacity .4s ease;
+  transition:opacity .3s ease,transform .3s cubic-bezier(0.34,1.56,0.64,1);
 }
-.work-fullpage.open{opacity:1;pointer-events:all;}
-.work-fullpage video{
-  width:100%;height:100%;
-  object-fit:contain;
-  background:#000;
+.work-fullpage.open{
+  opacity:1;pointer-events:all;
+  transform:translate(-50%,-50%) scale(1);
 }
-/* top bar */
+.wfp-modal{
+  width:480px;max-width:calc(100vw - 2rem);
+  background:rgba(13,13,13,0.92);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 24px 60px rgba(0,0,0,0.7),0 0 0 1px rgba(255,255,255,0.04);
+}
 .wfp-bar{
-  position:absolute;top:0;left:0;right:0;
-  padding:1.2rem 2rem;
   display:flex;align-items:center;justify-content:space-between;
-  background:linear-gradient(to bottom,rgba(0,0,0,0.7),transparent);
-  z-index:2;
+  padding:.75rem 1.2rem;
+  background:#111;
+  border-bottom:1px solid rgba(255,255,255,0.07);
 }
 .wfp-title{
   font-family:'Playfair Display',Georgia,serif;
-  font-size:1rem;font-style:italic;
+  font-size:.92rem;font-style:italic;
   color:rgba(255,255,255,0.7);
 }
+.wfp-actions{display:flex;align-items:center;gap:.5rem;}
+.wfp-fs{
+  background:none;border:1px solid rgba(255,255,255,0.15);
+  color:rgba(255,255,255,0.45);
+  font-size:.7rem;padding:.3rem .65rem;border-radius:6px;
+  cursor:pointer;transition:all .2s;letter-spacing:.04em;
+  font-family:inherit;
+}
+.wfp-fs:hover{color:#e2b96f;border-color:rgba(226,185,111,0.4);}
 .wfp-close{
   background:none;border:none;
-  color:rgba(255,255,255,0.5);
-  font-size:1.6rem;cursor:pointer;
+  color:rgba(255,255,255,0.4);
+  font-size:1.4rem;cursor:pointer;
   transition:color .2s;line-height:1;
-  font-family:sans-serif;
+  font-family:sans-serif;padding:0 .2rem;
 }
 .wfp-close:hover{color:#e2b96f;}
+#wfpVideo{
+  width:100%;aspect-ratio:16/9;
+  display:block;background:#000;
+}
 
 /* ── Responsive ── */
 @media(max-width:768px){
@@ -1925,7 +1907,7 @@ body.lang-en [data-de]{display:none !important;}
 <section class="section" id="work">
 
   <!-- Global video background (swaps on row hover) -->
-  <video id="work-bg-video" autoplay muted loop playsinline preload="none"></video>
+  <video id="work-bg-video" autoplay muted loop playsinline preload="auto" src="videos/delta-team_compressed.mp4"></video>
   <div id="work-bg-overlay"></div>
 
   <!-- Scrollable content wrapper -->
@@ -2022,12 +2004,17 @@ body.lang-en [data-de]{display:none !important;}
 </section>
 
 <!-- FULL PAGE VIDEO PLAYER -->
-<div class="work-fullpage" id="workFullpage">
-  <div class="wfp-bar">
-    <span class="wfp-title" id="wfpTitle"></span>
-    <button class="wfp-close" onclick="closeWorkFull()">×</button>
+<div class="work-fullpage" id="workFullpage" onclick="if(event.target===this)closeWorkFull()">
+  <div class="wfp-modal">
+    <div class="wfp-bar">
+      <span class="wfp-title" id="wfpTitle"></span>
+      <div class="wfp-actions">
+        <button class="wfp-fs" onclick="document.getElementById('wfpVideo').requestFullscreen()">⛶ Fullscreen</button>
+        <button class="wfp-close" onclick="closeWorkFull()">×</button>
+      </div>
+    </div>
+    <video id="wfpVideo" controls playsinline></video>
   </div>
-  <video id="wfpVideo" controls playsinline></video>
 </div>
 
 <!-- CONTACT --><!-- CONTACT -->
@@ -2051,17 +2038,19 @@ body.lang-en [data-de]{display:none !important;}
         <a class="social-btn"><i class="fab fa-tiktok"></i></a>
       </div>
     </div>
-    <div class="contact-form">
+    <form class="contact-form" id="contact-form" novalidate>
+      <input type="checkbox" name="botcheck" style="display:none">
       <label for="cf-name" class="sr-only">Your name</label>
-      <input id="cf-name" type="text" placeholder="Your name" autocomplete="name">
+      <input id="cf-name" name="name" type="text" placeholder="Your name" autocomplete="name" required>
       <label for="cf-email" class="sr-only">Email address</label>
-      <input id="cf-email" type="email" placeholder="Email address" autocomplete="email">
+      <input id="cf-email" name="email" type="email" placeholder="Email address" autocomplete="email" required>
       <label for="cf-type" class="sr-only">Type of project</label>
-      <select id="cf-type"><option value="" disabled selected>Type of project</option><option>Wedding</option><option>Commercial</option><option>Portrait</option><option>Travel / Documentary</option><option>Other</option></select>
+      <select id="cf-type" name="project_type"><option value="" disabled selected>Type of project</option><option>Wedding</option><option>Commercial</option><option>Portrait</option><option>Travel / Documentary</option><option>Other</option></select>
       <label for="cf-msg" class="sr-only">Tell me about your project</label>
-      <textarea id="cf-msg" rows="3" placeholder="Tell me about your project..."></textarea>
-      <button>Send enquiry →</button>
-    </div>
+      <textarea id="cf-msg" name="message" rows="3" placeholder="Tell me about your project..."></textarea>
+      <div id="form-msg" style="display:none;padding:12px 16px;border-radius:8px;font-size:.78rem;font-weight:500;margin-bottom:2px"></div>
+      <button type="submit">Send enquiry →</button>
+    </form>
   </div>
 </section>
 
@@ -2424,30 +2413,26 @@ function setLang(lang) {
 
 
 
-// ── WORK PAGE: hover = bg video, click = fullpage ────────────────────────────
+// ── WORK PAGE: bg video always visible, swaps on hover ───────────────────────
 (function(){
   const bgVideo   = document.getElementById('work-bg-video');
   const bgOverlay = document.getElementById('work-bg-overlay');
   if(!bgVideo) return;
 
-  let currentSrc = '';
+  // Show bg video immediately when work section activates
+  bgVideo.classList.add('visible');
+  bgOverlay.classList.add('visible');
+
+  let currentSrc = bgVideo.src;
 
   document.querySelectorAll('.project-row').forEach(row => {
     row.addEventListener('mouseenter', () => {
       const src = row.dataset.video;
-      if(!src) return;
-      if(src !== currentSrc){
-        currentSrc = src;
-        bgVideo.src = src;
-        bgVideo.load();
-        bgVideo.play().catch(()=>{});
-      }
-      bgVideo.classList.add('visible');
-      bgOverlay.classList.add('visible');
-    });
-    row.addEventListener('mouseleave', () => {
-      bgVideo.classList.remove('visible');
-      bgOverlay.classList.remove('visible');
+      if(!src || src === currentSrc) return;
+      currentSrc = src;
+      bgVideo.src = src;
+      bgVideo.load();
+      bgVideo.play().catch(()=>{});
     });
   });
 })();
@@ -2557,36 +2542,9 @@ document.addEventListener('keydown', e => {
   }
 })();
 
-// ── WORK ROW HANDLER (desktop = fullscreen, mobile = accordion) ───────────────
+// ── WORK ROW HANDLER (both desktop & mobile = fullscreen) ────────────────────
 function handleWorkRow(e, row){
-  var isMobile = window.matchMedia('(max-width:700px)').matches;
-  if(!isMobile){
-    // Desktop: open fullscreen as before
-    var src   = row.dataset.video;
-    var title = row.dataset.title;
-    openWorkFull(src, title);
-    return;
-  }
-  // Mobile: toggle accordion
-  e.preventDefault();
-  var isOpen = row.classList.contains('open');
-
-  // Close all open rows first
-  document.querySelectorAll('.project-row.open').forEach(function(r){
-    r.classList.remove('open');
-    var v = r.querySelector('.proj-preview-vid');
-    if(v){ v.pause(); v.src = ''; }
-  });
-
-  if(!isOpen){
-    row.classList.add('open');
-    var vid = row.querySelector('.proj-preview-vid');
-    if(vid){
-      vid.src = row.dataset.video;
-      vid.load();
-      vid.play().catch(function(){});
-    }
-  }
+  openWorkFull(row.dataset.video, row.dataset.title);
 }
 
 // ── WORK ROWS 3D TILT ─────────────────────────────────────────────────────────
@@ -2609,6 +2567,44 @@ function handleWorkRow(e, row){
     });
   });
 })();
+
+// ── Contact Form (Web3Forms) ───────────────────────────────────────────────
+document.getElementById('contact-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = this.querySelector('button[type="submit"]');
+  const msg = document.getElementById('form-msg');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  try {
+    const formData = new FormData(this);
+    formData.append('access_key', 'b2c513af-2d7c-4b07-bcb8-4d0c4a5f5812');
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {'Accept': 'application/json'},
+      body: formData
+    });
+    if (res.ok) {
+      msg.style.display = 'block';
+      msg.style.background = 'rgba(34,197,94,0.1)';
+      msg.style.border = '1px solid rgba(34,197,94,0.3)';
+      msg.style.color = '#22c55e';
+      msg.textContent = '✓ Message sent! I\'ll get back to you soon.';
+      this.reset();
+      btn.textContent = 'Send enquiry →';
+      btn.disabled = false;
+    } else {
+      throw new Error();
+    }
+  } catch {
+    msg.style.display = 'block';
+    msg.style.background = 'rgba(239,68,68,0.1)';
+    msg.style.border = '1px solid rgba(239,68,68,0.3)';
+    msg.style.color = '#ef4444';
+    msg.textContent = '✗ Something went wrong. Please email info@mato-production.com directly.';
+    btn.textContent = 'Send enquiry →';
+    btn.disabled = false;
+  }
+});
 </script>
 </div>
 </body>
