@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mato Davidovic – Optimizacija</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=DM+Sans:wght@300;400;500&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --gold: #c8a97e; --gold-l: #e8d5b0; --gold-d: #8a6a3a;
+    --green: #22c55e; --amber: #f59e0b;
+    --bg: #080808; --bg2: #111111; --bd: rgba(200,169,126,0.12);
+    --t: #fff; --t2: rgba(255,255,255,0.65); --t3: rgba(255,255,255,0.35);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--t);
+    min-height: 100vh;
+    padding: 48px 24px;
+  }
+
+  .wrap { max-width: 860px; margin: 0 auto; }
+
+  /* Header */
+  .header { text-align: center; margin-bottom: 56px; }
+  .header-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(200,169,126,0.08); border: 1px solid rgba(200,169,126,0.2);
+    border-radius: 100px; padding: 6px 16px; margin-bottom: 20px;
+    font-family: 'Share Tech Mono', monospace; font-size: 11px;
+    letter-spacing: 3px; text-transform: uppercase; color: var(--gold);
+  }
+  .header-badge .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+    box-shadow: 0 0 8px var(--green); animation: blink 1.4s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(32px, 5vw, 56px); font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    background: linear-gradient(135deg, #fff 0%, var(--gold) 60%, var(--gold-l) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+  .subtitle {
+    font-size: 14px; font-weight: 300; color: var(--t3);
+    font-family: 'Share Tech Mono', monospace; letter-spacing: 2px;
+  }
+
+  /* Stats row */
+  .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    margin-bottom: 48px;
+  }
+  .stat {
+    background: var(--bg2); border: 1px solid var(--bd);
+    border-radius: 14px; padding: 20px 16px; text-align: center;
+  }
+  .stat-num {
+    font-family: 'Rajdhani', sans-serif; font-size: 36px; font-weight: 700;
+    color: var(--gold); line-height: 1;
+  }
+  .stat-num.green { color: var(--green); }
+  .stat-num.amber { color: var(--amber); }
+  .stat-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--t3); margin-top: 6px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  /* Section */
+  .section { margin-bottom: 32px; }
+  .section-head {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+  }
+  .section-icon {
+    width: 36px; height: 36px; border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; flex-shrink: 0;
+  }
+  .section-icon.perf  { background: rgba(200,169,126,0.12); }
+  .section-icon.seo   { background: rgba(34,197,94,0.1); }
+  .section-icon.a11y  { background: rgba(167,139,250,0.1); }
+  .section-icon.ux    { background: rgba(251,146,60,0.1); }
+  .section-icon.infra { background: rgba(245,158,11,0.1); }
+  .section-title {
+    font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--t);
+  }
+  .section-count {
+    margin-left: auto; font-family: 'Share Tech Mono', monospace;
+    font-size: 11px; color: var(--t3); letter-spacing: 1px;
+  }
+
+  /* Items grid */
+  .items { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  @media(max-width: 580px) { .items { grid-template-columns: 1fr; } }
+
+  .item {
+    display: flex; align-items: flex-start; gap: 12px;
+    background: var(--bg2); border: 1px solid var(--bd);
+    border-radius: 11px; padding: 14px 16px;
+    transition: border-color 0.2s, transform 0.2s;
+    animation: fadeIn 0.4s ease both;
+  }
+  .item:hover { border-color: rgba(200,169,126,0.28); transform: translateY(-1px); }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+  .item-check {
+    width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; margin-top: 1px;
+  }
+  .item-check.done { background: rgba(34,197,94,0.15); color: var(--green); }
+
+  .item-body { flex: 1; min-width: 0; }
+  .item-title { font-size: 13px; font-weight: 500; color: var(--t); margin-bottom: 3px; }
+  .item-desc  { font-size: 11px; font-weight: 300; color: var(--t3); line-height: 1.5; }
+
+  .item-tag {
+    font-family: 'Share Tech Mono', monospace; font-size: 9px;
+    letter-spacing: 1px; text-transform: uppercase;
+    background: rgba(200,169,126,0.08); color: var(--gold);
+    border: 1px solid rgba(200,169,126,0.15); border-radius: 4px;
+    padding: 2px 6px; white-space: nowrap; flex-shrink: 0; align-self: flex-start;
+    margin-top: 2px;
+  }
+
+  .divider { height: 1px; background: var(--bd); margin: 40px 0; }
+
+  .foot {
+    text-align: center; padding-top: 16px;
+    font-family: 'Share Tech Mono', monospace; font-size: 11px;
+    color: var(--t3); letter-spacing: 2px;
+  }
+
+  .items .item:nth-child(1){animation-delay:0.05s}
+  .items .item:nth-child(2){animation-delay:0.1s}
+  .items .item:nth-child(3){animation-delay:0.15s}
+  .items .item:nth-child(4){animation-delay:0.2s}
+  .items .item:nth-child(5){animation-delay:0.25s}
+  .items .item:nth-child(6){animation-delay:0.3s}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-badge"><span class="dot"></span> Mato Davidovic · mato-davidovic.at</div>
+    <h1>Optimizacija</h1>
+    <div class="subtitle">Pregled svih urađenih izmjena · 2025</div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num green">30</div>
+      <div class="stat-label">Urađeno</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">5</div>
+      <div class="stat-label">Kategorija</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num amber">0</div>
+      <div class="stat-label">Kritičnih grešaka</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num green">100%</div>
+      <div class="stat-label">Lista završena</div>
+    </div>
+  </div>
+
+  <!-- 01 Performance -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-icon perf">⚡</div>
+      <div class="section-title">Performance</div>
+      <div class="section-count">5 stavki</div>
+    </div>
+    <div class="items">
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">Preconnect za Fonts + CDN</div>
+          <div class="item-desc">DNS lookup za fonts.googleapis.com, fonts.gstatic.com i cdnjs.cloudflare.com ide ranije — manji delay pri učitavanju</div>
+        </div>
+        <div class="item-tag">DNS</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">Logo inline (WebP base64)</div>
+          <div class="item-desc">Logo enkodiran direktno u HTML — nema zasebnog HTTP zahtjeva, pojavljuje se odmah bez flasha</div>
+        </div>
+        <div class="item-tag">FCP</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">Favicon inline SVG</div>
+          <div class="item-desc">Favicon u SVG formatu enkodiran u HTML — nema vanjskog zahtjeva, radi bez servera</div>
+        </div>
+        <div class="item-tag">inline</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">will-change na animiranim elementima</div>
+          <div class="item-desc">Browser alocira GPU layer unaprijed za hero, overlay i transition elemente — smoother scroll i animacije</div>
+        </div>
+        <div class="item-tag">GPU</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">Video kompresija (4 videa)</div>
+          <div class="item-desc"><code>compress-videos.sh</code> skripta — voda, delta, delta-team, skok reducirani za web; znatno manji fajlovi bez gubitka kvaliteta</div>
+        </div>
+        <div class="item-tag">video</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 SEO -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-icon seo">🔍</div>
+      <div class="section-title">SEO</div>
+      <div class="section-count">8 stavki</div>
+    </div>
+    <div class="items">
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">Title tag</div>
+          <div class="item-desc">Sa "Austria" ključnom riječju i zanimanjem — lokalni + profesionalni SEO signal</div>
+        </div>
+        <div class="item-tag">lokalni</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">Meta description + robots</div>
+          <div class="item-desc">Opis sa lokacijama (Vienna · Linz · Salzburg) i uslugama; robots: index, follow</div>
+        </div>
+        <div class="item-tag">SERP</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">Canonical URL</div>
+          <div class="item-desc">Sprječava duplikate u Google indeksu — jedina kanonska verzija stranice</div>
+        </div>
+        <div class="item-tag">index</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">hreflang alternates (EN / DE)</div>
+          <div class="item-desc">Google zna koja verzija je za koji jezik/tržište — Austrija je dvojezična, ovo je kritično za rank</div>
+        </div>
+        <div class="item-tag">i18n</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">Open Graph (prošireni)</div>
+          <div class="item-desc">og:type, url, title, description, image, width, height, alt, locale, site_name — share na FB/WhatsApp/LinkedIn izgleda profesionalno</div>
+        </div>
+        <div class="item-tag">share</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">Twitter Card</div>
+          <div class="item-desc">summary_large_image sa svim poljima — lijepa kartica pri dijeljenju na X/Twitter</div>
+        </div>
+        <div class="item-tag">X share</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">Person JSON-LD Schema</div>
+          <div class="item-desc">Mato kao osoba — ime, zanimanje, lokacija, kontakt, sameAs social linkovi — Google Knowledge Panel</div>
+        </div>
+        <div class="item-tag">schema</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">Organization JSON-LD Schema</div>
+          <div class="item-desc">Vizuelna produkcijska firma — name, url, logo, contactPoint — rich results u pretrazi</div>
+        </div>
+        <div class="item-tag">schema</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 Accessibility -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-icon a11y">♿</div>
+      <div class="section-title">Pristupačnost (a11y)</div>
+      <div class="section-count">8 stavki</div>
+    </div>
+    <div class="items">
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">lang="en" atribut</div>
+          <div class="item-desc">Screen readeri i pretraživači znaju jezik stranice — osnova za a11y i SEO</div>
+        </div>
+        <div class="item-tag">lang</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">prefers-reduced-motion</div>
+          <div class="item-desc">Sve animacije se isključuju za korisnike koji imaju motion sensitivity u OS podešen</div>
+        </div>
+        <div class="item-tag">motion</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">Skip-to-content link</div>
+          <div class="item-desc">Keyboard korisnici preskakuju navigaciju direktno na sadržaj — vidljiv na focus</div>
+        </div>
+        <div class="item-tag">keyboard</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">role="main" landmark</div>
+          <div class="item-desc">Screen readeri znaju koja je glavna oblast stranice — navigacija po landmarkima</div>
+        </div>
+        <div class="item-tag">ARIA</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">aria-label + aria-expanded</div>
+          <div class="item-desc">Hamburger meni ima oba atributa — screen reader zna je li meni otvoren ili zatvoren</div>
+        </div>
+        <div class="item-tag">ARIA</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">Form labels + autocomplete</div>
+          <div class="item-desc">Svako polje ima label i <code>type="email"</code> / <code>autocomplete</code> — bolje za mobile i a11y</div>
+        </div>
+        <div class="item-tag">form</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">focus-visible outline</div>
+          <div class="item-desc">Zlatna <code>outline</code> na svim form elementima — keyboard navigacija vidljiva, mouse korisnici ne vide outline</div>
+        </div>
+        <div class="item-tag">keyboard</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">Alt tekst na logo slici</div>
+          <div class="item-desc"><code>alt="Mato Davidovic logo"</code> — screen readeri i Google Images razumiju sliku</div>
+        </div>
+        <div class="item-tag">alt</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 UX / Design -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-icon ux">🎨</div>
+      <div class="section-title">UX & Design</div>
+      <div class="section-count">6 stavki</div>
+    </div>
+    <div class="items">
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">WhatsApp / Viber / Signal dugmad</div>
+          <div class="item-desc">Tri instant messaging opcije u kontaktu — klijenti biraju preferiranu platformu, viši konverzijski rate</div>
+        </div>
+        <div class="item-tag">kontakt</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">DE / EN jezik switcher</div>
+          <div class="item-desc">Brzo prebacivanje između engleskog i njemačkog — ključno za austrijsko tržište</div>
+        </div>
+        <div class="item-tag">i18n</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">scroll-behavior: smooth</div>
+          <div class="item-desc">Glatko skrolanje pri navigaciji između sekcija — bolji UX osjećaj</div>
+        </div>
+        <div class="item-tag">UX</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">Hamburger — samo mobile</div>
+          <div class="item-desc">Hamburger menu se prikazuje samo na ≤700px — desktop ima punu navigaciju bez nepotrebnih elemenata</div>
+        </div>
+        <div class="item-tag">responsive</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">Video lightbox</div>
+          <div class="item-desc">Klik na portfolio video otvara fullscreen lightbox — premium feel prezentacije radova</div>
+        </div>
+        <div class="item-tag">portfolio</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">Film grain canvas overlay</div>
+          <div class="item-desc">Suptilni šum preko hero videa — cinemtaski look, potpis stila</div>
+        </div>
+        <div class="item-tag">design</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 Infrastruktura -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-icon infra">🐳</div>
+      <div class="section-title">Infrastruktura</div>
+      <div class="section-count">3 stavke</div>
+    </div>
+    <div class="items">
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">compress-videos.sh skripta</div>
+          <div class="item-desc">ffmpeg skripta za batch kompresiju videa — ponovljiva, dokumentirana, lako prilagodljiva za nove videe</div>
+        </div>
+        <div class="item-tag">devops</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">4 kompresirana video fajla</div>
+          <div class="item-desc">voda, delta, delta-team, skok — sve compressed verzije na disku, spremne za web deployment</div>
+        </div>
+        <div class="item-tag">assets</div>
+      </div>
+      <div class="item">
+        <div class="item-check done">✓</div>
+        <div class="item-body">
+          <div class="item-title">index.html sinhroniziran</div>
+          <div class="item-desc">Sve izmjene sa REDESIGN-test fajla prenesene na <code>index.html</code> — production fajl je uvijek ažuran</div>
+        </div>
+        <div class="item-tag">deploy</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="foot">MATO DAVIDOVIC · mato-davidovic.at · 30 stavki završeno</div>
+
+</div>
+</body>
+</html>
