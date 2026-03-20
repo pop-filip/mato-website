@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mato-davidovic.at/sitemap.xml
+Sitemap: https://matografie.at/sitemap.xml
