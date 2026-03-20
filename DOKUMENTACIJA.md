@@ -238,6 +238,36 @@ Dodati u: **GitHub repo → Settings → Secrets and variables → Actions**
 
 ---
 
+## GA4 — Google Analytics Setup
+
+- Kod je **komentarisan** u `index.html` (iza DNS prefetch sekcije, ~linija 52)
+- Poštuje cookie consent — aktivira se samo ako korisnik klikne **OK**
+- `anonymize_ip: true` — GDPR compliant
+- **Aktivacija:** See issue [#15](https://github.com/pop-filip/mato-website/issues/15)
+
+### Kako aktivirati (nakon go-live)
+1. analytics.google.com → Admin → Create Property → Web
+2. Kopiraj Measurement ID: `G-XXXXXXXXXX`
+3. U `index.html` pronađi blok s komentarom `GA4 — Google Analytics`
+4. Uncommentati `<script>` blok i zamijeniti `GA_MEASUREMENT_ID`
+5. Testirati u GA4 → DebugView
+
+---
+
+## Heading Audit (2026-03-20)
+
+| Heading | Tekst | Status |
+|---|---|---|
+| H1 (visually-hidden) | `Mato Davidovic — Videograf & Fotograf Österreich \| Hochzeitsfilm · Imagefilm · Portrait` | ✅ Optimizirano |
+| H2 Services | `My Services` | 🟡 Može bolje |
+| H3 Service items | Cinematic, Wedding, Travel, Brand, Portrait | ✅ Opisni |
+| H2 Work | `The Reel / Das Portfolio` | ✅ Dvojezično |
+| H2 Contact | `Let's shoot` | 🟡 Kreativno, nije SEO |
+
+> Promjene vidljivog H2 teksta zahtijevaju koordinaciju s dizajnom — praćeno u issue #16.
+
+---
+
 ## Nginx Security Headers — TODO (nakon VPS setup-a)
 
 Dodati u nginx config kad server bude live:
@@ -266,6 +296,8 @@ Sve otvorene zadatke pratimo na: **https://github.com/pop-filip/mato-website/iss
 | [#12](https://github.com/pop-filip/mato-website/issues/12) | Nginx security headers (CSP, HSTS, X-Frame-Options) | 🟡 Srednji | #6 |
 | [#13](https://github.com/pop-filip/mato-website/issues/13) | GitHub Actions — Secrets + aktivacija auto-deploya | 🔴 Visok | #6 |
 | [#14](https://github.com/pop-filip/mato-website/issues/14) | VideoObject schema — pravi datumi i opisi videa | 🟢 Nizak | — |
+| [#15](https://github.com/pop-filip/mato-website/issues/15) | GA4 — Google Analytics aktivacija | 🟡 Srednji | #6 |
+| [#16](https://github.com/pop-filip/mato-website/issues/16) | Heading audit — H2/H3 keyword optimizacija | 🟢 Nizak | — |
 
 ### Redoslijed rada
 
@@ -273,10 +305,12 @@ Sve otvorene zadatke pratimo na: **https://github.com/pop-filip/mato-website/iss
 Sada (lokalno):
   #9  → og-image.jpg prava fotografija
   #10 → social media linkovi
+  #16 → heading audit (H2/H3 keyword optimizacija)
 
 Nakon go-live (#6):
   #13 → GitHub Secrets + auto-deploy
   #11 → Google Search Console
   #12 → Nginx security headers
+  #15 → GA4 aktivacija (kod već u index.html, samo uncommentati)
   #14 → VideoObject finalizacija
 ```

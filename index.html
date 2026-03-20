@@ -50,6 +50,23 @@
 <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 <link rel="dns-prefetch" href="https://api.web3forms.com">
 
+<!-- ═══ GA4 — Google Analytics ═══ -->
+<!-- AKTIVIRATI nakon go-live: zamijeniti GA_MEASUREMENT_ID sa pravim ID-om iz Google Analytics -->
+<!-- Korak 1: analytics.google.com → Admin → Create Property → Copy Measurement ID (G-XXXXXXXXXX) -->
+<!-- Korak 2: Uncommentati kod ispod i zamijeniti GA_MEASUREMENT_ID -->
+<!--
+<script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  // Respect cookie consent — only activate if user accepted
+  if(localStorage.getItem('cookie-consent') === 'accepted') {
+    gtag('config', 'GA_MEASUREMENT_ID', { anonymize_ip: true });
+  }
+</script>
+-->
+
 <!-- ═══ THEME COLOR — Mobile browser chrome ═══ -->
 <meta name="theme-color" content="#0a0a0a">
 <meta name="msapplication-TileColor" content="#0a0a0a">
@@ -1985,7 +2002,7 @@ body.lang-en [data-de]{display:none !important;}
 <!-- HOME -->
 <section class="section active" id="home">
 
-  <h1 class="visually-hidden">Mato Davidovic — Videographer &amp; Photographer in Austria</h1>
+  <h1 class="visually-hidden">Mato Davidovic — Videograf &amp; Fotograf Österreich | Hochzeitsfilm · Imagefilm · Portrait</h1>
 
   <!-- Background video -->
   <video class="hero-video" id="heroVideo"
