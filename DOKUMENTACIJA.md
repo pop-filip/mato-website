@@ -96,7 +96,10 @@ mato-website/
 - ✅ Hamburger meni — samo mobile (≤700px)
 - ✅ Video lightbox (fullscreen prikaz portfolio videa)
 - ✅ Film grain canvas overlay (cinematski look)
-- ✅ GDPR Cookie consent banner (localStorage, accept/decline, animated dismiss)
+- ✅ GDPR Cookie consent banner (localStorage, OK/Decline, animated dismiss, jednom prikazano)
+- ✅ Mobile kontakt fix — `Let's shoot` centriran, `flex-start` za scroll, padding-bottom 320px
+- ✅ Mobile services fix — `padding-bottom:200px` za Portrait card vidljivost
+- ✅ `-webkit-overflow-scrolling:touch` — iOS scroll fix na svim sekcijama
 
 ### 🐳 Infrastruktura (5)
 - ✅ compress-videos.sh — ffmpeg batch skripta za kompresiju videa
@@ -150,11 +153,12 @@ Dodati u: **GitHub repo → Settings → Secrets and variables → Actions**
 
 ## Cookie Consent — GDPR
 
-- Banner se pojavljuje pri prvoj posjeti
-- Korisnik bira: **Accept** ili **Decline**
+- Banner se pojavljuje **samo pri prvoj posjeti** — ovo je ispravno ponašanje
+- Korisnik bira: **OK** ili **Decline**
 - Izbor se čuva u `localStorage` (`cookie-consent: accepted/declined`)
-- Pri svakom sljedećem učitavanju banner se ne prikazuje
+- Pri svakom sljedećem učitavanju (refresh, povratak) banner se **ne prikazuje ponovo**
 - Privacy Policy link otvara Imprint/Privacy sekciju unutar sajta
+- Reset za testiranje: DevTools → Application → Local Storage → obriši `cookie-consent`
 
 ---
 
