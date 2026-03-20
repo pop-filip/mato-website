@@ -306,7 +306,10 @@ Sve otvorene zadatke pratimo na: **https://github.com/pop-filip/mato-website/iss
 | [#13](https://github.com/pop-filip/mato-website/issues/13) | GitHub Actions — Secrets + aktivacija auto-deploya | 🔴 Visok | #6 |
 | [#14](https://github.com/pop-filip/mato-website/issues/14) | VideoObject schema — pravi datumi i opisi videa | 🟢 Nizak | — |
 | [#15](https://github.com/pop-filip/mato-website/issues/15) | GA4 — Google Analytics aktivacija | 🟡 Srednji | #6 |
-| [#16](https://github.com/pop-filip/mato-website/issues/16) | Heading audit — H2/H3 keyword optimizacija | 🟢 Nizak | — |
+| ~~[#16](https://github.com/pop-filip/mato-website/issues/16)~~ | ~~Heading audit — H2/H3 keyword optimizacija~~ | ✅ Zatvoreno | — |
+| [#17](https://github.com/pop-filip/mato-website/issues/17) | Blog / Case Studies — individualne project stranice | 🟡 Srednji | #6 |
+| [#18](https://github.com/pop-filip/mato-website/issues/18) | E2E testovi — Playwright smoke tests | 🟡 Srednji | #6 |
+| [#19](https://github.com/pop-filip/mato-website/issues/19) | Next.js migracija — long-term skalabilnost | 🟢 Nizak | — |
 
 ### Redoslijed rada
 
@@ -322,4 +325,9 @@ Nakon go-live (#6):
   #12 → Nginx security headers
   #15 → GA4 aktivacija (kod već u index.html, samo uncommentati)
   #14 → VideoObject finalizacija
+  #18 → Playwright E2E testovi
+  #17 → Blog / Case Studies (kad ima trafika)
+
+Long-term:
+  #19 → Next.js migracija (razmotriti 6 mj. nakon go-live)
 ```
