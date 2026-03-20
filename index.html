@@ -292,6 +292,46 @@
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "name": "Häufige Fragen — Mato Davidovic Videograf & Fotograf Österreich",
+  "url": "https://matografie.at/#faq",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Wie viel kostet ein Hochzeitsfilm?",
+      "acceptedAnswer": {"@type":"Answer","text":"Hochzeitsfilme starten ab €1.400 inkl. Kurzfilm (3–5 Min.), Full-Length-Edit und Foto-Highlights. Der genaue Preis hängt vom Umfang, der Location und optionalen Extras wie Drohnenaufnahmen ab."}
+    },
+    {
+      "@type": "Question",
+      "name": "In welchen Städten arbeiten Sie als Videograf?",
+      "acceptedAnswer": {"@type":"Answer","text":"Ich arbeite hauptsächlich in Linz und Wien, bin jedoch österreichweit tätig — von Salzburg bis Graz. Internationale Produktionen sind auf Anfrage möglich."}
+    },
+    {
+      "@type": "Question",
+      "name": "Wie lange dauert die Bearbeitung nach dem Dreh?",
+      "acceptedAnswer": {"@type":"Answer","text":"Hochzeitsfilme werden in 4–6 Wochen geliefert. Imagefilme und Brand Commercials in 2–3 Wochen. Auf Wunsch ist ein Same-Day-Edit (Kurzversion noch am Hochzeitstag) möglich."}
+    },
+    {
+      "@type": "Question",
+      "name": "Was ist im Hochzeitspaket enthalten?",
+      "acceptedAnswer": {"@type":"Answer","text":"Das Standardpaket umfasst: Kurzfilm 3–5 Min., Full-Length-Edit, digitale Foto-Galerie, 2 Kamerasysteme und professionellen Sound. Drohnenaufnahmen, Same-Day-Edit und zusätzliche Kameras sind als Add-on buchbar."}
+    },
+    {
+      "@type": "Question",
+      "name": "Fotografieren Sie auch, oder nur Video?",
+      "acceptedAnswer": {"@type":"Answer","text":"Beides! Ich biete kombinierte Video- und Fotopakete an — Hochzeit, Portrait, Lifestyle und Commercial. So bekommst du alles aus einer Hand in einem einheitlichen Stil."}
+    },
+    {
+      "@type": "Question",
+      "name": "Wie früh sollte ich buchen?",
+      "acceptedAnswer": {"@type":"Answer","text":"Für Hochzeiten empfehle ich eine Buchung 3–6 Monate im Voraus, da beliebte Termine schnell vergeben sind. Für Imagefilme und Portraits reichen 2–3 Wochen Vorlaufzeit."}
+    }
+  ]
+}
+</script>
 <style>
 html{scroll-behavior:smooth;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -1084,6 +1124,45 @@ nav{
   .proj-preview{ display:none !important; }
 }
 
+/* ═══ FAQ ═══ */
+#faq{
+  background:#0a0a0a;
+  align-items:center;
+  justify-content:flex-start;
+  padding-top:80px;
+  padding-bottom:80px;
+  overflow-y:auto;
+}
+.faq-wrap{width:100%;max-width:700px;margin:0 auto;padding:0 1.5rem;}
+.faq-item{border-bottom:1px solid rgba(255,255,255,0.07);}
+.faq-q{
+  display:flex;justify-content:space-between;align-items:center;
+  width:100%;background:none;border:none;
+  color:#fff;font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(.92rem,2vw,1.05rem);text-align:left;
+  padding:1.2rem 0;cursor:pointer;gap:1rem;line-height:1.45;
+  transition:color .2s;
+}
+.faq-q:hover{color:#e2b96f;}
+.faq-icon{
+  flex-shrink:0;width:22px;height:22px;border-radius:50%;
+  border:1px solid rgba(226,185,111,0.35);
+  display:flex;align-items:center;justify-content:center;
+  color:#e2b96f;font-size:.9rem;font-style:normal;
+  transition:transform .3s ease,background .3s ease;
+}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:rgba(226,185,111,0.1);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+.faq-a-inner{
+  padding-bottom:1.2rem;
+  color:rgba(255,255,255,0.5);
+  font-size:.87rem;line-height:1.75;
+  font-family:'Cormorant Garamond',Georgia,serif;
+  text-align:left;
+}
+.faq-item.open .faq-a{max-height:300px;}
+.faq-cta{margin-top:2.5rem;text-align:center;}
+
 /* CONTACT */
 #contact{background:#0a0a0a;background-image:radial-gradient(ellipse 60% 50% at 50% 100%,rgba(251,146,60,0.05) 0%,transparent 70%);}
 #contact h2{font-size:1.7rem;font-weight:900;color:#fff;letter-spacing:-1px;margin-bottom:.3rem;}
@@ -1796,6 +1875,7 @@ body.lang-en [data-de]{display:none !important;}
     <li data-section="about"    data-color="#0d0d0d"  data-accent="#e2b96f"><a><i class="fas fa-user"></i><span data-en>About</span><span data-de>Über mich</span></a></li>
     <li data-section="services" data-color="#0a0a0a"  data-accent="#e2b96f"><a><i class="fas fa-list"></i><span data-en>Services</span><span data-de>Leistungen</span></a></li>
     <li data-section="work"     data-color="#080808"  data-accent="#c084fc"><a><i class="fas fa-camera"></i><span data-en>Work</span><span data-de>Portfolio</span></a></li>
+    <li data-section="faq"      data-color="#0a0a0a"  data-accent="#e2b96f"><a><i class="fas fa-circle-question"></i><span>FAQ</span></a></li>
     <li data-section="contact"  data-color="#0a0a0a"  data-accent="#fb923c"><a><i class="fas fa-paper-plane"></i><span data-en>Contact</span><span data-de>Kontakt</span></a></li>
   </ul>
   </div>
@@ -1811,6 +1891,7 @@ body.lang-en [data-de]{display:none !important;}
   <li data-section="about"    data-color="#0d0d0d"  data-accent="#e2b96f"><a><i class="fas fa-user"></i><span data-en>About</span><span data-de>Über mich</span></a></li>
   <li data-section="services" data-color="#0a0a0a"  data-accent="#e2b96f"><a><i class="fas fa-list"></i><span data-en>Services</span><span data-de>Leistungen</span></a></li>
   <li data-section="work"     data-color="#080808"  data-accent="#c084fc"><a><i class="fas fa-camera"></i><span data-en>Work</span><span data-de>Portfolio</span></a></li>
+  <li data-section="faq"      data-color="#0a0a0a"  data-accent="#e2b96f"><a><i class="fas fa-circle-question"></i><span>FAQ</span></a></li>
   <li data-section="contact"  data-color="#0a0a0a"  data-accent="#fb923c"><a><i class="fas fa-paper-plane"></i><span data-en>Contact</span><span data-de>Kontakt</span></a></li>
 </ul>
 
@@ -2254,6 +2335,70 @@ body.lang-en [data-de]{display:none !important;}
   </div>
 </div>
 
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="section-label">
+    <div class="eyebrow">Häufige Fragen</div>
+    <h2><span>FAQ</span><span class="visually-hidden"> — Videograf &amp; Fotograf Österreich: Häufige Fragen</span></h2>
+  </div>
+  <div class="faq-wrap">
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
+        Wie viel kostet ein Hochzeitsfilm?
+        <i class="faq-icon" aria-hidden="true">+</i>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Hochzeitsfilme starten ab €1.400 inkl. Kurzfilm (3–5 Min.), Full-Length-Edit und Foto-Highlights. Der genaue Preis hängt vom Umfang, der Location und optionalen Extras wie Drohnenaufnahmen ab. Kontaktiere mich für ein persönliches Angebot.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
+        In welchen Städten arbeiten Sie als Videograf?
+        <i class="faq-icon" aria-hidden="true">+</i>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Ich arbeite hauptsächlich in Linz und Wien, bin jedoch österreichweit tätig — von Salzburg bis Graz. Internationale Produktionen sind auf Anfrage möglich. Ich habe bereits in über 12 Ländern gedreht.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
+        Wie lange dauert die Bearbeitung nach dem Dreh?
+        <i class="faq-icon" aria-hidden="true">+</i>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Hochzeitsfilme werden in 4–6 Wochen geliefert. Imagefilme und Brand Commercials in 2–3 Wochen. Auf Wunsch ist ein Same-Day-Edit (Kurzversion noch am Hochzeitstag) möglich.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
+        Was ist im Hochzeitspaket enthalten?
+        <i class="faq-icon" aria-hidden="true">+</i>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Das Standardpaket umfasst: Kurzfilm 3–5 Min., Full-Length-Edit, digitale Foto-Galerie, 2 Kamerasysteme und professionellen Sound. Drohnenaufnahmen, Same-Day-Edit und zusätzliche Kameras sind als Add-on buchbar.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
+        Fotografieren Sie auch, oder nur Video?
+        <i class="faq-icon" aria-hidden="true">+</i>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Beides! Ich biete kombinierte Video- und Fotopakete an — Hochzeit, Portrait, Lifestyle und Commercial. So bekommst du alles aus einer Hand in einem einheitlichen Stil.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
+        Wie früh sollte ich buchen?
+        <i class="faq-icon" aria-hidden="true">+</i>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Für Hochzeiten empfehle ich eine Buchung 3–6 Monate im Voraus, da beliebte Termine schnell vergeben sind. Für Imagefilme und Portraits reichen 2–3 Wochen Vorlaufzeit.</div></div>
+    </div>
+
+  </div>
+  <div class="faq-cta">
+    <a class="btn-gold" style="cursor:pointer" onclick="activate('contact','#0a0a0a','#fb923c')">
+      <span data-en>Book a shoot</span><span data-de>Anfrage senden</span>
+    </a>
+  </div>
+</section>
+
 <!-- CONTACT --><!-- CONTACT -->
 <section class="section" id="contact">
   <h2>Let's <span>shoot</span><span class="visually-hidden"> — Videograf &amp; Fotograf anfragen | Linz, Österreich</span></h2>
@@ -2315,6 +2460,7 @@ body.lang-en [data-de]{display:none !important;}
         <li><a onclick="activate('about','#0d0d0d','#e2b96f')" style="cursor:pointer"><span data-en>About</span><span data-de>Über mich</span></a></li>
         <li><a onclick="activate('services','#0a0a0a','#e2b96f')" style="cursor:pointer"><span data-en>Services</span><span data-de>Leistungen</span></a></li>
         <li><a onclick="activate('work','#080808','#c084fc')" style="cursor:pointer"><span data-en>Work</span><span data-de>Portfolio</span></a></li>
+        <li><a onclick="activate('faq','#0a0a0a','#e2b96f')" style="cursor:pointer">FAQ</a></li>
         <li><a onclick="activate('contact','#0a0a0a','#fb923c')" style="cursor:pointer"><span data-en>Contact</span><span data-de>Kontakt</span></a></li>
       </ul>
     </div>
@@ -2864,6 +3010,22 @@ document.getElementById('contact-form').addEventListener('submit', async functio
     btn.disabled = false;
   }
 });
+
+// ═══ FAQ ACCORDION ═══
+function toggleFaq(btn){
+  const item=btn.closest('.faq-item');
+  const isOpen=item.classList.contains('open');
+  // close all
+  document.querySelectorAll('.faq-item.open').forEach(i=>{
+    i.classList.remove('open');
+    i.querySelector('.faq-q').setAttribute('aria-expanded','false');
+  });
+  // open clicked (if it wasn't already open)
+  if(!isOpen){
+    item.classList.add('open');
+    btn.setAttribute('aria-expanded','true');
+  }
+}
 </script>
 </div>
 </body>

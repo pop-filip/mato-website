@@ -77,7 +77,7 @@ mato-website/
 - ✅ `will-change: transform` na animiranim elementima (GPU layer)
 - ✅ Video kompresija — 4 videa kompresovana za web via ffmpeg
 
-### 🔍 SEO (24)
+### 🔍 SEO (25)
 - ✅ `<html lang="de-AT">` — primarni jezik austrijsko tržište
 - ✅ Title tag — sa ključnim riječima: Videograf, Fotograf, Österreich, Hochzeit, Imagefilm, Portrait
 - ✅ Meta description — na njemačkom kao primarni jezik (AT tržište)
@@ -102,6 +102,7 @@ mato-website/
 - ✅ `preconnect` + `dns-prefetch` za Web3Forms API
 - ✅ **manifest.json** — PWA, short_name matografie, dark theme
 - ✅ Apple Touch Icon + apple-mobile-web-app meta tagovi
+- ✅ **FAQPage** JSON-LD — 6 pitanja na njemačkom (Hochzeitsfilm, gradovi, dostava, paket, foto+video, booking)
 
 ### ♿ Pristupačnost — a11y (8)
 - ✅ `lang="en"` atribut na `<html>`
@@ -113,7 +114,7 @@ mato-website/
 - ✅ `focus-visible` outline na form poljima (keyboard UX)
 - ✅ Alt tekst na logo slici
 
-### 🎨 UX & Design (7)
+### 🎨 UX & Design (8)
 - ✅ WhatsApp / Viber / Signal dugmad u kontaktu
 - ✅ DE / EN jezik switcher (austrijsko tržište)
 - ✅ `scroll-behavior: smooth`
@@ -121,6 +122,7 @@ mato-website/
 - ✅ Video lightbox (fullscreen prikaz portfolio videa)
 - ✅ Film grain canvas overlay (cinematski look)
 - ✅ GDPR Cookie consent banner (localStorage, OK/Decline, animated dismiss)
+- ✅ FAQ sekcija — 6 pitanja/odgovora (accordion), nav item, FAQPage schema
 
 ### 📱 Mobile Fixes (4)
 - ✅ Contact sekcija — `Let's shoot` centriran, `flex-start` za scroll, padding-bottom 320px
