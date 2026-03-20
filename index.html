@@ -39,7 +39,7 @@
 <meta name="twitter:title" content="Mato Davidovic — Videographer & Photographer in Austria">
 <meta name="twitter:description" content="Videographer &amp; Photographer in Austria. Wedding films, cinematic video production, brand commercials &amp; portrait photography. Vienna · Linz · Salzburg.">
 <meta name="twitter:image" content="https://mato-davidovic.at/og-image.jpg">
-<link rel="alternate icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAA">
+<link rel="alternate icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAATUlEQVR4nGNgGAVQwMXF9Z+eeNQBow4YdcDQccCJlVEUYao5AJccOfpGHTDqAJIdQI4cIflRB4w6gGgH0AqPOmDUAaMOGHUAhgNGLAAA95fG1t9WIQEAAAAASUVORK5CYII=">
 <!-- ═══ PERFORMANCE — Preconnect & DNS prefetch ═══ -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1528,9 +1528,58 @@ body.lang-en [data-de]{display:none !important;}
 }
 .skip-link{position:absolute;top:-100%;left:16px;background:#c8a97e;color:#0a0a0a;padding:10px 18px;border-radius:0 0 8px 8px;font-weight:700;font-size:14px;text-decoration:none;z-index:99999;transition:top 0.2s}
 .skip-link:focus{top:0}
+
+/* ── Cookie Consent ──────────────────────────────────────────────────────── */
+#cookie-banner{
+  position:fixed;bottom:1.25rem;left:50%;transform:translateX(-50%);
+  z-index:9999;
+  width:min(680px, calc(100vw - 2rem));
+  background:rgba(14,14,14,0.97);
+  border:1px solid rgba(200,164,90,0.22);
+  border-radius:14px;
+  padding:1.1rem 1.4rem;
+  display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+  box-shadow:0 8px 40px rgba(0,0,0,0.55);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  transition:opacity .35s ease, transform .35s ease;
+}
+#cookie-banner.hide{opacity:0;transform:translateX(-50%) translateY(20px);pointer-events:none}
+#cookie-banner p{
+  flex:1;min-width:200px;
+  font-size:.75rem;color:rgba(255,255,255,0.55);
+  line-height:1.5;margin:0;
+}
+#cookie-banner p a{color:rgba(200,164,90,0.8);text-decoration:underline}
+#cookie-banner p a:hover{color:#c8a45a}
+.cookie-btns{display:flex;gap:.6rem;flex-shrink:0}
+.cookie-btn{
+  border:none;cursor:pointer;border-radius:8px;
+  padding:.45rem 1.1rem;font-size:.72rem;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;
+  font-family:inherit;transition:all .2s;
+}
+.cookie-btn.accept{background:#c8a45a;color:#0a0a0a}
+.cookie-btn.accept:hover{background:#e2c47a}
+.cookie-btn.decline{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.12)}
+.cookie-btn.decline:hover{background:rgba(255,255,255,0.12);color:#fff}
 </style>
 </head>
 <body>
+
+<!-- ── Cookie Consent Banner ──────────────────────────────────────────────── -->
+<div id="cookie-banner" role="dialog" aria-label="Cookie consent" aria-live="polite">
+  <p>
+    This website uses no tracking cookies or analytics. Technical data (server logs) may be processed
+    for security purposes only. By continuing, you acknowledge our
+    <a href="#" onclick="activate('imprint','#0a0a0a','#e2b96f');return false">Privacy Policy</a>.
+  </p>
+  <div class="cookie-btns">
+    <button class="cookie-btn accept" id="cookie-accept">Accept</button>
+    <button class="cookie-btn decline" id="cookie-decline">Decline</button>
+  </div>
+</div>
+
 <a href="#site" class="skip-link">Skip to content</a>
 
 <!-- INTRO SCROLL REVEAL -->
@@ -2565,6 +2614,28 @@ function handleWorkRow(e, row){
     row.addEventListener('mouseleave', function(){
       row.style.transform = '';
     });
+  });
+})();
+
+// ── Cookie Consent ────────────────────────────────────────────────────────
+(function(){
+  const banner = document.getElementById('cookie-banner');
+  if(!banner) return;
+  if(localStorage.getItem('cookie-consent')){
+    banner.style.display = 'none';
+    return;
+  }
+  function dismiss(){
+    banner.classList.add('hide');
+    setTimeout(()=>banner.style.display='none', 380);
+  }
+  document.getElementById('cookie-accept').addEventListener('click',function(){
+    localStorage.setItem('cookie-consent','accepted');
+    dismiss();
+  });
+  document.getElementById('cookie-decline').addEventListener('click',function(){
+    localStorage.setItem('cookie-consent','declined');
+    dismiss();
   });
 })();
 

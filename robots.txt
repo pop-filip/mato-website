@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mato-davidovic.at/sitemap.xml
