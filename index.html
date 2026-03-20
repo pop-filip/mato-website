@@ -1017,8 +1017,9 @@ footer{
   .hamburger{display:flex;order:2;}
   .lang-switcher{order:1;}
   nav{padding:0 18px;}
-  .section{padding:62px 18px 160px;overflow-y:auto;}
-  #contact{padding-bottom:220px;}
+  .section{padding:62px 18px 160px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+  #contact{padding-bottom:320px;}
+  #services{padding-bottom:200px;}
   #about{overflow-y:auto !important;}
   .about-video-wrap{height:28vh;min-height:140px;}
   .about-text-wrap{padding:1.2rem 1.2rem 1rem;}
@@ -2098,7 +2099,7 @@ body.lang-en [data-de]{display:none !important;}
       <label for="cf-msg" class="sr-only">Tell me about your project</label>
       <textarea id="cf-msg" name="message" rows="3" placeholder="Tell me about your project..."></textarea>
       <div id="form-msg" style="display:none;padding:12px 16px;border-radius:8px;font-size:.78rem;font-weight:500;margin-bottom:2px"></div>
-      <button type="submit">Send enquiry →</button>
+      <button type="submit">Senden</button>
     </form>
   </div>
 </section>
@@ -2661,7 +2662,7 @@ document.getElementById('contact-form').addEventListener('submit', async functio
       msg.style.color = '#22c55e';
       msg.textContent = '✓ Message sent! I\'ll get back to you soon.';
       this.reset();
-      btn.textContent = 'Send enquiry →';
+      btn.textContent = 'Senden';
       btn.disabled = false;
     } else {
       throw new Error();
@@ -2672,7 +2673,7 @@ document.getElementById('contact-form').addEventListener('submit', async functio
     msg.style.border = '1px solid rgba(239,68,68,0.3)';
     msg.style.color = '#ef4444';
     msg.textContent = '✗ Something went wrong. Please email info@mato-production.com directly.';
-    btn.textContent = 'Send enquiry →';
+    btn.textContent = 'Senden';
     btn.disabled = false;
   }
 });
