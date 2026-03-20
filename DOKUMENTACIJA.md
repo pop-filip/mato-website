@@ -259,12 +259,12 @@ Dodati u: **GitHub repo → Settings → Secrets and variables → Actions**
 | Heading | Tekst | Status |
 |---|---|---|
 | H1 (visually-hidden) | `Mato Davidovic — Videograf & Fotograf Österreich \| Hochzeitsfilm · Imagefilm · Portrait` | ✅ Optimizirano |
-| H2 Services | `My Services` | 🟡 Može bolje |
+| H2 Services | `My Services` + hidden: `Videografie & Fotografie Österreich: Hochzeitsfilm, Imagefilm, Drohnen, Portrait` | ✅ Optimizirano |
 | H3 Service items | Cinematic, Wedding, Travel, Brand, Portrait | ✅ Opisni |
 | H2 Work | `The Reel / Das Portfolio` | ✅ Dvojezično |
-| H2 Contact | `Let's shoot` | 🟡 Kreativno, nije SEO |
+| H2 Contact | `Let's shoot` + hidden: `Videograf & Fotograf anfragen \| Linz, Österreich` | ✅ Optimizirano |
 
-> Promjene vidljivog H2 teksta zahtijevaju koordinaciju s dizajnom — praćeno u issue #16.
+**Tehnika:** `<span class="visually-hidden">` — vidljiv search engineu i screen readerima, nevidljiv korisnicima. Dizajn ostaje netaknut.
 
 ---
 
