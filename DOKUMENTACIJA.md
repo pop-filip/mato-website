@@ -1,4 +1,4 @@
-# Mato Davidovic — Tehnička Dokumentacija
+# matografie.at — Tehnička Dokumentacija
 
 ## Tehnologije
 
@@ -14,6 +14,16 @@
 | ffmpeg | — | Video kompresija |
 | Web3Forms | — | Kontakt forma (serverless email) |
 | GitHub Actions | — | CI/CD auto-deploy na Hetzner VPS |
+
+---
+
+## Domena
+
+**Live domena:** `matografie.at`
+**Canonical URL:** `https://matografie.at/`
+**Email:** `info@mato-production.com`
+**Telefon:** `+43 660 3780309`
+**Lokacija:** Linz, Oberösterreich, Austria
 
 ---
 
@@ -65,19 +75,25 @@ mato-website/
 - ✅ Logo inline (WebP base64) — nema vanjskog HTTP zahtjeva, pojavljuje se odmah
 - ✅ Favicon inline SVG — nema vanjskog zahtjeva, radi bez servera
 - ✅ `will-change: transform` na animiranim elementima (GPU layer)
-- ✅ Video kompresija — 4 videa (voda, delta, delta-team, skok) kompresovana za web via ffmpeg
+- ✅ Video kompresija — 4 videa kompresovana za web via ffmpeg
 
-### 🔍 SEO (10)
-- ✅ Title tag (sa ključnom riječju "Austria" i zanimanjem)
-- ✅ Meta description + robots: index, follow
-- ✅ Canonical URL
-- ✅ hreflang alternates (en, de, x-default) — kritično za austrijsko dvojezično tržište
-- ✅ Open Graph prošireni (og:type, url, title, description, image, width, height, alt, locale, site_name)
+### 🔍 SEO (16)
+- ✅ Title tag — sa ključnim riječima: Videograf, Fotograf, Österreich, Hochzeit, Imagefilm, Portrait
+- ✅ Meta description — na njemačkom kao primarni jezik (AT tržište)
+- ✅ Meta robots — `max-snippet:-1, max-image-preview:large` za Google rich results
+- ✅ Canonical URL → `https://matografie.at/`
+- ✅ hreflang alternates (en, de, x-default) — dvojezično austrijsko tržište
+- ✅ GEO meta — Linz koordinate (48.3069, 14.2858), regija AT-4
+- ✅ Open Graph — type, url, title, description, image, locale (de_AT), locale:alternate (en_US), site_name
 - ✅ Twitter Card (summary_large_image)
-- ✅ Person JSON-LD Schema (ime, zanimanje, lokacija, kontakt, sameAs)
-- ✅ Organization JSON-LD Schema (vizuelna produkcija, usluge, kontakt)
-- ✅ `sitemap.xml` — XML sitemap sa hreflang alternates (en/de/x-default)
-- ✅ `robots.txt` — crawler instrukcije sa Sitemap referencom
+- ✅ `sitemap.xml` — XML sitemap sa hreflang alternates
+- ✅ `robots.txt` — sa Sitemap referencom
+- ✅ **Person** JSON-LD — ime, zanimanje, telefon, email, adresa, koordinate
+- ✅ **LocalBusiness + ProfessionalService** JSON-LD — Google Maps compatible, priceRange €€
+- ✅ **5x Service** JSON-LD — Hochzeitsvideografie, Imagefilm, Drohnenaufnahmen, Portrait, Travel — sa opisima i cijenama
+- ✅ **WebSite** JSON-LD — sa SearchAction (potentialAction)
+- ✅ **WebPage + BreadcrumbList** JSON-LD
+- ✅ `rel="noopener noreferrer"` na svim vanjskim linkovima
 
 ### ♿ Pristupačnost — a11y (8)
 - ✅ `lang="en"` atribut na `<html>`
@@ -96,35 +112,91 @@ mato-website/
 - ✅ Hamburger meni — samo mobile (≤700px)
 - ✅ Video lightbox (fullscreen prikaz portfolio videa)
 - ✅ Film grain canvas overlay (cinematski look)
-- ✅ GDPR Cookie consent banner (localStorage, OK/Decline, animated dismiss, jednom prikazano)
-- ✅ Mobile kontakt fix — `Let's shoot` centriran, `flex-start` za scroll, padding-bottom 320px
-- ✅ Mobile services fix — `padding-bottom:200px` za Portrait card vidljivost
-- ✅ `-webkit-overflow-scrolling:touch` — iOS scroll fix na svim sekcijama
+- ✅ GDPR Cookie consent banner (localStorage, OK/Decline, animated dismiss)
+
+### 📱 Mobile Fixes (4)
+- ✅ Contact sekcija — `Let's shoot` centriran, `flex-start` za scroll, padding-bottom 320px
+- ✅ Services sekcija — `padding-bottom:200px` za Portrait card vidljivost
+- ✅ `-webkit-overflow-scrolling:touch` — iOS scroll fix
+- ✅ Contact button `Senden` — vidljiv i klikabilni na svim uređajima
 
 ### 🐳 Infrastruktura (5)
 - ✅ compress-videos.sh — ffmpeg batch skripta za kompresiju videa
 - ✅ 4 kompresirana video fajla na disku (web ready)
-- ✅ Cloudflare Quick Tunnel (HTTPS za demo)
-- ✅ GitHub Actions CI/CD — auto-deploy na Hetzner VPS pri push na `main`
-- ✅ Custom 404.html — dark/gold design koji prati estetiku sajta
+- ✅ Cloudflare Quick Tunnel (HTTPS za demo/testiranje)
+- ✅ GitHub Actions CI/CD — `workflow_dispatch` (ručno, aktivan kad VPS bude spreman)
+- ✅ Custom 404.html — dark/gold dizajn koji prati estetiku sajta
 
 ### 📬 Forme & Komunikacija (1)
 - ✅ Kontakt forma — Web3Forms integracija (`access_key` konfiguriran), async submit, success/error feedback
 
-### 🔒 Sigurnost & GDPR (2)
+### 🔒 Sigurnost & GDPR (3)
 - ✅ Cookie consent banner — GDPR compliant, opt-in/opt-out, localStorage persistencija
-- ✅ Favicon PNG fallback — validan base64 PNG za starije browsere (IE, legacy)
+- ✅ Favicon PNG fallback — validan base64 PNG za starije browsere
+- ✅ `rel="noopener noreferrer"` — svi vanjski linkovi zaštićeni
+
+---
+
+## SEO — Kako funkcionišu Keywords
+
+**`<meta name="keywords">`** — Google ga ignoriše od 2009. Bing ga djelimično koristi. Ostavljamo ga ali nije prioritet.
+
+**Što Google stvarno gleda (po važnosti):**
+1. **Title tag** — najvažniji signal, max 60 znakova
+2. **Meta description** — utječe na CTR (click-through rate), max 160 znakova
+3. **H1/H2 naslovi** — ključne riječi u naslovima sekcija
+4. **Tekst na stranici** — prirodno korištenje ključnih riječi
+5. **Schema.org markup** — strukturirani podaci za rich results
+6. **Backlinks** — vanjski linkovi koji pokazuju na sajt
+7. **Core Web Vitals** — brzina, stabilnost, interaktivnost
+
+**Trenutni title:** `Mato Davidovic — Videograf & Fotograf Österreich | Hochzeit · Imagefilm · Portrait`
+
+**Ciljane ključne riječi:**
+- Primarne: `Videograf Österreich`, `Fotograf Österreich`, `Hochzeitsvideograf`
+- Sekundarne: `Imagefilm Wien/Linz`, `Kameramann Linz`, `Drohnenaufnahmen Österreich`
+- Brand: `matografie`, `matografie.at`
+
+---
+
+## Schema.org — Struktura
+
+```
+@graph
+├── Person (Mato Davidovic — kontakt, lokacija, vještine)
+├── LocalBusiness + ProfessionalService (Google Maps, priceRange €€)
+│   └── hasOfferCatalog
+│       ├── Service: Hochzeitsvideografie (od €1200)
+│       ├── Service: Imagefilm & Brand Commercial (od €800)
+│       ├── Service: Drohnenaufnahmen (od €400)
+│       ├── Service: Portrait & Lifestyle (od €350)
+│       └── Service: Travel & Dokumentarfilm
+├── WebSite (sa SearchAction)
+└── WebPage + BreadcrumbList
+```
 
 ---
 
 ## GitHub Actions — CI/CD Setup
 
 Fajl: `.github/workflows/deploy.yml`
+**Status: `workflow_dispatch`** — ručno pokretanje, automatski deploy deaktiviran dok VPS nije spreman.
 
-Auto-deploy se pokreće na svaki `git push` na `main` branch.
+### Aktivacija auto-deploya
+Kad VPS bude spreman, u `deploy.yml` promijeni:
+```yaml
+on:
+  workflow_dispatch:
+```
+u:
+```yaml
+on:
+  push:
+    branches:
+      - main
+```
 
 ### Potrebni GitHub Secrets
-
 Dodati u: **GitHub repo → Settings → Secrets and variables → Actions**
 
 | Secret | Vrijednost |
@@ -133,32 +205,43 @@ Dodati u: **GitHub repo → Settings → Secrets and variables → Actions**
 | `VPS_USER` | SSH korisnik (npr. `root`) |
 | `VPS_SSH_KEY` | Privatni SSH ključ (sadržaj `~/.ssh/id_rsa`) |
 
-### Workflow koraci
-1. Checkout koda
-2. SSH na VPS
-3. `git pull origin main` na serveru
-4. `docker compose up -d --build` — rebuild i restart kontejnera
-
 ---
 
 ## Web3Forms — Kontakt Forma
 
 - API endpoint: `https://api.web3forms.com/submit`
-- `access_key` je konfiguriran direktno u `index.html` (JS sekcija)
+- `access_key` konfiguriran direktno u `index.html` (JS sekcija ~linija 2650)
 - Bot protection: honeypot polje `botcheck` (hidden checkbox)
 - Feedback: inline success (zeleno) / error (crveno) poruke
-- Za promjenu email primaoca: prijaviti se na [web3forms.com](https://web3forms.com) i izmjeniti ključ
+- Button tekst: `Senden`
+- Za promjenu email primaoca: [web3forms.com](https://web3forms.com) → promijeni `access_key`
+- **Napomena:** Web3Forms ne radi lokalno (`file://`, `localhost`) — testirati samo sa live domenom ili Cloudflare tunelom
 
 ---
 
 ## Cookie Consent — GDPR
 
-- Banner se pojavljuje **samo pri prvoj posjeti** — ovo je ispravno ponašanje
+- Banner se pojavljuje **samo pri prvoj posjeti**
 - Korisnik bira: **OK** ili **Decline**
 - Izbor se čuva u `localStorage` (`cookie-consent: accepted/declined`)
-- Pri svakom sljedećem učitavanju (refresh, povratak) banner se **ne prikazuje ponovo**
+- Pri svakom sljedećem učitavanju banner se **ne prikazuje ponovo** — ovo je ispravno GDPR ponašanje
 - Privacy Policy link otvara Imprint/Privacy sekciju unutar sajta
-- Reset za testiranje: DevTools → Application → Local Storage → obriši `cookie-consent`
+- **Reset za testiranje:** DevTools → Application → Local Storage → obriši `cookie-consent`
+
+---
+
+## Nginx Security Headers — TODO (nakon VPS setup-a)
+
+Dodati u nginx config kad server bude live:
+
+```nginx
+add_header X-Frame-Options "DENY";
+add_header X-Content-Type-Options "nosniff";
+add_header Referrer-Policy "strict-origin-when-cross-origin";
+add_header Permissions-Policy "camera=(), microphone=(), geolocation=()";
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://api.web3forms.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data:; connect-src https://api.web3forms.com;";
+```
 
 ---
 
@@ -166,6 +249,9 @@ Dodati u: **GitHub repo → Settings → Secrets and variables → Actions**
 
 | # | Zadatak | Prioritet |
 |---|---|---|
-| 6 | Go Live — hosting i domena `mato-davidovic.at` | Visok |
-| — | Dodati GitHub Secrets (VPS_HOST, VPS_USER, VPS_SSH_KEY) | Visok |
-| — | Instagram / YouTube / Vimeo / TikTok linkovi u footeru | Srednji |
+| 1 | Go Live — Hetzner VPS + domena `matografie.at` | Visok |
+| 2 | Dodati GitHub Secrets (VPS_HOST, VPS_USER, VPS_SSH_KEY) | Visok |
+| 3 | Kreirati `og-image.jpg` (1200×630px) za WhatsApp/Facebook preview | Visok |
+| 4 | Google Search Console — verifikacija + submit sitemap.xml | Visok |
+| 5 | Nginx security headers (CSP, HSTS, X-Frame-Options itd.) | Srednji |
+| 6 | Instagram / YouTube / Vimeo / TikTok linkovi u footeru | Srednji |
