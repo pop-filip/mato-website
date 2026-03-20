@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no, date=no, email=no, address=no">
 <title>Mato Davidovic — Videograf &amp; Fotograf Österreich | Hochzeit · Imagefilm · Portrait</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230a0a0a'/%3E%3Ctext x='32' y='50' font-family='Georgia%2C %22Times New Roman%22%2C serif' font-size='46' font-weight='400' fill='%23c8a45a' text-anchor='middle' letter-spacing='-1'%3Em%3C/text%3E%3C/svg%3E">
 
@@ -78,6 +79,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="matografie">
 
+<!-- Preload hero video for faster LCP -->
+<link rel="preload" href="videos/voda_compressed.mp4" as="video" type="video/mp4">
 <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
@@ -330,6 +333,18 @@
       "acceptedAnswer": {"@type":"Answer","text":"Für Hochzeiten empfehle ich eine Buchung 3–6 Monate im Voraus, da beliebte Termine schnell vergeben sind. Für Imagefilme und Portraits reichen 2–3 Wochen Vorlaufzeit."}
     }
   ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://matografie.at/#speakable",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".hero-tagline", "#contact .sub", ".section-label .eyebrow"]
+  },
+  "url": "https://matografie.at/"
 }
 </script>
 <style>
@@ -2088,8 +2103,7 @@ body.lang-en [data-de]{display:none !important;}
   <!-- Background video -->
   <video class="hero-video" id="heroVideo"
     autoplay muted loop playsinline
-    preload="auto">
-    <source src="videos/voda_compressed.webm" type="video/webm">
+    preload="auto" fetchpriority="high">
     <source src="videos/voda_compressed.mp4"  type="video/mp4">
     <source src="videos/voda.mp4"             type="video/mp4">
   </video>
@@ -2126,7 +2140,6 @@ body.lang-en [data-de]{display:none !important;}
       id="aboutVideo">
       <source src="videos/skok_compressed.webm" type="video/webm">
       <source src="videos/skok_compressed.mp4"  type="video/mp4">
-      <source src="videos/skok.mp4"             type="video/mp4">
     </video>
   </div>
 
@@ -3010,6 +3023,14 @@ document.getElementById('contact-form').addEventListener('submit', async functio
     btn.disabled = false;
   }
 });
+
+// ═══ SERVICE WORKER ═══
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .catch(() => {}); // silent fail — ne blokira sajt ako SW ne radi
+  });
+}
 
 // ═══ FAQ ACCORDION ═══
 function toggleFaq(btn){

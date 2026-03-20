@@ -70,14 +70,19 @@ mato-website/
 
 ## Optimizacije — Checklist
 
-### ⚡ Performance (5)
+### ⚡ Performance (10)
 - ✅ `preconnect` za Google Fonts + cdnjs.cloudflare.com (DNS lookup speedup)
 - ✅ Logo inline (WebP base64) — nema vanjskog HTTP zahtjeva, pojavljuje se odmah
 - ✅ Favicon inline SVG — nema vanjskog zahtjeva, radi bez servera
 - ✅ `will-change: transform` na animiranim elementima (GPU layer)
 - ✅ Video kompresija — 4 videa kompresovana za web via ffmpeg
+- ✅ **WebM video** — `voda_compressed.webm` + `skok_compressed.webm` (VP9, manji od MP4)
+- ✅ **`<link rel="preload">`** za hero video — brži LCP (Largest Contentful Paint)
+- ✅ **`fetchpriority="high"`** na hero video elementu — Core Web Vitals poboljšanje
+- ✅ **Service Worker (`sw.js`)** — PWA offline podrška, cache-first za statiku
+- ✅ **`format-detection` meta** — sprječava iOS auto-linkovanje telefona/emaila
 
-### 🔍 SEO (25)
+### 🔍 SEO (26)
 - ✅ `<html lang="de-AT">` — primarni jezik austrijsko tržište
 - ✅ Title tag — sa ključnim riječima: Videograf, Fotograf, Österreich, Hochzeit, Imagefilm, Portrait
 - ✅ Meta description — na njemačkom kao primarni jezik (AT tržište)
@@ -103,6 +108,7 @@ mato-website/
 - ✅ **manifest.json** — PWA, short_name matografie, dark theme
 - ✅ Apple Touch Icon + apple-mobile-web-app meta tagovi
 - ✅ **FAQPage** JSON-LD — 6 pitanja na njemačkom (Hochzeitsfilm, gradovi, dostava, paket, foto+video, booking)
+- ✅ **Speakable** JSON-LD — označava sekcije za Google Assistant voice search
 
 ### ♿ Pristupačnost — a11y (8)
 - ✅ `lang="en"` atribut na `<html>`
@@ -130,12 +136,13 @@ mato-website/
 - ✅ `-webkit-overflow-scrolling:touch` — iOS scroll fix
 - ✅ Contact button `Senden` — vidljiv i klikabilni na svim uređajima
 
-### 🐳 Infrastruktura (5)
+### 🐳 Infrastruktura (6)
 - ✅ compress-videos.sh — ffmpeg batch skripta za kompresiju videa
-- ✅ 4 kompresirana video fajla na disku (web ready)
+- ✅ 4 kompresirana video fajla na disku (web ready) + 2 WebM verzije (VP9)
 - ✅ Cloudflare Quick Tunnel (HTTPS za demo/testiranje)
 - ✅ GitHub Actions CI/CD — `workflow_dispatch` (ručno, aktivan kad VPS bude spreman)
 - ✅ Custom 404.html — dark/gold dizajn koji prati estetiku sajta
+- ✅ Service Worker (`sw.js`) — PWA offline, cache-first strategija
 
 ### 📬 Forme & Komunikacija (1)
 - ✅ Kontakt forma — Web3Forms integracija (`access_key` konfiguriran), async submit, success/error feedback
