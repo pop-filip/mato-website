@@ -1019,6 +1019,7 @@ footer{
   nav{padding:0 18px;}
   .section{padding:62px 18px 160px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
   #contact{padding-bottom:320px;align-items:flex-start;justify-content:flex-start;padding-top:80px;}
+  #contact h2,#contact .sub{text-align:center;width:100%;}
   #services{padding-bottom:200px;}
   #about{overflow-y:auto !important;}
   .about-video-wrap{height:28vh;min-height:140px;}
@@ -1532,51 +1533,52 @@ body.lang-en [data-de]{display:none !important;}
 
 /* ── Cookie Consent ──────────────────────────────────────────────────────── */
 #cookie-banner{
-  position:fixed;bottom:1.25rem;left:50%;transform:translateX(-50%);
+  position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);
   z-index:9999;
-  width:min(680px, calc(100vw - 2rem));
-  background:rgba(14,14,14,0.97);
-  border:1px solid rgba(200,164,90,0.22);
-  border-radius:14px;
-  padding:1.1rem 1.4rem;
-  display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
-  box-shadow:0 8px 40px rgba(0,0,0,0.55);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  transition:opacity .35s ease, transform .35s ease;
+  width:min(560px, calc(100vw - 1.5rem));
+  background:rgba(10,10,10,0.95);
+  border:1px solid rgba(255,255,255,0.08);
+  border-top:1px solid rgba(200,164,90,0.3);
+  border-radius:12px;
+  padding:.85rem 1.1rem;
+  display:flex;align-items:center;gap:.85rem;
+  box-shadow:0 4px 30px rgba(0,0,0,0.6);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  transition:opacity .3s ease, transform .3s ease;
 }
-#cookie-banner.hide{opacity:0;transform:translateX(-50%) translateY(20px);pointer-events:none}
+#cookie-banner.hide{opacity:0;transform:translateX(-50%) translateY(16px);pointer-events:none}
 #cookie-banner p{
-  flex:1;min-width:200px;
-  font-size:.75rem;color:rgba(255,255,255,0.55);
-  line-height:1.5;margin:0;
+  flex:1;
+  font-size:.72rem;color:rgba(255,255,255,0.42);
+  line-height:1.45;margin:0;
 }
-#cookie-banner p a{color:rgba(200,164,90,0.8);text-decoration:underline}
+#cookie-banner p a{color:rgba(200,164,90,0.7);text-decoration:none;border-bottom:1px solid rgba(200,164,90,0.3)}
 #cookie-banner p a:hover{color:#c8a45a}
-.cookie-btns{display:flex;gap:.6rem;flex-shrink:0}
+.cookie-btns{display:flex;gap:.5rem;flex-shrink:0}
 .cookie-btn{
-  border:none;cursor:pointer;border-radius:8px;
-  padding:.45rem 1.1rem;font-size:.72rem;font-weight:700;
-  letter-spacing:.04em;text-transform:uppercase;
-  font-family:inherit;transition:all .2s;
+  border:none;cursor:pointer;border-radius:6px;
+  padding:.38rem .9rem;font-size:.68rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  font-family:inherit;transition:all .18s;white-space:nowrap;
 }
 .cookie-btn.accept{background:#c8a45a;color:#0a0a0a}
-.cookie-btn.accept:hover{background:#e2c47a}
-.cookie-btn.decline{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.12)}
-.cookie-btn.decline:hover{background:rgba(255,255,255,0.12);color:#fff}
+.cookie-btn.accept:hover{background:#dbb96a}
+.cookie-btn.decline{background:transparent;color:rgba(255,255,255,0.28);border:1px solid rgba(255,255,255,0.1)}
+.cookie-btn.decline:hover{color:rgba(255,255,255,0.6);border-color:rgba(255,255,255,0.25)}
+@media(max-width:700px){
+  #cookie-banner{bottom:.75rem;padding:.75rem 1rem;gap:.6rem;}
+  #cookie-banner p{font-size:.68rem;}
+}
 </style>
 </head>
 <body>
 
 <!-- ── Cookie Consent Banner ──────────────────────────────────────────────── -->
-<div id="cookie-banner" role="dialog" aria-label="Cookie consent" aria-live="polite">
-  <p>
-    This website uses no tracking cookies or analytics. Technical data (server logs) may be processed
-    for security purposes only. By continuing, you acknowledge our
-    <a href="#" onclick="activate('imprint','#0a0a0a','#e2b96f');return false">Privacy Policy</a>.
-  </p>
+<div id="cookie-banner" role="dialog" aria-label="Cookie consent">
+  <p>No tracking cookies. Only essential server logs. <a href="#" onclick="activate('imprint','#0a0a0a','#e2b96f');return false">Privacy Policy</a></p>
   <div class="cookie-btns">
-    <button class="cookie-btn accept" id="cookie-accept">Accept</button>
+    <button class="cookie-btn accept" id="cookie-accept">OK</button>
     <button class="cookie-btn decline" id="cookie-decline">Decline</button>
   </div>
 </div>
