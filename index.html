@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de-AT">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,12 +45,21 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="preconnect" href="https://api.web3forms.com">
 <link rel="dns-prefetch" href="https://www.google-analytics.com">
 <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+<link rel="dns-prefetch" href="https://api.web3forms.com">
 
 <!-- ═══ THEME COLOR — Mobile browser chrome ═══ -->
 <meta name="theme-color" content="#0a0a0a">
 <meta name="msapplication-TileColor" content="#0a0a0a">
+
+<!-- ═══ PWA & APPLE ═══ -->
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%230a0a0a'/%3E%3Ctext x='90' y='140' font-family='Georgia%2C serif' font-size='130' font-weight='400' fill='%23c8a45a' text-anchor='middle'%3Em%3C/text%3E%3C/svg%3E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="matografie">
 
 <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
@@ -76,7 +85,20 @@
         "addressLocality": "Linz",
         "addressCountry": "AT"
       },
-      "knowsAbout": ["Videografie", "Fotografie", "Hochzeitsfilm", "Imagefilm", "Brand Commercial", "Drohnenaufnahmen", "Portrait Photography", "Cinematic Production"]
+      "knowsAbout": ["Videografie", "Fotografie", "Hochzeitsfilm", "Imagefilm", "Brand Commercial", "Drohnenaufnahmen", "Portrait Photography", "Cinematic Production"],
+      "sameAs": [
+        "https://www.instagram.com/matografie",
+        "https://www.youtube.com/@matografie",
+        "https://vimeo.com/matografie",
+        "https://www.tiktok.com/@matografie"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+436603780309",
+        "email": "info@mato-production.com",
+        "contactType": "customer service",
+        "availableLanguage": ["German", "English", "Croatian"]
+      }
     },
     {
       "@type": ["LocalBusiness", "ProfessionalService"],
@@ -103,6 +125,13 @@
         "longitude": 14.2858
       },
       "founder": {"@id": "https://matografie.at/#person"},
+      "openingHours": "Mo-Fr 09:00-18:00",
+      "sameAs": [
+        "https://www.instagram.com/matografie",
+        "https://www.youtube.com/@matografie",
+        "https://vimeo.com/matografie",
+        "https://www.tiktok.com/@matografie"
+      ],
       "areaServed": [
         {"@type": "City", "name": "Linz"},
         {"@type": "City", "name": "Wien"},
@@ -184,7 +213,7 @@
       "@type": "WebPage",
       "@id": "https://matografie.at/#webpage",
       "url": "https://matografie.at/",
-      "name": "Mato Davidovic — Videograf &amp; Fotograf Österreich",
+      "name": "Mato Davidovic — Videograf & Fotograf Österreich",
       "isPartOf": {"@id": "https://matografie.at/#website"},
       "about": {"@id": "https://matografie.at/#business"},
       "description": "Professioneller Videograf und Fotograf in Österreich.",
@@ -193,6 +222,55 @@
         "@type": "BreadcrumbList",
         "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://matografie.at/"}]
       }
+    },
+    {
+      "@type": "ContactPage",
+      "@id": "https://matografie.at/#contact",
+      "url": "https://matografie.at/#contact",
+      "name": "Kontakt — matografie.at",
+      "isPartOf": {"@id": "https://matografie.at/#website"},
+      "description": "Kontaktieren Sie Mato Davidovic für Videografie und Fotografie Anfragen. Linz, Österreich.",
+      "inLanguage": ["de", "en"]
+    },
+    {
+      "@type": "VideoObject",
+      "@id": "https://matografie.at/#video-voda",
+      "name": "Voda — Cinematic Film",
+      "description": "Cinematic video production by Mato Davidovic, matografie.at",
+      "thumbnailUrl": "https://matografie.at/og-image.jpg",
+      "uploadDate": "2025-01-01",
+      "contentUrl": "https://matografie.at/videos/voda_compressed.mp4",
+      "publisher": {"@id": "https://matografie.at/#business"}
+    },
+    {
+      "@type": "VideoObject",
+      "@id": "https://matografie.at/#video-skok",
+      "name": "Skok — Cinematic Film",
+      "description": "Cinematic video production by Mato Davidovic, matografie.at",
+      "thumbnailUrl": "https://matografie.at/og-image.jpg",
+      "uploadDate": "2025-01-01",
+      "contentUrl": "https://matografie.at/videos/skok_compressed.mp4",
+      "publisher": {"@id": "https://matografie.at/#business"}
+    },
+    {
+      "@type": "VideoObject",
+      "@id": "https://matografie.at/#video-delta",
+      "name": "Delta — Cinematic Film",
+      "description": "Cinematic video production by Mato Davidovic, matografie.at",
+      "thumbnailUrl": "https://matografie.at/og-image.jpg",
+      "uploadDate": "2025-01-01",
+      "contentUrl": "https://matografie.at/videos/delta_compressed.mp4",
+      "publisher": {"@id": "https://matografie.at/#business"}
+    },
+    {
+      "@type": "VideoObject",
+      "@id": "https://matografie.at/#video-delta-team",
+      "name": "Delta Team — Cinematic Film",
+      "description": "Cinematic video production by Mato Davidovic, matografie.at",
+      "thumbnailUrl": "https://matografie.at/og-image.jpg",
+      "uploadDate": "2025-01-01",
+      "contentUrl": "https://matografie.at/videos/delta-team_compressed.mp4",
+      "publisher": {"@id": "https://matografie.at/#business"}
     }
   ]
 }
