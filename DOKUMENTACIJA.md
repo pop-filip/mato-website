@@ -70,19 +70,20 @@ mato-website/
 
 ## Optimizacije — Checklist
 
-### ⚡ Performance (10)
+### ⚡ Performance (11)
 - ✅ `preconnect` za Google Fonts + cdnjs.cloudflare.com (DNS lookup speedup)
 - ✅ Logo inline (WebP base64) — nema vanjskog HTTP zahtjeva, pojavljuje se odmah
 - ✅ Favicon inline SVG — nema vanjskog zahtjeva, radi bez servera
 - ✅ `will-change: transform` na animiranim elementima (GPU layer)
 - ✅ Video kompresija — 4 videa kompresovana za web via ffmpeg
-- ✅ **WebM video** — `voda_compressed.webm` + `skok_compressed.webm` (VP9, manji od MP4)
+- ✅ **WebM video** — `voda_compressed.webm` + `skok_compressed.webm` (VP9, skok 25% manji)
 - ✅ **`<link rel="preload">`** za hero video — brži LCP (Largest Contentful Paint)
 - ✅ **`fetchpriority="high"`** na hero video elementu — Core Web Vitals poboljšanje
 - ✅ **Service Worker (`sw.js`)** — PWA offline podrška, cache-first za statiku
 - ✅ **`format-detection` meta** — sprječava iOS auto-linkovanje telefona/emaila
+- ✅ **Google Fonts `&subset=latin`** — učitava samo latinična slova, manji font request
 
-### 🔍 SEO (26)
+### 🔍 SEO (29)
 - ✅ `<html lang="de-AT">` — primarni jezik austrijsko tržište
 - ✅ Title tag — sa ključnim riječima: Videograf, Fotograf, Österreich, Hochzeit, Imagefilm, Portrait
 - ✅ Meta description — na njemačkom kao primarni jezik (AT tržište)
@@ -109,6 +110,9 @@ mato-website/
 - ✅ Apple Touch Icon + apple-mobile-web-app meta tagovi
 - ✅ **FAQPage** JSON-LD — 6 pitanja na njemačkom (Hochzeitsfilm, gradovi, dostava, paket, foto+video, booking)
 - ✅ **Speakable** JSON-LD — označava sekcije za Google Assistant voice search
+- ✅ **`og:video`** + type/width/height — video preview pri dijeljenju linka na Facebook/LinkedIn
+- ✅ **`twitter:image:alt`** — alt tekst za Twitter/X card sliku (accessibility)
+- ✅ **`color-scheme: dark`** meta — browser ne bljesne bijelom bojom pri učitavanju
 
 ### ♿ Pristupačnost — a11y (8)
 - ✅ `lang="en"` atribut na `<html>`
