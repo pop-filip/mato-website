@@ -35,19 +35,27 @@ ffmpeg -i skok.mp4 \
 echo "✅ skok.mp4 done → skok_compressed.mp4"
 
 
-# ── OPTIONAL: WebM versions (25% smaller, Chrome/Firefox only) ──
-# Uncomment if you want even smaller files for modern browsers
+# ── WebM versions (VP9 — 25% smaller, muted videi nemaju audio) ──
+# Chrome/Firefox prefer WebM, Safari falls back to MP4
+# -an = no audio (videi su muted, audio nije potreban → manji fajl)
+# -deadline good -cpu-used 2 = dobar balans brzina/kvalitet
 
-# ffmpeg -i voda.mp4 \
-#   -c:v libvpx-vp9 -crf 33 -b:v 0 \
-#   -c:a libopus -b:a 96k \
-#   -y voda_compressed.webm
+ffmpeg -i voda_compressed.mp4 \
+  -c:v libvpx-vp9 -crf 33 -b:v 0 \
+  -an \
+  -deadline good -cpu-used 2 \
+  -y videos/voda_compressed.webm
 
-# ffmpeg -i skok.mp4 \
-#   -c:v libvpx-vp9 -crf 30 -b:v 0 \
-#   -c:a libopus -b:a 96k \
-#   -y skok_compressed.webm
+echo "✅ voda WebM done → videos/voda_compressed.webm"
+
+ffmpeg -i skok_compressed.mp4 \
+  -c:v libvpx-vp9 -crf 30 -b:v 0 \
+  -an \
+  -deadline good -cpu-used 2 \
+  -y videos/skok_compressed.webm
+
+echo "✅ skok WebM done → videos/skok_compressed.webm"
 
 echo ""
 echo "All done! Check file sizes:"
-ls -lh voda_compressed.mp4 skok_compressed.mp4 2>/dev/null
+ls -lh voda_compressed.mp4 skok_compressed.mp4 videos/voda_compressed.webm videos/skok_compressed.webm 2>/dev/null
