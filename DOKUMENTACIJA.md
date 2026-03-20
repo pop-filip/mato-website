@@ -77,10 +77,11 @@ mato-website/
 - ✅ `will-change: transform` na animiranim elementima (GPU layer)
 - ✅ Video kompresija — 4 videa kompresovana za web via ffmpeg
 
-### 🔍 SEO (16)
+### 🔍 SEO (24)
+- ✅ `<html lang="de-AT">` — primarni jezik austrijsko tržište
 - ✅ Title tag — sa ključnim riječima: Videograf, Fotograf, Österreich, Hochzeit, Imagefilm, Portrait
 - ✅ Meta description — na njemačkom kao primarni jezik (AT tržište)
-- ✅ Meta robots — `max-snippet:-1, max-image-preview:large` za Google rich results
+- ✅ Meta robots — `max-snippet:-1, max-image-preview:large, max-video-preview:-1`
 - ✅ Canonical URL → `https://matografie.at/`
 - ✅ hreflang alternates (en, de, x-default) — dvojezično austrijsko tržište
 - ✅ GEO meta — Linz koordinate (48.3069, 14.2858), regija AT-4
@@ -88,12 +89,19 @@ mato-website/
 - ✅ Twitter Card (summary_large_image)
 - ✅ `sitemap.xml` — XML sitemap sa hreflang alternates
 - ✅ `robots.txt` — sa Sitemap referencom
-- ✅ **Person** JSON-LD — ime, zanimanje, telefon, email, adresa, koordinate
-- ✅ **LocalBusiness + ProfessionalService** JSON-LD — Google Maps compatible, priceRange €€
-- ✅ **5x Service** JSON-LD — Hochzeitsvideografie, Imagefilm, Drohnenaufnahmen, Portrait, Travel — sa opisima i cijenama
-- ✅ **WebSite** JSON-LD — sa SearchAction (potentialAction)
+- ✅ **Person** JSON-LD — ime, zanimanje, telefon, email, adresa, sameAs, contactPoint (DE/EN/HR)
+- ✅ **LocalBusiness + ProfessionalService** JSON-LD — Google Maps, priceRange €€, openingHours, sameAs
+- ✅ **5x Service** JSON-LD — sa opisima i cijenama (od €350 do €1200)
+- ✅ **WebSite** JSON-LD — sa SearchAction
 - ✅ **WebPage + BreadcrumbList** JSON-LD
+- ✅ **ContactPage** JSON-LD — za #contact sekciju
+- ✅ **4x VideoObject** JSON-LD — Voda, Skok, Delta, Delta Team sa contentUrl
+- ✅ `sameAs` — Instagram, YouTube, Vimeo, TikTok (placeholder, čeka issue #10)
+- ✅ `og-image.jpg` — placeholder 1200×630px dark/gold (čeka issue #9)
 - ✅ `rel="noopener noreferrer"` na svim vanjskim linkovima
+- ✅ `preconnect` + `dns-prefetch` za Web3Forms API
+- ✅ **manifest.json** — PWA, short_name matografie, dark theme
+- ✅ Apple Touch Icon + apple-mobile-web-app meta tagovi
 
 ### ♿ Pristupačnost — a11y (8)
 - ✅ `lang="en"` atribut na `<html>`
@@ -245,13 +253,30 @@ add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsaf
 
 ---
 
-## Čekajući zadaci
+## GitHub Issues — Tracker
 
-| # | Zadatak | Prioritet |
-|---|---|---|
-| 1 | Go Live — Hetzner VPS + domena `matografie.at` | Visok |
-| 2 | Dodati GitHub Secrets (VPS_HOST, VPS_USER, VPS_SSH_KEY) | Visok |
-| 3 | Kreirati `og-image.jpg` (1200×630px) za WhatsApp/Facebook preview | Visok |
-| 4 | Google Search Console — verifikacija + submit sitemap.xml | Visok |
-| 5 | Nginx security headers (CSP, HSTS, X-Frame-Options itd.) | Srednji |
-| 6 | Instagram / YouTube / Vimeo / TikTok linkovi u footeru | Srednji |
+Sve otvorene zadatke pratimo na: **https://github.com/pop-filip/mato-website/issues**
+
+| Issue | Naslov | Prioritet | Ovisi o |
+|---|---|---|---|
+| [#6](https://github.com/pop-filip/mato-website/issues/6) | Go Live — Hetzner VPS + domena `matografie.at` | 🔴 Visok | — |
+| [#9](https://github.com/pop-filip/mato-website/issues/9) | `og-image.jpg` — prava fotografija (1200×630) | 🔴 Visok | — |
+| [#10](https://github.com/pop-filip/mato-website/issues/10) | Social media linkovi — footer + schema sameAs | 🟡 Srednji | — |
+| [#11](https://github.com/pop-filip/mato-website/issues/11) | Google Search Console — verifikacija + sitemap | 🔴 Visok | #6 |
+| [#12](https://github.com/pop-filip/mato-website/issues/12) | Nginx security headers (CSP, HSTS, X-Frame-Options) | 🟡 Srednji | #6 |
+| [#13](https://github.com/pop-filip/mato-website/issues/13) | GitHub Actions — Secrets + aktivacija auto-deploya | 🔴 Visok | #6 |
+| [#14](https://github.com/pop-filip/mato-website/issues/14) | VideoObject schema — pravi datumi i opisi videa | 🟢 Nizak | — |
+
+### Redoslijed rada
+
+```
+Sada (lokalno):
+  #9  → og-image.jpg prava fotografija
+  #10 → social media linkovi
+
+Nakon go-live (#6):
+  #13 → GitHub Secrets + auto-deploy
+  #11 → Google Search Console
+  #12 → Nginx security headers
+  #14 → VideoObject finalizacija
+```
