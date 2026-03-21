@@ -75,7 +75,7 @@ mato-website/
 
 ### ⚡ Performance (11)
 - ✅ `preconnect` za Google Fonts + cdnjs.cloudflare.com (DNS lookup speedup)
-- ✅ Logo inline (WebP base64) — nema vanjskog HTTP zahtjeva, pojavljuje se odmah
+- ✅ Logo kao vanjski fajl `logo.webp` — browser kešira, HTML ostaje malen (base64 je napuhao HTML za ~212KB — IZBJEGAVATI za slike >5KB)
 - ✅ Favicon inline SVG — nema vanjskog zahtjeva, radi bez servera
 - ✅ `will-change: transform` na animiranim elementima (GPU layer)
 - ✅ Video kompresija — 4 videa kompresovana za web via ffmpeg
