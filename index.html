@@ -550,7 +550,7 @@ nav{
   justify-content:center !important;
   text-align:center !important;
   padding:0 !important;
-  overflow:hidden !important;
+  overflow-y:auto !important;
 }
 /* Disable the generic fadeUp on home children — we handle it ourselves */
 #home.active>*{animation:none !important;}
@@ -559,10 +559,10 @@ nav{
 /* ═══ CINEMATIC HERO ═══ */
 #home{
   background:#050505;
-  overflow:hidden;
-  justify-content:flex-end;
+  overflow-y:auto;
+  justify-content:center;
   padding-bottom:0;
-  align-items:flex-start;
+  align-items:center;
 }
 
 /* Film grain canvas overlay */
@@ -1022,11 +1022,12 @@ nav{
   padding:0 0 200px 0;
   width:100%;max-width:780px;margin:0 auto;
   perspective:1400px;perspective-origin:50% 40%;
+  text-align:center;
 }
 
 /* Each row */
 .project-row{
-  display:flex;align-items:center;
+  display:flex;align-items:center;justify-content:center;
   padding:1.4rem 1rem;
   border-bottom:1px solid rgba(255,255,255,0.06);
   cursor:pointer;position:relative;
@@ -1061,11 +1062,12 @@ nav{
   font-size:.62rem;letter-spacing:.25em;
   color:rgba(255,255,255,0.18);
   width:2.5rem;flex-shrink:0;
+  position:absolute;left:1rem;
 }
 .proj-title{
   font-size:clamp(1.1rem,2.5vw,1.8rem);
   font-weight:800;color:#fff;letter-spacing:-0.5px;
-  flex:1;
+  text-align:center;
   transition:color .2s, transform .25s cubic-bezier(0.23,1,0.32,1);
 }
 .project-row:hover .proj-title{
@@ -1075,6 +1077,7 @@ nav{
 .proj-meta{
   display:flex;align-items:center;gap:1.2rem;
   flex-shrink:0;
+  position:absolute;right:1rem;
 }
 .proj-tag{
   font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
@@ -1128,8 +1131,10 @@ nav{
 .proj-row-inner{
   display:flex;
   align-items:center;
+  justify-content:center;
   width:100%;
   padding:1.4rem 1rem;
+  position:relative;
 }
 .proj-preview{
   display:none; /* hidden on desktop */
@@ -1167,7 +1172,7 @@ nav{
   align-items:center;
   justify-content:flex-start;
   padding-top:80px;
-  padding-bottom:80px;
+  padding-bottom:240px;
   overflow-y:auto;
 }
 .faq-wrap{width:100%;max-width:700px;margin:0 auto;padding:0 1.5rem;}
@@ -1445,11 +1450,12 @@ body.lang-en [data-de]{display:none !important;}
   text-align:center;
   max-width:900px;
   padding:0 2.5rem;
-  display:flex;flex-direction:column;align-items:center;gap:2.2rem;
+  display:flex;flex-direction:column;align-items:center;gap:0.7rem;
 }
 
 /* Main typewriter line */
 .typewriter-line{
+  display:none !important;
   font-family:'Playfair Display', Georgia, serif;
   font-size:clamp(1.2rem,2.8vw,2.4rem);
   font-weight:400;
@@ -1488,8 +1494,8 @@ body.lang-en [data-de]{display:none !important;}
 /* Buttons */
 .hero-type-btns{
   display:flex;gap:.9rem;flex-wrap:wrap;justify-content:center;
-  opacity:0;transform:translateY(10px);
-  transition:opacity .9s ease, transform .9s ease;
+  opacity:1;transform:translateY(0);
+  transition:opacity .45s ease, transform .45s ease;
 }
 .hero-type-btns.show{opacity:1;transform:translateY(0);}
 
@@ -1871,6 +1877,74 @@ body.lang-en [data-de]{display:none !important;}
   #cookie-banner{bottom:.75rem;padding:.75rem 1rem;gap:.6rem;}
   #cookie-banner p{font-size:.68rem;}
 }
+/* ═══ HERO MANIFEST (German quote) ═══ */
+.hero-manifest{
+  max-width:680px;
+  padding:0 1.5rem;
+  text-align:center;
+  display:flex;flex-direction:column;gap:0.5rem;
+  opacity:1;
+}
+#home .hero-manifest-h{
+  color:#fff !important;
+  font-size:clamp(1.1rem,2.4vw,1.45rem) !important;
+  font-weight:700 !important;
+  max-width:none;
+}
+#home .hero-manifest-p{
+  color:rgba(210,190,255,0.92) !important;
+  font-size:clamp(.95rem,1.8vw,1.1rem) !important;
+  font-weight:500 !important;
+  max-width:none;
+}
+.hero-manifest-h{
+  animation:manifestIn 1.2s cubic-bezier(0.22,1,0.36,1) 2.5s both;
+}
+.hero-manifest-p{
+  animation:manifestIn 1.2s cubic-bezier(0.22,1,0.36,1) 3.1s both;
+}
+@keyframes manifestIn{
+  from{opacity:0;transform:translateY(22px);filter:blur(4px);}
+  to{opacity:1;transform:translateY(0);filter:blur(0);}
+}
+.hero-manifest-h{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:clamp(1.32rem,3.36vw,1.92rem);
+  font-weight:700;font-style:italic;
+  color:#fff;
+  line-height:1.75;letter-spacing:.03em;
+  text-shadow:0 2px 24px rgba(0,0,0,0.9),0 1px 6px rgba(0,0,0,0.95);
+}
+.hero-manifest-p{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:clamp(1.14rem,2.4vw,1.38rem);
+  font-weight:500;
+  color:rgba(210,190,255,0.92);
+  line-height:1.65;letter-spacing:.06em;
+  text-shadow:0 2px 16px rgba(0,0,0,0.9),0 1px 4px rgba(0,0,0,0.95);
+}
+@media(max-width:700px){
+  .hero-manifest{padding:0 1rem;gap:0.3rem;}
+  .hero-manifest-h{font-size:clamp(.85rem,3.8vw,.95rem) !important;font-weight:600 !important;line-height:1.5 !important;}
+  .hero-manifest-p{font-size:clamp(.75rem,3vw,.85rem) !important;font-weight:400 !important;}
+  /* Homepage — allow scroll on SE */
+  #home{overflow-y:auto !important;justify-content:center !important;align-items:center !important;padding:64px 0 160px !important;}
+  .hero-type-wrap{padding:0.5rem 1rem;gap:0.5rem;}
+  /* About — fix cut-off */
+  #about{overflow-y:auto !important;justify-content:flex-start !important;padding-top:72px;}
+  .about-video-wrap{max-height:180px !important;}
+  /* Services — fix padding */
+  #services{padding-bottom:120px;}
+  /* Work — stack cards nicely */
+  .proj-row{padding:1rem 1rem;}
+  /* Contact — center + scroll */
+  #contact{overflow-y:auto !important;justify-content:flex-start !important;padding-top:90px;align-items:center;}
+  .contact-wrap{flex-direction:column;align-items:center;text-align:center;}
+  .contact-info{text-align:center;min-width:0;}
+  .contact-line{justify-content:center;}
+}
+
+
 </style>
 </head>
 <body>
@@ -2142,7 +2216,9 @@ body.lang-en [data-de]{display:none !important;}
   <!-- Hero content -->
   <div class="hero-type-wrap" id="heroTypeWrap">
     <div class="typewriter-line" id="typewriterLine"></div>
-    <div class="hero-tagline" id="heroTagline"><span class="tl-word">Your</span> <span class="tl-word">professional</span> <span class="tl-word">video</span> <span class="tl-word">and</span> <span class="tl-word">photo</span> <span class="tl-word">designer.</span></div>
+    <div class="hero-manifest">
+      <p class="hero-manifest-h">Ich mache das nicht für perfekte Menschen. Ich mache das für echte. Für dich. Für mich. Für diesen einen intimen Moment, der nicht wiederholbar ist – aber existiert.</p>
+    </div>
     <div class="hero-type-btns" id="heroTypeBtns">
       <a class="btn-gold" onclick="activate('work','#080808','#c084fc')"><span data-en>See my work</span><span data-de>Meine Arbeit</span></a>
       <a class="btn-ghost" onclick="activate('contact','#0a0a0a','#fb923c')"><span data-en>Book a shoot</span><span data-de>Shooting buchen</span></a>
@@ -2203,11 +2279,11 @@ body.lang-en [data-de]{display:none !important;}
   </div>
   <div class="services-wrap" id="servicesWrap">
     <div class="img-panel" id="imgPanel">
-      <div class="img-slide active"><div class="slide-deco"></div><div class="slide-num">01 / 05</div></div>
-      <div class="img-slide"><div class="slide-deco"></div><div class="slide-num">02 / 05</div></div>
-      <div class="img-slide"><div class="slide-deco"></div><div class="slide-num">03 / 05</div></div>
-      <div class="img-slide"><div class="slide-deco"></div><div class="slide-num">04 / 05</div></div>
-      <div class="img-slide"><div class="slide-deco"></div><div class="slide-num">05 / 05</div></div>
+      <div class="img-slide active"><div class="slide-deco"><i class="fas fa-film"></i></div><div class="slide-num">01 / 05</div></div>
+      <div class="img-slide"><div class="slide-deco"><i class="fas fa-ring"></i></div><div class="slide-num">02 / 05</div></div>
+      <div class="img-slide"><div class="slide-deco"><i class="fas fa-mountain-sun"></i></div><div class="slide-num">03 / 05</div></div>
+      <div class="img-slide"><div class="slide-deco"><i class="fas fa-building"></i></div><div class="slide-num">04 / 05</div></div>
+      <div class="img-slide"><div class="slide-deco"><i class="fas fa-camera"></i></div><div class="slide-num">05 / 05</div></div>
     </div>
     <div class="text-panel">
       <div class="service-item" data-index="0">
@@ -2270,9 +2346,9 @@ body.lang-en [data-de]{display:none !important;}
   <div class="work-scroll">
 
   <!-- Header -->
-  <div class="work-header">
-    <div>
-      <div class="work-eyebrow"><span data-en>Selected work</span><span data-de>Ausgewählte Arbeiten</span></div>
+  <div class="work-header" style="flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+    <div style="text-align:center;width:100%;">
+      <div class="work-eyebrow" style="text-align:center;"><span data-en>Selected work</span><span data-de>Ausgewählte Arbeiten</span></div>
       <h2><span data-en>The <em>Reel</em></span><span data-de>Das <em>Portfolio</em></span></h2>
     </div>
     <div class="work-count">4 projects</div>
@@ -2804,7 +2880,8 @@ function setLang(lang) {
         w.style.animationDelay = '';
       });
     }
-    if (btns)    { btns.style.opacity='0';    btns.style.transform='translateY(10px)'; }
+    // buttons always visible — typewriter disabled
+    if (btns) { btns.style.opacity='1'; btns.style.transform='translateY(0)'; }
 
     let i = 0;
     function tick() {
@@ -2825,7 +2902,7 @@ function setLang(lang) {
           }
           setTimeout(() => {
             if (btns) {
-              btns.style.transition = 'opacity .9s ease, transform .9s ease';
+              btns.style.transition = 'opacity .45s ease, transform .45s ease';
               btns.style.opacity = '1';
               btns.style.transform = 'translateY(0)';
             }
@@ -2838,7 +2915,8 @@ function setLang(lang) {
 
   // Fire after intro animation completes (~4.5s total)
   window.addEventListener('load', function() {
-    setTimeout(runTypewriter, 800);
+    // typewriter disabled
+    // setTimeout(runTypewriter, 800);
   });
 
   // Restart when user navigates back to home
