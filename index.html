@@ -524,7 +524,10 @@ nav{
   padding-bottom:max(100px, env(safe-area-inset-bottom, 0px) + 80px);
   opacity:0;pointer-events:none;
   transition:opacity .7s ease,transform .7s ease;
-  transform:translateY(20px);overflow-y:auto;
+  transform:translateY(20px);overflow-y:scroll;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior-y:contain;
+  touch-action:pan-y;
 }
 .section.active{opacity:1;pointer-events:all;transform:translateY(0);}
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
@@ -832,19 +835,13 @@ nav{
 @media(max-width:700px){
   .about-eyebrow,
   .about-divider{ display:none !important; }
+  /* Tekst ide gore, video ispod */
   .about-video-wrap{ height:26vh; min-height:120px; max-height:200px; }
   .about-text-wrap{
-    position:absolute;
-    top:40%;
-    left:0; right:0;
+    position:absolute;top:40%;left:0;right:0;
     transform:translateY(-50%);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:.7rem;
-    padding:0 1.4rem;
-    text-align:center;
+    display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:.7rem;padding:0 1.4rem;text-align:center;
   }
   .split-text-wrap{
     flex-direction:column;
@@ -879,6 +876,14 @@ nav{
 .gear-item{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);color:rgba(255,255,255,0.45);padding:.2rem .6rem;border-radius:4px;font-size:.66rem;letter-spacing:.04em;transition:all .2s;cursor:default;}
 .gear-item:hover{border-color:rgba(226,185,111,0.4);color:#e2b96f;}
 
+/* ── SERVICES MOBILE CAROUSEL ── */
+@media(max-width:700px){
+  /* Services — mobile placeholder, implementacija dolazi */
+  #services{ overflow:hidden !important; display:flex !important; flex-direction:column !important; align-items:center !important; justify-content:center !important; }
+  .services-wrap{ display:none !important; }
+  .svc-dots{ display:none !important; }
+}
+
 /* ── ABOUT MOBILE ── */
 @media(max-width:700px){
   .about-video-wrap{height:38vh;min-height:140px;max-height:none;}
@@ -888,11 +893,15 @@ nav{
 
 /* ═══ SERVICES (scrollable section) ═══ */
 #services{
-  position:fixed;inset:0;
+  position:fixed;top:0;left:0;right:0;
+  height:100vh;height:100dvh;
   opacity:0;pointer-events:none;
   transition:opacity .7s ease,transform .7s ease;
   transform:translateY(20px);
-  overflow-y:auto;
+  overflow-y:scroll;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior-y:contain;
+  touch-action:pan-y;
   padding-top:64px;
   padding-bottom:46px;
   background:#0a0a0a;
@@ -1316,7 +1325,7 @@ footer{
   .section{padding:62px 18px 160px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
   #contact{padding-bottom:320px;align-items:flex-start;justify-content:flex-start;padding-top:80px;}
   #contact h2,#contact .sub{text-align:center;width:100%;}
-  #services{padding-bottom:200px;}
+  #services{padding-bottom:200px;display:flex;flex-direction:column;align-items:stretch;}
   #about{overflow-y:auto !important;}
   .about-video-wrap{height:28vh;min-height:140px;}
   .about-text-wrap{padding:1.2rem 1.2rem 1rem;}
@@ -1342,7 +1351,11 @@ footer{
   .services-wrap{flex-direction:column;}
   .img-panel{width:100%;height:35vh;position:relative;top:auto;border-radius:10px;margin-bottom:1rem;}
   .text-panel{padding:0 1.5rem;}
-  .service-item{min-height:auto;padding:2.5rem 0;}
+  .service-item{min-height:auto;padding:2.5rem 0;perspective:none;}
+  /* Na mobilnom sve stavke vidljive — nema scroll-based aktivacije */
+  .service-content{transform-style:flat;will-change:auto;opacity:1 !important;transform:translateY(0) !important;}
+  /* img-panel sakrij na mobile — nepotrebno */
+  .img-panel{display:none;}
   .nav-brand img{height:58px;}
   .hero-content{padding:0 1.2rem;}
   #home h1{font-size:clamp(2.2rem,9vw,4rem);letter-spacing:-2px;}
@@ -1895,6 +1908,7 @@ body.lang-en [data-de]{display:none !important;}
   #services{padding-bottom:120px;}
   /* Work — stack cards nicely */
   .proj-row{padding:1rem 1rem;}
+  #work{padding-top:100px !important;}
   /* Contact — center + scroll */
   #contact{overflow-y:auto !important;justify-content:flex-start !important;padding-top:90px;align-items:center;}
   .contact-wrap{flex-direction:column;align-items:center;text-align:center;}
@@ -2706,6 +2720,7 @@ function updateServices(){
 if(svcEl) svcEl.addEventListener('scroll',updateServices,{passive:true});
 
 
+
 // ── FILM GRAIN ───────────────────────────────────────────────────────────────
 (function(){
   const canvas = document.getElementById('home-canvas');
@@ -2771,6 +2786,7 @@ document.querySelectorAll('#navList li, #mobileMenu li').forEach(li=>{
 // Fire on initial load after site fades in
 setTimeout(triggerHeroEntrance, 300);
 
+
 // ── LANGUAGE SWITCHER ────────────────────────────────────────────────────────
 function setLang(lang) {
   document.body.classList.remove('lang-en', 'lang-de');
@@ -2806,6 +2822,7 @@ function setLang(lang) {
     btn.textContent = vid.muted ? '🔇' : '🔊';
   });
 })();
+
 
 
 
