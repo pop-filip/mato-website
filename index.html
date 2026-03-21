@@ -399,18 +399,6 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:#0a
 .intro-logo-wrap.show img{transform:scale(1);}
 
 
-/* Scroll hint */
-.intro-scroll-hint{display:none !important;
-  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
-  z-index:3;display:flex;flex-direction:column;align-items:center;gap:6px;
-  opacity:0;transition:opacity .6s ease 1.4s;
-  font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;
-  color:rgba(255,255,255,0.3);
-}
-.intro-logo-wrap.show ~ .intro-scroll-hint{display:none !important;opacity:1;}
-.intro-scroll-hint .arrow{width:1px;height:28px;background:rgba(226,185,111,0.4);
-  margin:0 auto;animation:arrowPulse 1.6s ease-in-out infinite;}
-@keyframes arrowPulse{0%,100%{opacity:.3;transform:scaleY(1);}50%{opacity:1;transform:scaleY(1.15);}}
 
 /* Vignette overlay behind curtains so homepage shows through */
 .intro-bg-reveal{
@@ -1453,44 +1441,6 @@ body.lang-en [data-de]{display:none !important;}
   display:flex;flex-direction:column;align-items:center;gap:0.7rem;
 }
 
-/* Main typewriter line */
-.typewriter-line{
-  display:none !important;
-  font-family:'Playfair Display', Georgia, serif;
-  font-size:clamp(1.2rem,2.8vw,2.4rem);
-  font-weight:400;
-  color:#fff;
-  line-height:1.5;
-  letter-spacing:.02em;
-  min-height:1.5em;
-  text-align:center;
-  display:inline-block;
-}
-/* No cursor */
-
-/* Sub tagline — appears after typing */
-.hero-tagline{
-  font-family:'Cormorant Garamond', Georgia, serif;
-  font-size:clamp(1rem,2.2vw,1.4rem);
-  font-weight:300;
-  font-style:italic;
-  color:rgba(255,255,255,0.55);
-  letter-spacing:.15em;
-  display:flex;flex-wrap:wrap;justify-content:center;gap:.3em;
-}
-@keyframes wordReveal{
-  0%  { opacity:0; filter:blur(12px); transform:translateY(18px) scale(0.88); }
-  100%{ opacity:1; filter:blur(0px);  transform:translateY(0)    scale(1);    }
-}
-.tl-word{
-  display:inline-block;
-  opacity:0;
-  animation:wordReveal .7s cubic-bezier(0.22,1,0.36,1) forwards;
-  animation-play-state:paused;
-}
-/* JS sets .tl-go on each word with its own delay to start the animation */
-.tl-word.tl-go{ animation-play-state:running; }
-
 /* Buttons */
 .hero-type-btns{
   display:flex;gap:.9rem;flex-wrap:wrap;justify-content:center;
@@ -1968,10 +1918,6 @@ body.lang-en [data-de]{display:none !important;}
   <div class="intro-logo-wrap" id="introLogo">
     <!-- Logo image injected by JS -->
   </div>
-  <div class="intro-scroll-hint">
-    <span>scroll</span>
-    <div class="arrow"></div>
-  </div>
 </div>
 
 <!-- SITE -->
@@ -2215,8 +2161,7 @@ body.lang-en [data-de]{display:none !important;}
 
   <!-- Hero content -->
   <div class="hero-type-wrap" id="heroTypeWrap">
-    <div class="typewriter-line" id="typewriterLine"></div>
-    <div class="hero-manifest">
+<div class="hero-manifest">
       <p class="hero-manifest-h">Ich mache das nicht für perfekte Menschen. Ich mache das für echte. Für dich. Für mich. Für diesen einen intimen Moment, der nicht wiederholbar ist – aber existiert.</p>
     </div>
     <div class="hero-type-btns" id="heroTypeBtns">
@@ -2806,13 +2751,7 @@ const _patchedActivate = function(id,color,accent){
       const el=document.getElementById(i);
       if(el){el.classList.remove('in');void el.offsetWidth;}
     });
-    // Also reset tagline words
-    document.querySelectorAll('.tl-word').forEach(w => {
-      w.classList.remove('tl-go');
-      w.style.animationDelay = '';
-    });
     triggerHeroEntrance();
-    if(window._restartTypewriter) window._restartTypewriter();
   }
 };
 
@@ -2860,68 +2799,6 @@ function setLang(lang) {
   });
 })();
 
-// ── TYPEWRITER EFFECT ────────────────────────────────────────────────────────
-(function(){
-  const TEXT    = 'Hi, I am Mato, and also...';
-  const SPEED   = 75; // ms per character
-
-  function runTypewriter() {
-    const line    = document.getElementById('typewriterLine');
-    const tagline = document.getElementById('heroTagline');
-    const btns    = document.getElementById('heroTypeBtns');
-    if (!line) return;
-
-    // Reset
-    line.innerHTML = '';
-    if (tagline) {
-      // Reset each word individually, not the parent
-      tagline.querySelectorAll('.tl-word').forEach(w => {
-        w.classList.remove('tl-go');
-        w.style.animationDelay = '';
-      });
-    }
-    // buttons always visible — typewriter disabled
-    if (btns) { btns.style.opacity='1'; btns.style.transform='translateY(0)'; }
-
-    let i = 0;
-    function tick() {
-      if (i < TEXT.length) {
-        line.textContent = TEXT.slice(0, i + 1);
-        // show blinking cursor via ::after instead
-        i++;
-        setTimeout(tick, SPEED + Math.random() * 25);
-      } else {
-        // Typing done — animate tagline words in staggered, then buttons
-        setTimeout(() => {
-          if (tagline) {
-            const words = tagline.querySelectorAll('.tl-word');
-            words.forEach((w, i) => {
-              w.style.animationDelay = (i * 0.13) + 's';
-              w.classList.add('tl-go');
-            });
-          }
-          setTimeout(() => {
-            if (btns) {
-              btns.style.transition = 'opacity .45s ease, transform .45s ease';
-              btns.style.opacity = '1';
-              btns.style.transform = 'translateY(0)';
-            }
-          }, 900);
-        }, 1000);
-      }
-    }
-    tick();
-  }
-
-  // Fire after intro animation completes (~4.5s total)
-  window.addEventListener('load', function() {
-    // typewriter disabled
-    // setTimeout(runTypewriter, 800);
-  });
-
-  // Restart when user navigates back to home
-  window._restartTypewriter = runTypewriter;
-})();
 
 
 
