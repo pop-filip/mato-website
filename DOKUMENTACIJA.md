@@ -169,6 +169,17 @@ ffmpeg -i contact.mp4 -vf "scale=720:-2" -c:v libx264 -crf 28 -preset slow -r 30
 - ✅ `-webkit-overflow-scrolling:touch` — iOS scroll fix
 - ✅ Contact button `Senden` — vidljiv i klikabilni na svim uređajima
 
+### 📱 Mobile Fixes — sesija 2026-03-21 (7)
+- ✅ iOS `100vh` bug — tipkovnica/address bar skriva sadržaj → Fix: `height:100dvh` na `.section`
+- ✅ Homepage buttons odsječeni — `padding-bottom:130px !important` na `#home` mobile
+- ✅ Footer kompaktan — sakriti Navigate + Legal kolone, zadržati brand + bottom bar (`display:none`)
+- ✅ EN/DE lang switcher centriran — `position:absolute;left:50%;transform:translateX(-50%)`
+- ✅ About layout — tekst overlay nad videom: `position:absolute;top:40%`, video `height:26vh`
+- ✅ Work — "The Reel" odsječen ispod nav → `padding-top:100px !important` na `#work` mobile
+- ✅ Services mobile — blank placeholder (scroll ne radi na iOS, issue #22 otvoren)
+
+**Poznati iOS Safari scroll bug (Services):** `position:fixed; display:block; overflow-y:scroll` ne radi touch scroll na iOS Safari. `display:flex` fix nije pomogao zbog konflikta s animacijama (`display:none→flex` preskače keyframe animacije). Privremeno: services je blank na mobile.
+
 ### 🐳 Infrastruktura (6)
 - ✅ compress-videos.sh — ffmpeg batch skripta za kompresiju videa
 - ✅ 4 kompresirana video fajla na disku (web ready) + 2 WebM verzije (VP9)
@@ -343,6 +354,9 @@ Sve otvorene zadatke pratimo na: **https://github.com/pop-filip/mato-website/iss
 | [#17](https://github.com/pop-filip/mato-website/issues/17) | Blog / Case Studies — individualne project stranice | 🟡 Srednji | #6 |
 | [#18](https://github.com/pop-filip/mato-website/issues/18) | E2E testovi — Playwright smoke tests | 🟡 Srednji | #6 |
 | [#19](https://github.com/pop-filip/mato-website/issues/19) | Next.js migracija — long-term skalabilnost | 🟢 Nizak | — |
+| [#21](https://github.com/pop-filip/mato-website/issues/21) | Work: "The Reel" odsječen ispod nav bara na mobile | ✅ Zatvoreno | — |
+| [#22](https://github.com/pop-filip/mato-website/issues/22) | Services mobile — iOS scroll ne radi, rebuild potreban | 🔴 Visok | — |
+| [#23](https://github.com/pop-filip/mato-website/issues/23) | About mobile — layout review na različitim veličinama ekrana | 🟡 Srednji | — |
 
 ### Redoslijed rada
 
@@ -350,7 +364,7 @@ Sve otvorene zadatke pratimo na: **https://github.com/pop-filip/mato-website/iss
 Sada (lokalno):
   #9  → og-image.jpg prava fotografija
   #10 → social media linkovi
-  #16 → heading audit (H2/H3 keyword optimizacija)
+  #22 → Services mobile rebuild (iOS scroll)
 
 Nakon go-live (#6):
   #13 → GitHub Secrets + auto-deploy
