@@ -492,7 +492,7 @@ nav{
 .hamburger.open .lines span:nth-child(2){opacity:0;transform:scaleX(0);}
 .hamburger.open .lines span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);width:20px;background:#c8a97e;}
 .mobile-menu{
-  display:none;position:fixed;inset:0;top:64px;background:rgba(10,10,10,0.75);z-index:99;
+  display:none;position:fixed;inset:0;top:64px;background:#0a0a0a;z-index:99;
   flex-direction:column;align-items:center;justify-content:center;gap:0;
 }
 .mobile-menu.open{display:flex;}
@@ -500,6 +500,7 @@ nav{
 .mobile-menu li+li{border-top:1px solid rgba(200,169,126,0.08);width:60%;margin:0 auto;}
 .mobile-menu li a{
   display:block;padding:18px 0;
+  font-family:'Playfair Display',serif;
   color:rgba(255,255,255,0.45);font-size:clamp(1.5rem,6vw,2.2rem);font-weight:800;
   letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
   cursor:pointer;transition:color .2s ease,letter-spacing .3s ease;line-height:1;
@@ -517,12 +518,14 @@ nav{
 @keyframes mItemIn{to{opacity:1;transform:translateY(0);}}
 /* menu background video */
 .menu-video{
-  position:fixed;inset:0;top:64px;z-index:98;
+  position:absolute;inset:0;
   width:100%;height:100%;object-fit:cover;
   opacity:0;pointer-events:none;
   transition:opacity .6s ease;
+  z-index:0;
 }
 .menu-video.visible{opacity:0.45;}
+.mobile-menu li{position:relative;z-index:1;}
 
 /* ═══ FULL-PAGE SECTIONS ═══ */
 .section{
@@ -1905,12 +1908,12 @@ body.lang-en [data-de]{display:none !important;}
   <div class="nav-center">
   <ul class="nav-list" id="navList">
     <div class="hori-selector" id="selector"><div class="left"></div><div class="right"></div></div>
-    <li class="active" data-section="home"     data-color="#111"    data-accent="#e2b96f"><a><i class="fas fa-house"></i><span data-en>Home</span><span data-de>Start</span></a></li>
-    <li data-section="about"    data-color="#0d0d0d"  data-accent="#e2b96f"><a><i class="fas fa-user"></i><span data-en>About</span><span data-de>Über mich</span></a></li>
-    <li data-section="services" data-color="#0a0a0a"  data-accent="#e2b96f"><a><i class="fas fa-list"></i><span data-en>Services</span><span data-de>Leistungen</span></a></li>
-    <li data-section="work"     data-color="#080808"  data-accent="#c084fc"><a><i class="fas fa-camera"></i><span data-en>Work</span><span data-de>Portfolio</span></a></li>
-    <li data-section="faq"      data-color="#0a0a0a"  data-accent="#e2b96f"><a><i class="fas fa-circle-question"></i><span>FAQ</span></a></li>
-    <li data-section="contact"  data-color="#0a0a0a"  data-accent="#fb923c"><a><i class="fas fa-paper-plane"></i><span data-en>Contact</span><span data-de>Kontakt</span></a></li>
+    <li class="active" data-section="home"     data-color="#111"    data-accent="#e2b96f"><a><span data-en>Home</span><span data-de>Start</span></a></li>
+    <li data-section="about"    data-color="#0d0d0d"  data-accent="#e2b96f"><a><span data-en>About</span><span data-de>Über mich</span></a></li>
+    <li data-section="services" data-color="#0a0a0a"  data-accent="#e2b96f"><a><span data-en>Services</span><span data-de>Leistungen</span></a></li>
+    <li data-section="work"     data-color="#080808"  data-accent="#c084fc"><a><span data-en>Work</span><span data-de>Portfolio</span></a></li>
+    <li data-section="faq"      data-color="#0a0a0a"  data-accent="#e2b96f"><a><span>FAQ</span></a></li>
+    <li data-section="contact"  data-color="#0a0a0a"  data-accent="#fb923c"><a><span data-en>Contact</span><span data-de>Kontakt</span></a></li>
   </ul>
   </div>
   <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false"><div class="lines"><span></span><span></span><span></span></div></button>
@@ -1921,12 +1924,15 @@ body.lang-en [data-de]{display:none !important;}
 </nav>
 
 <ul class="mobile-menu" id="mobileMenu">
-  <li class="active" data-section="home"     data-color="#111"    data-accent="#e2b96f"><a><i class="fas fa-house"></i><span data-en>Home</span><span data-de>Start</span></a></li>
-  <li data-section="about"    data-color="#0d0d0d"  data-accent="#e2b96f"><a><i class="fas fa-user"></i><span data-en>About</span><span data-de>Über mich</span></a></li>
-  <li data-section="services" data-color="#0a0a0a"  data-accent="#e2b96f"><a><i class="fas fa-list"></i><span data-en>Services</span><span data-de>Leistungen</span></a></li>
-  <li data-section="work"     data-color="#080808"  data-accent="#c084fc"><a><i class="fas fa-camera"></i><span data-en>Work</span><span data-de>Portfolio</span></a></li>
-  <li data-section="faq"      data-color="#0a0a0a"  data-accent="#e2b96f"><a><i class="fas fa-circle-question"></i><span>FAQ</span></a></li>
-  <li data-section="contact"  data-color="#0a0a0a"  data-accent="#fb923c"><a><i class="fas fa-paper-plane"></i><span data-en>Contact</span><span data-de>Kontakt</span></a></li>
+  <video class="menu-video" id="menuVideo" muted loop playsinline>
+    <source src="contact_compressed.mp4" type="video/mp4">
+  </video>
+  <li class="active" data-section="home"     data-color="#111"    data-accent="#e2b96f"><a><span data-en>Home</span><span data-de>Start</span></a></li>
+  <li data-section="about"    data-color="#0d0d0d"  data-accent="#e2b96f"><a><span data-en>About</span><span data-de>Über mich</span></a></li>
+  <li data-section="services" data-color="#0a0a0a"  data-accent="#e2b96f"><a><span data-en>Services</span><span data-de>Leistungen</span></a></li>
+  <li data-section="work"     data-color="#080808"  data-accent="#c084fc"><a><span data-en>Work</span><span data-de>Portfolio</span></a></li>
+  <li data-section="faq"      data-color="#0a0a0a"  data-accent="#e2b96f"><a><span>FAQ</span></a></li>
+  <li data-section="contact"  data-color="#0a0a0a"  data-accent="#fb923c"><a><span data-en>Contact</span><span data-de>Kontakt</span></a></li>
 </ul>
 
 
@@ -2197,11 +2203,11 @@ body.lang-en [data-de]{display:none !important;}
   </div>
   <div class="services-wrap" id="servicesWrap">
     <div class="img-panel" id="imgPanel">
-      <div class="img-slide active"><div class="slide-deco"><i class="fas fa-film"></i></div><div class="slide-num">01 / 05</div></div>
-      <div class="img-slide"><div class="slide-deco"><i class="fas fa-ring"></i></div><div class="slide-num">02 / 05</div></div>
-      <div class="img-slide"><div class="slide-deco"><i class="fas fa-mountain-sun"></i></div><div class="slide-num">03 / 05</div></div>
-      <div class="img-slide"><div class="slide-deco"><i class="fas fa-building"></i></div><div class="slide-num">04 / 05</div></div>
-      <div class="img-slide"><div class="slide-deco"><i class="fas fa-camera"></i></div><div class="slide-num">05 / 05</div></div>
+      <div class="img-slide active"><div class="slide-deco"></div><div class="slide-num">01 / 05</div></div>
+      <div class="img-slide"><div class="slide-deco"></div><div class="slide-num">02 / 05</div></div>
+      <div class="img-slide"><div class="slide-deco"></div><div class="slide-num">03 / 05</div></div>
+      <div class="img-slide"><div class="slide-deco"></div><div class="slide-num">04 / 05</div></div>
+      <div class="img-slide"><div class="slide-deco"></div><div class="slide-num">05 / 05</div></div>
     </div>
     <div class="text-panel">
       <div class="service-item" data-index="0">
@@ -2282,13 +2288,13 @@ body.lang-en [data-de]{display:none !important;}
         <div class="proj-meta">
           <span class="proj-tag">Video</span>
           <span class="proj-year">2024</span>
-          <div class="proj-arrow"><i class="fas fa-arrow-right"></i></div>
+          <div class="proj-arrow"></div>
         </div>
       </div>
       <div class="proj-preview">
         <video class="proj-preview-vid" muted playsinline preload="none" loop></video>
         <button class="proj-preview-btn" onclick="event.stopPropagation();openWorkFull('videos/voda_compressed.mp4','Voda')">
-          <i class="fas fa-expand"></i> Watch fullscreen
+           Watch fullscreen
         </button>
       </div>
     </li>
@@ -2300,13 +2306,13 @@ body.lang-en [data-de]{display:none !important;}
         <div class="proj-meta">
           <span class="proj-tag">Video</span>
           <span class="proj-year">2024</span>
-          <div class="proj-arrow"><i class="fas fa-arrow-right"></i></div>
+          <div class="proj-arrow"></div>
         </div>
       </div>
       <div class="proj-preview">
         <video class="proj-preview-vid" muted playsinline preload="none" loop></video>
         <button class="proj-preview-btn" onclick="event.stopPropagation();openWorkFull('videos/skok_compressed.mp4','Skok')">
-          <i class="fas fa-expand"></i> Watch fullscreen
+           Watch fullscreen
         </button>
       </div>
     </li>
@@ -2318,13 +2324,13 @@ body.lang-en [data-de]{display:none !important;}
         <div class="proj-meta">
           <span class="proj-tag">Video</span>
           <span class="proj-year">2024</span>
-          <div class="proj-arrow"><i class="fas fa-arrow-right"></i></div>
+          <div class="proj-arrow"></div>
         </div>
       </div>
       <div class="proj-preview">
         <video class="proj-preview-vid" muted playsinline preload="none" loop></video>
         <button class="proj-preview-btn" onclick="event.stopPropagation();openWorkFull('videos/delta_compressed.mp4','Delta')">
-          <i class="fas fa-expand"></i> Watch fullscreen
+           Watch fullscreen
         </button>
       </div>
     </li>
@@ -2336,13 +2342,13 @@ body.lang-en [data-de]{display:none !important;}
         <div class="proj-meta">
           <span class="proj-tag">Video</span>
           <span class="proj-year">2024</span>
-          <div class="proj-arrow"><i class="fas fa-arrow-right"></i></div>
+          <div class="proj-arrow"></div>
         </div>
       </div>
       <div class="proj-preview">
         <video class="proj-preview-vid" muted playsinline preload="none" loop></video>
         <button class="proj-preview-btn" onclick="event.stopPropagation();openWorkFull('videos/delta-team_compressed.mp4','Delta Team')">
-          <i class="fas fa-expand"></i> Watch fullscreen
+           Watch fullscreen
         </button>
       </div>
     </li>
@@ -2437,14 +2443,14 @@ body.lang-en [data-de]{display:none !important;}
   <p class="sub">Available for bookings</p>
   <div class="contact-wrap">
     <div class="contact-info">
-      <div class="contact-line"><i class="fas fa-location-dot"></i><span>Linz, Austria</span></div>
-      <div class="contact-line"><i class="fas fa-envelope"></i><span><a href="mailto:info@mato-production.com" style="color:inherit">info@mato-production.com</a></span></div>
+      <div class="contact-line"><span>Linz, Austria</span></div>
+      <div class="contact-line"><span><a href="mailto:info@mato-production.com" style="color:inherit">info@mato-production.com</a></span></div>
       <div class="msg-btns">
         <a class="msg-btn whatsapp" href="https://wa.me/436603780309" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i>WhatsApp</a>
         <a class="msg-btn viber" href="viber://chat?number=%2B436603780309" target="_blank" rel="noopener"><i class="fab fa-viber"></i>Viber</a>
         <a class="msg-btn signal" href="https://signal.me/#p/+436603780309" target="_blank" rel="noopener"><i class="fab fa-signal-messenger"></i>Signal</a>
       </div>
-      <div class="contact-line"><i class="fas fa-calendar-check"></i><span>Booking 2–3 weeks ahead</span></div>
+      <div class="contact-line"><span>Booking 2–3 weeks ahead</span></div>
       <div class="socials">
         <a class="social-btn"><i class="fab fa-instagram"></i></a>
         <a class="social-btn"><i class="fab fa-youtube"></i></a>
@@ -2607,6 +2613,10 @@ function activate(id,color,accent){
   }
   mobileMenu.classList.remove('open');
   hamburger.classList.remove('open');
+  if(typeof menuVideo!=='undefined'){
+    menuVideo.classList.remove('visible');
+    setTimeout(()=>menuVideo.pause(),600);
+  }
 }
 
 navItems.forEach(li=>li.addEventListener('click',()=>activate(li.dataset.section,li.dataset.color,li.dataset.accent)));
