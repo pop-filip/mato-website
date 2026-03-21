@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hamburger Menu Test — Mato Davidovic</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#111;font-family:'Segoe UI',sans-serif;color:#fff;overflow:hidden;}
+
+  /* ── NAV ── */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 24px;height:64px;
+    background:rgba(17,17,17,0.95);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(200,169,126,0.12);
+  }
+  .nav-brand{
+    font-size:1rem;font-weight:800;letter-spacing:.18em;
+    color:#e2b96f;text-decoration:none;text-transform:uppercase;
+  }
+
+  /* ── HAMBURGER — Aperture / Lens style ── */
+  .hamburger{
+    display:flex;align-items:center;justify-content:center;
+    width:48px;height:48px;
+    border-radius:50%;
+    border:none;cursor:pointer;
+    background:transparent;
+    position:relative;
+    padding:0;
+    transition:transform .4s cubic-bezier(0.23,1,0.32,1);
+  }
+
+  /* Outer lens ring */
+  .hamburger::before{
+    content:'';
+    position:absolute;inset:0;
+    border-radius:50%;
+    border:1.5px solid rgba(200,169,126,0.35);
+    transition:border-color .3s ease, box-shadow .3s ease;
+  }
+  /* Inner lens ring */
+  .hamburger::after{
+    content:'';
+    position:absolute;
+    inset:7px;
+    border-radius:50%;
+    border:1px solid rgba(200,169,126,0.15);
+    transition:border-color .3s ease;
+  }
+
+  .hamburger:hover::before{
+    border-color:rgba(200,169,126,0.7);
+    box-shadow:0 0 16px rgba(200,169,126,0.2);
+  }
+  .hamburger:hover::after{
+    border-color:rgba(200,169,126,0.35);
+  }
+  .hamburger.open{transform:rotate(90deg);}
+  .hamburger.open::before{
+    border-color:rgba(200,169,126,0.8);
+    box-shadow:0 0 20px rgba(200,169,126,0.25);
+  }
+
+  /* The 3 aperture lines */
+  .hamburger .lines{
+    display:flex;flex-direction:column;gap:5px;
+    align-items:center;
+  }
+  .hamburger .lines span{
+    display:block;height:1.5px;border-radius:2px;
+    background:rgba(200,169,126,0.75);
+    transition:transform .38s cubic-bezier(0.23,1,0.32,1),
+                opacity .25s ease,
+                width .3s ease,
+                background .25s ease;
+  }
+  .hamburger .lines span:nth-child(1){width:20px;}
+  .hamburger .lines span:nth-child(2){width:14px;align-self:flex-start;margin-left:3px;}
+  .hamburger .lines span:nth-child(3){width:20px;}
+
+  .hamburger:hover .lines span{background:rgba(200,169,126,1);}
+
+  /* open → X */
+  .hamburger.open .lines span:nth-child(1){transform:translateY(6.5px) rotate(45deg);width:20px;background:#c8a97e;}
+  .hamburger.open .lines span:nth-child(2){opacity:0;transform:scaleX(0);}
+  .hamburger.open .lines span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);width:20px;background:#c8a97e;}
+
+  /* ── MOBILE MENU ── */
+  .mobile-menu{
+    display:none;
+    position:fixed;inset:0;top:64px;
+    background:rgba(10,10,10,0.75);
+    z-index:99;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:0;
+    list-style:none;
+    padding:0;
+  }
+  .mobile-menu.open{display:flex;}
+
+  /* Stagger fade-in for items */
+  .mobile-menu li{
+    opacity:0;
+    transform:translateY(14px);
+  }
+  .mobile-menu.open li{
+    animation:itemIn .45s cubic-bezier(0.23,1,0.32,1) forwards;
+  }
+  .mobile-menu.open li:nth-child(1){animation-delay:.12s;}
+  .mobile-menu.open li:nth-child(2){animation-delay:.19s;}
+  .mobile-menu.open li:nth-child(3){animation-delay:.26s;}
+  .mobile-menu.open li:nth-child(4){animation-delay:.33s;}
+  .mobile-menu.open li:nth-child(5){animation-delay:.40s;}
+  .mobile-menu.open li:nth-child(6){animation-delay:.47s;}
+
+  @keyframes itemIn{
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  .mobile-menu li a{
+    display:block;
+    padding:18px 0;
+    color:rgba(255,255,255,0.45);
+    font-size:clamp(1.5rem,6vw,2.2rem);
+    font-weight:800;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    text-decoration:none;
+    text-align:center;
+    cursor:pointer;
+    transition:color .2s ease, letter-spacing .3s ease;
+    line-height:1;
+  }
+  /* thin gold line between items */
+  .mobile-menu li + li{
+    border-top:1px solid rgba(200,169,126,0.08);
+    width:60%;
+    margin:0 auto;
+  }
+  .mobile-menu li{width:100%;text-align:center;}
+
+  .mobile-menu li a:hover,
+  .mobile-menu li.active a{
+    color:#e2b96f;
+    letter-spacing:.2em;
+  }
+
+  /* ── MENU VIDEO ── */
+  .menu-video{
+    position:fixed;inset:0;top:64px;z-index:98;
+    width:100%;height:100%;
+    object-fit:cover;
+    opacity:0;pointer-events:none;
+    transition:opacity .6s ease;
+  }
+  .menu-video.visible{opacity:0.45;}
+
+  /* ── PAGE CONTENT ── */
+  .hero{
+    position:relative;z-index:1;
+    height:100vh;display:flex;align-items:center;justify-content:center;
+    flex-direction:column;gap:1rem;text-align:center;padding:0 20px;
+    transition:opacity .4s ease;
+  }
+  .hero.hidden{opacity:0;pointer-events:none;}
+  .hero h1{font-size:2rem;font-weight:800;color:#e2b96f;letter-spacing:.15em;text-transform:uppercase;}
+  .hero p{color:rgba(255,255,255,0.25);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<video class="menu-video" id="menuVideo" muted loop playsinline>
+  <source src="contact_compressed.mp4" type="video/mp4">
+</video>
+
+<nav>
+  <a class="nav-brand" href="#">Mato Davidovic</a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+    <div class="lines">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </button>
+</nav>
+
+<ul class="mobile-menu" id="mobileMenu">
+  <li class="active"><a href="#">Home</a></li>
+  <li><a href="#">About</a></li>
+  <li><a href="#">Services</a></li>
+  <li><a href="#">Work</a></li>
+  <li><a href="#">FAQ</a></li>
+  <li><a href="#">Contact</a></li>
+</ul>
+
+<div class="hero">
+  <h1>Mato Davidovic</h1>
+  <p>hamburger-test.html</p>
+</div>
+
+<script>
+  const btn       = document.getElementById('hamburger');
+  const menu      = document.getElementById('mobileMenu');
+  const menuVideo = document.getElementById('menuVideo');
+  const hero      = document.querySelector('.hero');
+
+  btn.addEventListener('click', () => {
+    const isOpen = menu.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+    btn.setAttribute('aria-expanded', isOpen);
+    if(isOpen){
+      menuVideo.currentTime = 0;
+      menuVideo.play();
+      menuVideo.classList.add('visible');
+      hero.classList.add('hidden');
+    } else {
+      menuVideo.classList.remove('visible');
+      setTimeout(() => menuVideo.pause(), 600);
+      hero.classList.remove('hidden');
+    }
+  });
+
+  menu.querySelectorAll('li').forEach(li => {
+    li.addEventListener('click', () => {
+      menu.querySelectorAll('li').forEach(l => l.classList.remove('active'));
+      li.classList.add('active');
+      menu.classList.remove('open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', false);
+    });
+  });
+</script>
+
+</body>
+</html>

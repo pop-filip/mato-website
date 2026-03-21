@@ -63,7 +63,10 @@ mato-website/
 ├── voda_compressed.mp4             ← Kompresovani videi (web ready)
 ├── delta_compressed.mp4
 ├── delta-team_compressed.mp4
-└── skok_compressed.mp4
+├── skok_compressed.mp4
+├── contact.mp4                     ← Original menu background video
+├── contact_compressed.mp4          ← Kompresovani menu video (981KB, web ready)
+└── hamburger-test.html             ← Standalone test fajl za hamburger meni
 ```
 
 ---
@@ -124,15 +127,41 @@ mato-website/
 - ✅ `focus-visible` outline na form poljima (keyboard UX)
 - ✅ Alt tekst na logo slici
 
-### 🎨 UX & Design (8)
+### 🎨 UX & Design (9)
 - ✅ WhatsApp / Viber / Signal dugmad u kontaktu
 - ✅ DE / EN jezik switcher (austrijsko tržište)
 - ✅ `scroll-behavior: smooth`
-- ✅ Hamburger meni — samo mobile (≤700px)
+- ✅ Hamburger meni — Aperture/Lens stil, samo mobile (≤700px), video u pozadini
 - ✅ Video lightbox (fullscreen prikaz portfolio videa)
 - ✅ Film grain canvas overlay (cinematski look)
 - ✅ GDPR Cookie consent banner (localStorage, OK/Decline, animated dismiss)
 - ✅ FAQ sekcija — 6 pitanja/odgovora (accordion), nav item, FAQPage schema
+- ✅ Mobile menu background video (`contact_compressed.mp4`) — fade in/out pri otvaranju menija
+
+### 📹 Hamburger Meni — Video Background
+
+**Fajlovi:**
+- `contact.mp4` — original (9.7MB, 1080x1920, 60fps)
+- `contact_compressed.mp4` — web verzija (981KB, 720x1280, 30fps, bez audia, `faststart`)
+
+**Kompresija komanda:**
+```bash
+ffmpeg -i contact.mp4 -vf "scale=720:-2" -c:v libx264 -crf 28 -preset slow -r 30 -an -movflags +faststart contact_compressed.mp4
+```
+
+**Kako radi:**
+1. `<video id="menuVideo" class="menu-video">` — fiksiran iza menija (z-index:98), ispod .mobile-menu (z-index:99)
+2. `.mobile-menu` ima `background:rgba(10,10,10,0.75)` — polu-transparentno da video probija
+3. `.menu-video.visible { opacity:0.45 }` — fade in/out via CSS transition
+4. JS: na hamburger click → `menuVideo.play()` + `.visible` klasa; na zatvaranje → ukloni `.visible`, `pause()` nakon 600ms
+
+**Hamburger dugme — Aperture/Lens stil:**
+- Kružno dugme sa duplim lens-ringom (CSS `::before` / `::after`)
+- Rotira 90° kad je otvoren (`transform:rotate(90deg)`)
+- 3 linije unutar `.lines` wrappera → X animacija
+- Hover: zlatni glow efekt
+
+**Test fajl:** `hamburger-test.html` — standalone preview menija
 
 ### 📱 Mobile Fixes (4)
 - ✅ Contact sekcija — `Let's shoot` centriran, `flex-start` za scroll, padding-bottom 320px
