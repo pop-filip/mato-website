@@ -1423,14 +1423,17 @@ body.lang-en [data-de]{display:none !important;}
 
 /* ═══ HERO VIDEO ═══ */
 .hero-video{
-  position:absolute;top:0;left:0;
-  width:100%;height:100%;
-  object-fit:cover;z-index:0;
+  position:fixed;top:0;left:0;
+  width:100vw;height:100vh;height:100dvh;
+  z-index:0;overflow:hidden;
   animation:videoZoom 24s ease-in-out infinite alternate;
 }
 @keyframes videoZoom{
   from{transform:scale(1);}
   to{transform:scale(1.06);}
+}
+@media(max-width:700px){
+  .hero-video{animation:none;}
 }
 .hero-overlay{
   position:absolute;inset:0;z-index:1;pointer-events:none;
@@ -1440,15 +1443,17 @@ body.lang-en [data-de]{display:none !important;}
     radial-gradient(ellipse 70% 60% at 50% 50%, transparent 38%, rgba(5,5,5,0.42) 100%);
 }
 .mute-btn{
-  position:absolute;bottom:2rem;right:2rem;z-index:5;
-  background:rgba(255,255,255,0.07);
-  border:1px solid rgba(255,255,255,0.14);
-  color:rgba(255,255,255,0.55);
-  width:40px;height:40px;border-radius:50%;cursor:pointer;
+  position:fixed;bottom:2rem;right:2rem;z-index:999;
+  background:rgba(255,255,255,0.09);
+  border:1px solid rgba(255,255,255,0.22);
+  color:rgba(255,255,255,0.75);
+  width:44px;height:44px;border-radius:50%;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  font-size:.85rem;transition:all .2s;backdrop-filter:blur(8px);
+  font-size:1rem;transition:all .2s;backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
 }
-.mute-btn:hover{background:rgba(255,255,255,0.14);color:#fff;}
+.mute-btn:hover{background:rgba(255,255,255,0.18);color:#fff;transform:scale(1.08);}
+
 
 
 /* ═══ TYPEWRITER HERO ═══ */
@@ -1898,9 +1903,9 @@ body.lang-en [data-de]{display:none !important;}
   .hero-type-btns{justify-content:center;width:100%;}
   .hero-manifest-h{font-size:clamp(.85rem,3.8vw,.95rem) !important;font-weight:600 !important;line-height:1.5 !important;}
   .hero-manifest-p{font-size:clamp(.75rem,3vw,.85rem) !important;font-weight:400 !important;}
-  /* Homepage — allow scroll on SE */
-  #home{overflow-y:auto !important;justify-content:center !important;align-items:center !important;padding:64px 0 130px !important;}
-  .hero-type-wrap{padding:0.5rem 1rem;gap:0.5rem;}
+  /* Homepage — pure fullscreen video, no padding/scroll */
+  #home{overflow:hidden !important;padding:0 !important;}
+  .mute-btn{bottom:1.2rem;right:1.2rem;}
   /* About — fix cut-off */
   #about{overflow-y:auto !important;justify-content:flex-start !important;padding-top:72px;}
   .about-video-wrap{max-height:180px !important;}
@@ -2167,13 +2172,17 @@ body.lang-en [data-de]{display:none !important;}
 
   <h1 class="visually-hidden">Mato Davidovic — Videograf &amp; Fotograf Österreich | Hochzeitsfilm · Imagefilm · Portrait</h1>
 
-  <!-- Background video -->
-  <video class="hero-video" id="heroVideo"
-    autoplay muted loop playsinline
-    preload="auto" fetchpriority="high">
-    <source src="videos/matografie_compressed.webm" type="video/webm">
-    <source src="videos/matografie_compressed.mp4"  type="video/mp4">
-  </video>
+  <!-- Background video — YouTube -->
+  <div class="hero-video" id="heroVideoBg">
+    <iframe
+      id="heroYT"
+      src="https://www.youtube.com/embed/S1HyLs_iKZ4?autoplay=1&mute=1&loop=1&controls=0&disablekb=1&modestbranding=1&playsinline=1&rel=0&playlist=S1HyLs_iKZ4&enablejsapi=1"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+      title="Hero background video"
+      style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100vw;height:56.25vw;min-height:100vh;min-width:177.78vh;border:none;pointer-events:none">
+    </iframe>
+  </div>
 
   <!-- Cinematic overlay -->
   <div class="hero-overlay"></div>
@@ -2181,21 +2190,11 @@ body.lang-en [data-de]{display:none !important;}
   <!-- Film grain canvas -->
   <canvas id="home-canvas"></canvas>
 
-  <!-- Hero content -->
-  <div class="hero-type-wrap" id="heroTypeWrap">
-<div class="hero-manifest">
-      <p class="hero-manifest-h">Ich mache das nicht für perfekte Menschen. Ich mache das für echte. Für dich. Für mich. Für diesen einen intimen Moment, der nicht wiederholbar ist – aber existiert.</p>
-    </div>
-    <div class="hero-type-btns" id="heroTypeBtns">
-      <a class="btn-gold" onclick="activate('work','#080808','#c084fc')"><span data-en>See my work</span><span data-de>Meine Arbeit</span></a>
-      <a class="btn-ghost" onclick="activate('contact','#0a0a0a','#fb923c')"><span data-en>Book a shoot</span><span data-de>Shooting buchen</span></a>
-    </div>
-  </div>
-
   <!-- Mute toggle -->
   <button class="mute-btn" id="muteBtn" title="Toggle sound">🔇</button>
 
 </section>
+
 
 <!-- ABOUT -->
 <section class="section" id="about">
@@ -2812,14 +2811,25 @@ function setLang(lang) {
   });
 });
 
-// ── Mute toggle ───────────────────────────────────────────────────────────────
+// ── Mute toggle — YouTube IFrame API ─────────────────────────────────────────
+var ytPlayer, ytMuted = true;
+window.onYouTubeIframeAPIReady = function() {
+  ytPlayer = new YT.Player('heroYT', {
+    events: { onReady: function(e) { e.target.playVideo(); } }
+  });
+};
 (function(){
-  const vid = document.getElementById('heroVideo');
   const btn = document.getElementById('muteBtn');
-  if(!vid || !btn) return;
+  if(!btn) return;
   btn.addEventListener('click', () => {
-    vid.muted = !vid.muted;
-    btn.textContent = vid.muted ? '🔇' : '🔊';
+    if(!ytPlayer || typeof ytPlayer.isMuted !== 'function') return;
+    if(ytMuted) {
+      ytPlayer.unMute(); ytPlayer.setVolume(80);
+      ytMuted = false; btn.textContent = '🔊';
+    } else {
+      ytPlayer.mute();
+      ytMuted = true; btn.textContent = '🔇';
+    }
   });
 })();
 
@@ -3067,5 +3077,6 @@ function toggleFaq(btn){
 }
 </script>
 </div>
+  <script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
