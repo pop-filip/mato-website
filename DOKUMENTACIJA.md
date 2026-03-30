@@ -176,9 +176,15 @@ ffmpeg -i contact.mp4 -vf "scale=720:-2" -c:v libx264 -crf 28 -preset slow -r 30
 - ✅ EN/DE lang switcher centriran — `position:absolute;left:50%;transform:translateX(-50%)`
 - ✅ About layout — tekst overlay nad videom: `position:absolute;top:40%`, video `height:26vh`
 - ✅ Work — "The Reel" odsječen ispod nav → `padding-top:100px !important` na `#work` mobile
-- ✅ Services mobile — blank placeholder (scroll ne radi na iOS, issue #22 otvoren)
+- ✅ Services mobile — iOS scroll fix (issue #22 zatvoren)
 
-**Poznati iOS Safari scroll bug (Services):** `position:fixed; display:block; overflow-y:scroll` ne radi touch scroll na iOS Safari. `display:flex` fix nije pomogao zbog konflikta s animacijama (`display:none→flex` preskače keyframe animacije). Privremeno: services je blank na mobile.
+### 📱 Mobile Fixes — sesija 2026-03-30 (4)
+- ✅ About tekst — zamjenjen placeholder sa pravim njemačkim tekstom (rotating words)
+- ✅ Social media dugmad — uklonjena iz Contact + Footer (nema SM profila zasad)
+- ✅ Services mobile scroll — **iOS fix**: content wrapped u `.services-scroll-inner` (inner scrollable div), `#services` → `overflow:hidden`, inner → `overflow-y:auto; -webkit-overflow-scrolling:touch`
+- ✅ Footer copyright — `© 2025` → `© 2026`
+
+**Services iOS scroll fix — tehnika:** Problem: `position:fixed` elementi na iOS Safari ne podržavaju touch scroll. Rješenje: `#services` = `overflow:hidden`, unutar njega `.services-scroll-inner` = `overflow-y:auto; -webkit-overflow-scrolling:touch; height:100%`. Isti pattern kao `#work` / `.work-scroll`.
 
 ### 🐳 Infrastruktura (6)
 - ✅ compress-videos.sh — ffmpeg batch skripta za kompresiju videa
@@ -355,7 +361,7 @@ Sve otvorene zadatke pratimo na: **https://github.com/pop-filip/mato-website/iss
 | [#18](https://github.com/pop-filip/mato-website/issues/18) | E2E testovi — Playwright smoke tests | 🟡 Srednji | #6 |
 | [#19](https://github.com/pop-filip/mato-website/issues/19) | Next.js migracija — long-term skalabilnost | 🟢 Nizak | — |
 | [#21](https://github.com/pop-filip/mato-website/issues/21) | Work: "The Reel" odsječen ispod nav bara na mobile | ✅ Zatvoreno | — |
-| [#22](https://github.com/pop-filip/mato-website/issues/22) | Services mobile — iOS scroll ne radi, rebuild potreban | 🔴 Visok | — |
+| ~~[#22](https://github.com/pop-filip/mato-website/issues/22)~~ | ~~Services mobile — iOS scroll ne radi, rebuild potreban~~ | ✅ Zatvoreno | — |
 | [#23](https://github.com/pop-filip/mato-website/issues/23) | About mobile — layout review na različitim veličinama ekrana | 🟡 Srednji | — |
 
 ### Redoslijed rada
@@ -363,8 +369,7 @@ Sve otvorene zadatke pratimo na: **https://github.com/pop-filip/mato-website/iss
 ```
 Sada (lokalno):
   #9  → og-image.jpg prava fotografija
-  #10 → social media linkovi
-  #22 → Services mobile rebuild (iOS scroll)
+  #10 → social media linkovi (kad se kreiraju profili)
 
 Nakon go-live (#6):
   #13 → GitHub Secrets + auto-deploy

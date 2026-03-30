@@ -1325,7 +1325,8 @@ footer{
   .section{padding:62px 18px 160px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
   #contact{padding-bottom:320px;align-items:flex-start;justify-content:flex-start;padding-top:80px;}
   #contact h2,#contact .sub{text-align:center;width:100%;}
-  #services{padding-bottom:200px;display:flex;flex-direction:column;align-items:stretch;}
+  #services{overflow:hidden;display:block;padding-bottom:0;}
+  .services-scroll-inner{height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 0 200px;display:flex;flex-direction:column;align-items:stretch;}
   #about{overflow-y:auto !important;}
   .about-video-wrap{height:28vh;min-height:140px;}
   .about-text-wrap{padding:1.2rem 1.2rem 1rem;}
@@ -2215,12 +2216,12 @@ body.lang-en [data-de]{display:none !important;}
     <div class="about-eyebrow"><span data-en>About me</span><span data-de>Über mich</span></div>
     <div class="about-divider"></div>
     <div class="split-text-wrap" id="aboutShatterWrap">
-      <div class="st-left">I am Mato,</div>
+      <div class="st-left">Hi, ich bin Mato,</div>
       <div class="st-right">
         <div class="st-track" id="stTrack">
-          <span class="st-word active">Zivim sa 4 zene</span>
-          <span class="st-word">Nemam ideju</span>
-          <span class="st-word">Ovo je moj SOS!</span>
+          <span class="st-word active">ich wohne mit 4 Frauen</span>
+          <span class="st-word">Ich habe keine Ideen mehr</span>
+          <span class="st-word">Das ist mein SOS!</span>
         </div>
       </div>
     </div>
@@ -2239,6 +2240,7 @@ body.lang-en [data-de]{display:none !important;}
 
 <!-- SERVICES --><!-- SERVICES -->
 <div id="services">
+  <div class="services-scroll-inner">
   <div class="section-label">
     <div class="eyebrow">What I offer</div>
     <h2>My <span>Services</span><span class="visually-hidden"> — Videografie &amp; Fotografie Österreich: Hochzeitsfilm, Imagefilm, Drohnen, Portrait</span></h2>
@@ -2299,6 +2301,7 @@ body.lang-en [data-de]{display:none !important;}
       </div>
     </div>
   </div>
+  </div><!-- /services-scroll-inner -->
 </div>
 
 <!-- WORK -->
@@ -2493,12 +2496,6 @@ body.lang-en [data-de]{display:none !important;}
         <a class="msg-btn signal" href="https://signal.me/#p/+436603780309" target="_blank" rel="noopener"><i class="fab fa-signal-messenger"></i>Signal</a>
       </div>
       <div class="contact-line"><span>Booking 2–3 weeks ahead</span></div>
-      <div class="socials">
-        <a class="social-btn"><i class="fab fa-instagram"></i></a>
-        <a class="social-btn"><i class="fab fa-youtube"></i></a>
-        <a class="social-btn"><i class="fab fa-vimeo-v"></i></a>
-        <a class="social-btn"><i class="fab fa-tiktok"></i></a>
-      </div>
     </div>
     <form class="contact-form" id="contact-form" novalidate>
       <input type="checkbox" name="botcheck" style="display:none">
@@ -2527,11 +2524,6 @@ body.lang-en [data-de]{display:none !important;}
         <span data-en>Available for bookings</span>
         <span data-de>Verfügbar für Buchungen</span>
       </div>
-      <div class="footer-socials">
-        <a class="footer-social" href="#"><i class="fab fa-instagram"></i></a>
-        <a class="footer-social" href="#"><i class="fab fa-youtube"></i></a>
-        <a class="footer-social" href="#"><i class="fab fa-tiktok"></i></a>
-      </div>
     </div>
     <div>
       <div class="footer-col-title"><span data-en>Navigate</span><span data-de>Navigation</span></div>
@@ -2555,7 +2547,7 @@ body.lang-en [data-de]{display:none !important;}
     </div>
   </div>
   <div class="footer-bottom">
-    <div class="footer-copy">© 2025 Mato Visual Production. All rights reserved. · <a href="https://digitalnature.at" target="_blank" rel="noopener" style="color:inherit;opacity:0.6;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2)">Digital Nature</a></div>
+    <div class="footer-copy">© 2026 Mato Visual Production. All rights reserved. · <a href="https://digitalnature.at" target="_blank" rel="noopener" style="color:inherit;opacity:0.6;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2)">Digital Nature</a></div>
     <div class="footer-bottom-links">
       <button onclick="document.getElementById('termsModal').classList.add('open')"><span data-en>Terms</span><span data-de>AGB</span></button>
       <button onclick="document.getElementById('privacyModal').classList.add('open')"><span data-en>Privacy</span><span data-de>Datenschutz</span></button>
