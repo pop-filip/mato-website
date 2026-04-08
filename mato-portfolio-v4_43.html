@@ -537,6 +537,14 @@ footer{
 }
 .footer-bottom-links button:hover{color:rgba(226,185,111,0.7);}
 
+/* ═══ SERVICES MOBILE CAROUSEL NAV ═══ */
+.srv-nav{display:none;align-items:center;justify-content:center;gap:1.2rem;padding:.8rem 0 .5rem;}
+.srv-btn{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;font-size:.85rem;}
+.srv-btn:hover{border-color:#e2b96f;color:#e2b96f;}
+.srv-dots{display:flex;gap:.5rem;align-items:center;}
+.srv-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.18);transition:all .3s;cursor:pointer;border:none;padding:0;}
+.srv-dot.active{background:#e2b96f;width:18px;border-radius:3px;}
+
 /* RESPONSIVE */
 @media(max-width:700px){
   .nav-list,.hori-selector{display:none;}
@@ -549,10 +557,15 @@ footer{
   .footer-grid{grid-template-columns:1fr;gap:1.2rem;}
   .footer-bottom{flex-direction:column;gap:.5rem;text-align:center;}
   footer{padding:0 18px;flex-wrap:wrap;gap:.8rem;}
-  .services-wrap{flex-direction:column;}
-  .img-panel{width:100%;height:35vh;position:relative;top:auto;border-radius:10px;margin-bottom:1rem;}
-  .text-panel{padding:0 1.5rem;}
-  .service-item{min-height:auto;padding:2.5rem 0;}
+  /* Services — mobile carousel */
+  .srv-nav{display:flex;}
+  .services-wrap{overflow:hidden;position:relative;height:calc(100dvh - 220px);flex-direction:row;}
+  .img-panel{display:none;}
+  .text-panel{position:relative;width:100%;padding:0;overflow:hidden;}
+  .service-item{position:absolute;inset:0;min-height:unset;padding:2rem 1.5rem;display:flex;align-items:center;transform:translateX(100%);transition:transform .4s cubic-bezier(0.4,0,0.2,1);}
+  .service-item.srv-active{transform:translateX(0);}
+  .service-item.srv-prev{transform:translateX(-100%);}
+  .service-content{opacity:1 !important;transform:none !important;max-width:100%;}
   .nav-brand img{height:58px;}
   .hero-content{padding:0 1.2rem;}
   #home h1{font-size:clamp(2.2rem,9vw,4rem);letter-spacing:-2px;}
@@ -1144,6 +1157,12 @@ body.lang-en [data-de]{display:none !important;}
     <div class="hero-type-btns" id="heroTypeBtns">
       <a class="btn-gold" onclick="activate('work','#080808','#c084fc')"><span data-en>See my work</span><span data-de>Meine Arbeit</span></a>
       <a class="btn-ghost" onclick="activate('contact','#0a0a0a','#fb923c')"><span data-en>Book a shoot</span><span data-de>Shooting buchen</span></a>
+      <div class="socials" style="justify-content:center;width:100%;margin-top:.4rem;">
+        <a class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a class="social-btn" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a class="social-btn" aria-label="Vimeo"><i class="fab fa-vimeo-v"></i></a>
+        <a class="social-btn" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+      </div>
     </div>
   </div>
 
@@ -1197,6 +1216,13 @@ body.lang-en [data-de]{display:none !important;}
     <div class="eyebrow">What I offer</div>
     <h2>My <span>Services</span></h2>
   </div>
+  <!-- Mobile carousel nav (hidden on desktop) -->
+  <div class="srv-nav" id="srvNav">
+    <button class="srv-btn" id="srvPrev" aria-label="Previous service"><i class="fas fa-chevron-left"></i></button>
+    <div class="srv-dots" id="srvDots"></div>
+    <button class="srv-btn" id="srvNext" aria-label="Next service"><i class="fas fa-chevron-right"></i></button>
+  </div>
+
   <div class="services-wrap" id="servicesWrap">
     <div class="img-panel" id="imgPanel">
       <div class="img-slide active"><div class="slide-deco"><i class="fas fa-film"></i></div><div class="slide-num">01 / 05</div></div>
@@ -1377,10 +1403,10 @@ body.lang-en [data-de]{display:none !important;}
         <span data-en>Available for bookings</span>
         <span data-de>Verfügbar für Buchungen</span>
       </div>
-      <div class="footer-socials">
-        <a class="footer-social" href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a class="footer-social" href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-        <a class="footer-social" href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+      <div class="socials">
+        <a class="social-btn" href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a class="social-btn" href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a class="social-btn" href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
       </div>
     </div>
     <div>
@@ -1873,6 +1899,77 @@ document.addEventListener('keydown', e => {
       setTimeout(explode, 300);
     }, 200);
   };
+})();
+
+// ── SERVICES MOBILE CAROUSEL ─────────────────────────────────────────────────
+(function(){
+  function isMobile(){ return window.innerWidth <= 700; }
+
+  const items   = Array.from(document.querySelectorAll('.service-item'));
+  const dotsEl  = document.getElementById('srvDots');
+  const prevBtn = document.getElementById('srvPrev');
+  const nextBtn = document.getElementById('srvNext');
+  if(!items.length || !dotsEl) return;
+
+  let cur = 0;
+
+  // Build dots
+  items.forEach(function(_, i){
+    const d = document.createElement('button');
+    d.className = 'srv-dot' + (i===0?' active':'');
+    d.setAttribute('aria-label','Service '+(i+1));
+    d.addEventListener('click', function(){ go(i); });
+    dotsEl.appendChild(d);
+  });
+
+  function updateDots(){
+    dotsEl.querySelectorAll('.srv-dot').forEach(function(d,i){
+      d.classList.toggle('active', i===cur);
+    });
+  }
+
+  function go(next){
+    if(!isMobile()) return;
+    const prev = cur;
+    if(next === prev) return;
+    items[prev].classList.remove('srv-active');
+    items[prev].classList.add('srv-prev');
+    cur = (next + items.length) % items.length;
+    items[cur].classList.remove('srv-prev');
+    items[cur].classList.add('srv-active');
+    // Clean prev class after transition
+    setTimeout(function(){ items[prev].classList.remove('srv-prev'); }, 420);
+    updateDots();
+  }
+
+  function initCarousel(){
+    if(!isMobile()) return;
+    items.forEach(function(el, i){
+      el.classList.remove('srv-active','srv-prev');
+      if(i===0) el.classList.add('srv-active');
+    });
+    cur = 0;
+    updateDots();
+  }
+
+  prevBtn.addEventListener('click', function(){ go(cur - 1); });
+  nextBtn.addEventListener('click', function(){ go(cur + 1); });
+
+  // Touch swipe
+  var touchX = 0;
+  var textPanel = document.querySelector('.text-panel');
+  if(textPanel){
+    textPanel.addEventListener('touchstart', function(e){ touchX = e.touches[0].clientX; }, {passive:true});
+    textPanel.addEventListener('touchend', function(e){
+      if(!isMobile()) return;
+      var dx = e.changedTouches[0].clientX - touchX;
+      if(Math.abs(dx) > 40){ go(dx < 0 ? cur+1 : cur-1); }
+    }, {passive:true});
+  }
+
+  // Init on load + resize
+  window.addEventListener('load', initCarousel);
+  window.addEventListener('resize', initCarousel);
 })();
 </script>
 </div>

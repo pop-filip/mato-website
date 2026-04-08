@@ -767,7 +767,8 @@ nav{
   height:clamp(1.4rem, 3.4vw, 2.7rem);
   display:flex;
   align-items:center;
-  min-width:min(260px, 80vw);
+  width:min(520px, 80vw);
+  flex-shrink:1;
 }
 
 .st-track{
@@ -876,14 +877,6 @@ nav{
 .gear-item{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);color:rgba(255,255,255,0.45);padding:.2rem .6rem;border-radius:4px;font-size:.66rem;letter-spacing:.04em;transition:all .2s;cursor:default;}
 .gear-item:hover{border-color:rgba(226,185,111,0.4);color:#e2b96f;}
 
-/* ── SERVICES MOBILE CAROUSEL ── */
-@media(max-width:700px){
-  /* Services — mobile placeholder, implementacija dolazi */
-  #services{ overflow:hidden !important; display:flex !important; flex-direction:column !important; align-items:center !important; justify-content:center !important; }
-  .services-wrap{ display:none !important; }
-  .svc-dots{ display:none !important; }
-}
-
 /* ── ABOUT MOBILE ── */
 @media(max-width:700px){
   .about-video-wrap{height:38vh;min-height:140px;max-height:none;}
@@ -906,6 +899,7 @@ nav{
   padding-bottom:46px;
   background:#0a0a0a;
   display:block;
+  z-index:5;
 }
 #services.active{opacity:1;pointer-events:all;transform:translateY(0);}
 
@@ -1325,11 +1319,84 @@ footer{
   .section{padding:62px 18px 160px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
   #contact{padding-bottom:320px;align-items:flex-start;justify-content:flex-start;padding-top:80px;}
   #contact h2,#contact .sub{text-align:center;width:100%;}
-  #services{overflow:hidden;display:block;padding-bottom:0;}
-  .services-scroll-inner{height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 0 200px;display:flex;flex-direction:column;align-items:stretch;}
-  #about{overflow-y:auto !important;}
-  .about-video-wrap{height:28vh;min-height:140px;}
-  .about-text-wrap{padding:1.2rem 1.2rem 1rem;}
+  /* ── SERVICES MOBILE ── */
+  #services{
+    padding-top:64px !important;
+    padding-bottom:0 !important;
+    overflow-y:hidden !important;
+    display:flex !important;
+    flex-direction:column !important;
+  }
+  .services-scroll-inner{
+    flex:1;min-height:0;
+    display:flex;flex-direction:column;
+    overflow:hidden;
+  }
+  .section-label{
+    flex-shrink:0;
+    padding:1rem 1.5rem .6rem;
+    text-align:center;
+  }
+  .section-label .eyebrow{display:none;}
+  .section-label h2{font-size:2rem;}
+  .services-wrap{
+    flex:1;min-height:0;
+    display:flex !important;
+    align-items:center;
+    justify-content:center;
+    padding:0 1.5rem;
+  }
+  .img-panel{display:none !important;}
+  .text-panel{display:block;width:100%;}
+  .service-item{display:none !important;}
+  .service-item.mob-active{display:block !important;}
+  .service-content{
+    width:100% !important;max-width:100% !important;
+    box-sizing:border-box !important;
+    padding:1.5rem !important;
+    opacity:1 !important;transform:none !important;
+  }
+  .service-content h3{white-space:normal !important;font-size:1.4rem !important;margin-bottom:.5rem !important;}
+  .service-content p{font-size:.8rem !important;line-height:1.75 !important;margin-bottom:.9rem !important;}
+  .service-num{font-size:.58rem !important;margin-bottom:.5rem !important;}
+  .service-tags{flex-wrap:wrap !important;margin-bottom:.85rem !important;}
+  .stag{font-size:.6rem;padding:.18rem .5rem;}
+  .services-dots{
+    flex-shrink:0;
+    display:flex !important;
+    justify-content:center;align-items:center;
+    gap:8px;padding:.6rem 0 1rem;
+  }
+  .sdot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all .3s;cursor:pointer;}
+  .sdot.active{background:#e2b96f;width:22px;border-radius:4px;}
+  /* Swipe indicator */
+  .svc-swipe-indicator{
+    display:flex !important;align-items:center;justify-content:center;gap:.5rem;
+    flex-shrink:0;padding:.3rem 0 0;
+    opacity:1;transition:opacity .4s ease;
+  }
+  .svc-swipe-indicator.hidden{opacity:0;pointer-events:none;}
+  .svc-swipe-label{
+    font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;
+    color:rgba(255,255,255,0.25);
+  }
+  .svc-arrow{
+    color:rgba(255,255,255,0.25);font-size:1.2rem;line-height:1;
+  }
+  .svc-arrow-l{animation:nudgeL 1.6s ease-in-out infinite;}
+  .svc-arrow-r{animation:nudgeR 1.6s ease-in-out infinite;}
+  @keyframes nudgeL{0%,100%{transform:translateX(0);}50%{transform:translateX(-4px);}}
+  @keyframes nudgeR{0%,100%{transform:translateX(0);}50%{transform:translateX(4px);}}
+  /* ABOUT mobile — clean flow layout */
+  #about{overflow-y:auto !important;flex-direction:column !important;}
+  .about-video-wrap{height:38vh !important;min-height:180px !important;max-height:none !important;flex-shrink:0;}
+  .about-text-wrap{
+    position:relative !important;top:auto !important;
+    transform:none !important;
+    overflow:visible !important;
+    padding:1.4rem 1.4rem 3rem !important;
+    flex:1;
+  }
   .work-grid{grid-template-columns:repeat(2,1fr);}
   .footer-grid{grid-template-columns:1fr;gap:1.2rem;}
   .footer-bottom{flex-direction:column;gap:.5rem;text-align:center;}
@@ -1349,20 +1416,16 @@ footer{
   .footer-avail{ display:none; }
   .footer-bottom{ flex-direction:row; justify-content:space-between; padding-top:.3rem; }
   .footer-copy,.footer-bottom-links button{ font-size:.5rem; }
-  .services-wrap{flex-direction:column;}
-  .img-panel{width:100%;height:35vh;position:relative;top:auto;border-radius:10px;margin-bottom:1rem;}
-  .text-panel{padding:0 1.5rem;}
-  .service-item{min-height:auto;padding:2.5rem 0;perspective:none;}
-  /* Na mobilnom sve stavke vidljive — nema scroll-based aktivacije */
-  .service-content{transform-style:flat;will-change:auto;opacity:1 !important;transform:translateY(0) !important;}
-  /* img-panel sakrij na mobile — nepotrebno */
-  .img-panel{display:none;}
   .nav-brand img{height:58px;}
   .hero-content{padding:0 1.2rem;}
   #home h1{font-size:clamp(2.2rem,9vw,4rem);letter-spacing:-2px;}
   .home-stats{flex-wrap:wrap;gap:0;}
   .stat{padding:0 1.2rem;margin-bottom:.5rem;}
 }
+
+.svc-mob-nav{display:none;}
+.services-dots{display:none;}
+.svc-swipe-indicator{display:none;}
 
 /* ═══ LANGUAGE SWITCHER ═══ */
 .lang-switcher{
@@ -2301,6 +2364,21 @@ body.lang-en [data-de]{display:none !important;}
       </div>
     </div>
   </div>
+  <!-- Mobile nav bar: prev · dots · next -->
+  <!-- Mobile swipe indicator -->
+  <div class="svc-swipe-indicator" id="svcSwipeIndicator" aria-hidden="true">
+    <span class="svc-arrow svc-arrow-l">&#8249;</span>
+    <span class="svc-swipe-label">swipe</span>
+    <span class="svc-arrow svc-arrow-r">&#8250;</span>
+  </div>
+  <!-- Mobile dots — absolute bottom -->
+  <div class="services-dots" id="servicesDots" aria-hidden="true">
+    <span class="sdot active"></span>
+    <span class="sdot"></span>
+    <span class="sdot"></span>
+    <span class="sdot"></span>
+    <span class="sdot"></span>
+  </div>
   </div><!-- /services-scroll-inner -->
 </div>
 
@@ -2710,6 +2788,44 @@ function updateServices(){
 
 if(svcEl) svcEl.addEventListener('scroll',updateServices,{passive:true});
 
+// ── MOBILE SERVICES SLIDER ───────────────────────────────────────────────────
+(function(){
+  if(window.innerWidth > 700) return;
+  var items = Array.from(document.querySelectorAll('.service-item'));
+  var dots  = Array.from(document.querySelectorAll('#servicesDots .sdot'));
+  if(!items.length) return;
+  var cur = 0;
+
+  function show(n){
+    items[cur].classList.remove('mob-active');
+    if(dots[cur]) dots[cur].classList.remove('active');
+    cur = (n + items.length) % items.length;
+    items[cur].classList.add('mob-active');
+    if(dots[cur]) dots[cur].classList.add('active');
+  }
+
+  items[0].classList.add('mob-active');
+  if(dots[0]) dots[0].classList.add('active');
+
+  var indicator = document.getElementById('svcSwipeIndicator');
+  function dismissIndicator(){ if(indicator) indicator.classList.add('hidden'); }
+
+  // Dot tap
+  dots.forEach(function(d,i){ d.addEventListener('click',function(){ show(i); dismissIndicator(); }); });
+
+  // Swipe — horizontal only
+  var sx=0, sy=0;
+  var svcEl = document.getElementById('services');
+  if(svcEl){
+    svcEl.addEventListener('touchstart',function(e){ sx=e.touches[0].clientX; sy=e.touches[0].clientY; },{passive:true});
+    svcEl.addEventListener('touchend',function(e){
+      var dx=e.changedTouches[0].clientX-sx;
+      var dy=e.changedTouches[0].clientY-sy;
+      if(Math.abs(dx)>40 && Math.abs(dx)>Math.abs(dy)){ show(dx<0?cur+1:cur-1); dismissIndicator(); }
+    },{passive:true});
+  }
+})();
+
 
 
 // ── FILM GRAIN ───────────────────────────────────────────────────────────────
@@ -2897,7 +3013,7 @@ document.addEventListener('keydown', e => {
   function startCycle(){
     timer = setInterval(function(){
       goTo((current + 1) % words.length);
-    }, 2800);
+    }, 1600);
   }
 
   // Start when About section becomes active
