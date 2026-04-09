@@ -828,18 +828,33 @@ nav{
   to{transform:scaleX(1);transform-origin:left;}
 }
 
-/* mobile */
+/* ── ABOUT MOBILE ── */
 @media(max-width:700px){
   .about-eyebrow,
   .about-divider{ display:none !important; }
-  /* Tekst ide gore, video ispod */
-  .about-video-wrap{ height:26vh; min-height:120px; max-height:200px; }
-  .about-text-wrap{
-    position:absolute;top:40%;left:0;right:0;
-    transform:translateY(-50%);
-    display:flex;flex-direction:column;align-items:center;
-    justify-content:center;gap:.7rem;padding:0 1.4rem;text-align:center;
+  /* Clean flow: video on top, text below — no absolute overlay */
+  #about{ overflow-y:auto !important; flex-direction:column !important; }
+  .about-video-wrap{
+    height:38vh;
+    min-height:160px;
+    max-height:none;
+    flex-shrink:0;
   }
+  .about-text-wrap{
+    position:relative !important;
+    top:auto !important;
+    transform:none !important;
+    overflow:visible !important;
+    flex:1;
+    padding:1.4rem 1.4rem 3rem !important;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    gap:.7rem;
+    text-align:center;
+  }
+  .about-text-wrap p{ font-size:clamp(.95rem,4vw,1.2rem); }
   .split-text-wrap{
     flex-direction:column;
     align-items:center;
@@ -866,19 +881,12 @@ nav{
     width:100%;
   }
   .gear{ gap:.35rem; justify-content:center; }
-  .gear-item{ font-size:.62rem; padding:.2rem .55rem; }
+  .gear-item{ font-size:.6rem; padding:.18rem .5rem; }
 }
 
 .gear{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;}
 .gear-item{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);color:rgba(255,255,255,0.45);padding:.2rem .6rem;border-radius:4px;font-size:.66rem;letter-spacing:.04em;transition:all .2s;cursor:default;}
 .gear-item:hover{border-color:rgba(226,185,111,0.4);color:#e2b96f;}
-
-/* ── ABOUT MOBILE ── */
-@media(max-width:700px){
-  .about-video-wrap{height:38vh;min-height:140px;max-height:none;}
-  .about-text-wrap p{font-size:clamp(.95rem,4vw,1.2rem);}
-  .gear-item{font-size:.6rem;padding:.18rem .5rem;}
-}
 
 /* ═══ SERVICES (scrollable section) ═══ */
 #services{
@@ -1130,7 +1138,7 @@ nav{
 }
 
 @media(max-width:700px){
-  .work-scroll{padding:80px 0 180px;}
+  .work-scroll{padding:0 0 180px;}
   .project-list{padding-bottom:0;}
   /* Row becomes column so preview slides below */
   .project-row{
@@ -1383,16 +1391,6 @@ footer{
   .svc-arrow-r{animation:nudgeR 1.6s ease-in-out infinite;}
   @keyframes nudgeL{0%,100%{transform:translateX(0);}50%{transform:translateX(-4px);}}
   @keyframes nudgeR{0%,100%{transform:translateX(0);}50%{transform:translateX(4px);}}
-  /* ABOUT mobile — clean flow layout */
-  #about{overflow-y:auto !important;flex-direction:column !important;}
-  .about-video-wrap{height:38vh !important;min-height:180px !important;max-height:none !important;flex-shrink:0;}
-  .about-text-wrap{
-    position:relative !important;top:auto !important;
-    transform:none !important;
-    overflow:visible !important;
-    padding:1.4rem 1.4rem 3rem !important;
-    flex:1;
-  }
   .work-grid{grid-template-columns:repeat(2,1fr);}
   .footer-grid{grid-template-columns:1fr;gap:1.2rem;}
   .footer-bottom{flex-direction:column;gap:.5rem;text-align:center;}
@@ -1837,7 +1835,7 @@ body.lang-en [data-de]{display:none !important;}
 
 /* ── Responsive ── */
 @media(max-width:768px){
-  .work-header{padding:3rem 5vw 1.5rem;}
+  .work-header{padding:80px 5vw 1.5rem;}
   .project-row{padding:0 5vw;min-height:72px;gap:1rem;}
   .proj-year,.proj-tag{display:none;}
   .proj-title{font-size:clamp(1.3rem,6vw,2.4rem);}
@@ -1966,14 +1964,10 @@ body.lang-en [data-de]{display:none !important;}
   /* Homepage — pure fullscreen video, no padding/scroll */
   #home{overflow:hidden !important;padding:0 !important;}
   .mute-btn{bottom:1.2rem;right:1.2rem;}
-  /* About — fix cut-off */
-  #about{overflow-y:auto !important;justify-content:flex-start !important;padding-top:72px;}
-  .about-video-wrap{max-height:180px !important;}
   /* Services — fix padding */
   #services{padding-bottom:120px;}
   /* Work — stack cards nicely */
   .proj-row{padding:1rem 1rem;}
-  #work{padding-top:100px !important;}
   /* Contact — center + scroll */
   #contact{overflow-y:auto !important;justify-content:flex-start !important;padding-top:90px;align-items:center;}
   .contact-wrap{flex-direction:column;align-items:center;text-align:center;}
