@@ -1,29 +1,218 @@
 # matografie.at — Tehnička Dokumentacija
 
-## Tehnologije
-
-| Tehnologija | Verzija | Uloga |
-|---|---|---|
-| HTML5 | — | Jednostranična aplikacija (SPA) |
-| CSS3 | — | Inline critical CSS, animacije, responsivni dizajn |
-| JavaScript | ES2020+ | Navigacija, animacije, forma, canvas, video lightbox |
-| Font Awesome | 6.5.0 | Ikonice (WhatsApp, Viber, Signal, socijalne mreže) |
-| nginx | alpine | Web server (Docker kontejner) |
-| Docker | — | Lokalni development i deployment |
-| Traefik | v2 | Reverse proxy + Let's Encrypt SSL (Docker, Hetzner VPS) |
-| ffmpeg | — | Video kompresija |
-| Web3Forms | — | Kontakt forma (serverless email) |
-| GitHub Actions | — | CI/CD auto-deploy na Hetzner VPS |
+**Posljednji update:** 2026-04-09
+**Status:** LIVE ✅
 
 ---
 
-## Domena
+## Kompletan Tech Stack
 
-**Live domena:** `matografie.at`
-**Canonical URL:** `https://matografie.at/`
-**Email:** `info@mato-production.com`
-**Telefon:** `+43 660 3780309`
-**Lokacija:** Linz, Oberösterreich, Austria
+### Frontend
+| Tehnologija | Uloga |
+|---|---|
+| **HTML5** | Jednostranična aplikacija (SPA) — jedan `index.html` fajl |
+| **CSS3** | Inline critical CSS direktno u `<head>` — nema vanjskih CSS fajlova, nulti HTTP request |
+| **JavaScript (ES2020+)** | Navigacija, animacije, video player, forma, canvas grain, cookie consent, lang switcher |
+| **Font Awesome 6.5.0** | Ikonice (WhatsApp, Viber, Signal) — async load, ne blokira render |
+| **Google Fonts** | Playfair Display + Cormorant Garamond — preconnect optimizacija |
+| **Canvas API** | Film grain overlay efekt za cinematski izgled |
+
+### Backend / Infrastruktura
+| Tehnologija | Uloga |
+|---|---|
+| **Hetzner VPS** | Produkcijski server — Ubuntu, IP: `157.180.67.68` |
+| **Docker** | Kontejnerizacija — svaki sajt u svom nginx:alpine containeru |
+| **nginx (alpine)** | Web server unutar Docker containera — servira statičke fajlove |
+| **Traefik v2** | Reverse proxy — routing po domeni, automatski Let's Encrypt SSL, HTTPS redirect |
+| **Let's Encrypt** | Besplatni SSL certifikat — automatska obnova kroz Traefik |
+| **GitHub Actions** | CI/CD — svaki `git push → main` automatski deploya na VPS via rsync |
+| **rsync** | Deploy mehanizam — prenosi samo promijenjene fajlove, brzo |
+| **Web3Forms** | Serverless kontakt forma — prima poruke, šalje email, nema backend-a |
+
+### Analytics & Monitoring
+| Tehnologija | Uloga |
+|---|---|
+| **Google Analytics 4** | Praćenje posjeta — Measurement ID: `G-7GR6CR1J9G` |
+| **Google Search Console** | SEO monitoring — verifikovan, sitemap submitovan |
+| **Cookie Consent** | GDPR — GA4 se aktivira samo ako korisnik klikne OK |
+
+### Alati (development)
+| Alat | Uloga |
+|---|---|
+| **ffmpeg** | Video kompresija — batch skripta `compress-videos.sh` |
+| **Git + GitHub** | Verzioniranje koda — repo: `pop-filip/mato-website` |
+
+---
+
+## Infrastruktura — Kako funkcioniše
+
+```
+Korisnik (browser)
+      │
+      ▼
+Traefik (157.180.67.68:443)
+  - Prima HTTPS zahtjev za matografie.at
+  - Let's Encrypt SSL certifikat
+  - Prosljeđuje na Docker container
+      │
+      ▼
+Docker container: mato-website (nginx:alpine)
+  - Web root: /var/www/mato-website/html/
+  - Config: /var/www/mato-website/nginx.conf
+  - Servira statičke fajlove
+      │
+      ▼
+index.html + videi + logo + sw.js
+```
+
+**Deploy flow:**
+```
+git push → main
+      │
+      ▼
+GitHub Actions (deploy.yml)
+  - rsync fajlova → /var/www/mato-website/html/
+  - nginx reload u containeru
+  - ✅ Live za ~30 sekundi
+```
+
+---
+
+## Domena & Kontakt
+
+| Stavka | Vrijednost |
+|---|---|
+| **Domena** | `matografie.at` |
+| **Canonical URL** | `https://matografie.at/` |
+| **Server IP** | `157.180.67.68` |
+| **Email** | `info@mato-production.com` |
+| **Telefon** | `+43 660 3780309` |
+| **Lokacija** | Linz, Oberösterreich, Austria |
+
+---
+
+## Struktura fajlova
+
+```
+mato-website/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml              ← GitHub Actions CI/CD (push → main = auto deploy)
+├── index.html                      ← Jedini produkcijski fajl (SPA)
+├── 404.html                        ← Custom 404 stranica (dark/gold dizajn)
+├── og-image.jpg                    ← Social share slika 1200×630px (B&W portrait iz voda videa)
+├── logo.webp                       ← Logo (vanjski fajl, browser kešira)
+├── robots.txt                      ← Crawler instrukcije — blokira test/backup fajlove
+├── sitemap.xml                     ← XML sitemap sa hreflang (en/de)
+├── manifest.json                   ← PWA manifest (dark theme, standalone)
+├── sw.js                           ← Service Worker (offline cache-first)
+├── compress-videos.sh              ← ffmpeg skripta za kompresiju videa
+├── DOKUMENTACIJA.md                ← Ovaj fajl
+├── STATUS.md                       ← Trenutni status projekta
+├── videos/                         ← Kompresovani web videi
+│   ├── voda_compressed.mp4         ← Portrait u vodi (1.3MB)
+│   ├── voda_compressed.webm        ← WebM verzija (1.5MB)
+│   ├── skok_compressed.mp4         ← Skydiving (12MB)
+│   ├── skok_compressed.webm        ← WebM verzija (36MB — mp4 bolji ovdje)
+│   ├── delta_compressed.mp4        ← Delta projekat (9.2MB)
+│   ├── delta-team_compressed.mp4   ← Delta Team projekat (8.2MB)
+│   └── matografie_compressed.webm  ← Hero video (14MB)
+├── contact_compressed.mp4          ← Hamburger meni background video (981KB)
+│
+├── index.v.1.html                  ← Originalna v1 (referenca) [robots: Disallow]
+├── mato-portfolio-v4_43.html       ← Prethodna verzija [robots: Disallow]
+├── mato-portfolio-v4_43.BACKUP.html [robots: Disallow]
+├── mato-portfolio-ORIGINAL-backup-20260316.html [robots: Disallow]
+├── mato-portfolio-REDESIGN-test.html [robots: Disallow]
+├── hamburger-test.html             ← Standalone test [robots: Disallow]
+└── checklist.html                  ← Pregled optimizacija [robots: Disallow]
+```
+
+---
+
+## Security Headers (nginx)
+
+Konfigurirani u `/var/www/mato-website/nginx.conf` na serveru:
+
+| Header | Vrijednost | Za što je |
+|---|---|---|
+| `X-Frame-Options` | SAMEORIGIN | Sprječava clickjacking — sajt se ne može embedati u iframe |
+| `X-Content-Type-Options` | nosniff | Browser ne smije "pogađati" tip fajla — sprječava MIME sniffing napade |
+| `Referrer-Policy` | strict-origin-when-cross-origin | Kontroliše koji URL se šalje kao referrer vanjskim sajtovima |
+| `Permissions-Policy` | camera/mic/geoloc blocked | Blokira pristup kameri, mikrofonu, lokaciji |
+| `Strict-Transport-Security` | max-age=31536000; includeSubDomains | Forsira HTTPS na 1 godinu — HSTS |
+| `Content-Security-Policy` | (detaljna, vidi ispod) | Whitelist za sve resurse — blokira XSS napade |
+
+**CSP whitelist:**
+- Scripts: `self`, inline, googletagmanager.com, google-analytics.com
+- Styles: `self`, inline, fonts.googleapis.com, cdnjs.cloudflare.com
+- Fonts: fonts.gstatic.com, cdnjs.cloudflare.com
+- Images: `self`, data URIs, https (sve)
+- Media: `self` (videi)
+- Connect: `self`, web3forms.com, google-analytics.com
+- Frames: youtube.com (za hero video embed)
+- Workers: `self` (Service Worker)
+
+---
+
+## SEO Stack
+
+### Meta tagovi
+- Title, description, robots, author, canonical
+- `lang="de-AT"` — austrijsko tržište primarno
+- hreflang: `en`, `de`, `x-default`
+- Geo meta: Linz koordinate (48.3069, 14.2858), regija AT-4
+- `color-scheme: dark` — browser ne bljesne bijelom
+
+### Open Graph (dijeljenje na mrežama)
+- og:title, description, url, image, video, locale (de_AT + en_US)
+- `og-image.jpg` — 1200×630px B&W cinematic portrait (kadar iz voda videa, 2s)
+- og:video — matografie_compressed.mp4 (video preview na Facebook/LinkedIn)
+
+### Twitter Card
+- summary_large_image, title, description, image, image:alt
+
+### Schema.org (JSON-LD)
+| Tip | Za što je |
+|---|---|
+| `Person` | Mato kao osoba — ime, kontakt, lokacija, sameAs linkovi |
+| `LocalBusiness + ProfessionalService` | Google Maps integracija, openingHours, priceRange €€ |
+| `5x Service` | Hochzeitsvideo, Imagefilm, Drohnen, Portrait, Travel — sa cijenama |
+| `WebSite` | SearchAction (Google Sitelinks Search Box) |
+| `WebPage + BreadcrumbList` | Navigacijska struktura za Google |
+| `ContactPage` | Kontakt sekcija |
+| `4x VideoObject` | Voda, Skok, Delta, Delta Team — za Google Video rich results |
+| `FAQPage` | 6 Q&A na njemačkom — FAQ rich results u Google |
+| `SpeakableSpecification` | Označava sekcije za Google Assistant voice search |
+
+### Ostalo
+- `sitemap.xml` — sa hreflang alternates, submitovan u Search Console
+- `robots.txt` — Allow: /, Disallow: svi test/backup fajlovi
+
+---
+
+## Performance Optimizacije
+
+### Učitavanje resursa
+- `<link rel="preload">` za `logo.webp`, hero video, contact video
+- `<link rel="preconnect">` za Google Fonts, Cloudflare, Web3Forms
+- `<link rel="dns-prefetch">` za GA4, GTM, Web3Forms
+- Font Awesome async load — `onload="this.onload=null;this.rel='stylesheet'"` (ne blokira render)
+- `fetchpriority="high"` na hero video elementu
+
+### Caching (nginx)
+- HTML fajlovi: `no-cache, no-store` — uvijek svježe
+- Assets (jpg, webp, mp4, woff2...): `30 dana, immutable`
+
+### Kompresija
+- nginx gzip — sve tekstualne datoteke
+- Videi: ffmpeg kompresija — skok 4x manji od originala, kontakt video 10x manji
+- WebM format za neke videe (VP9 codec)
+
+### PWA
+- `manifest.json` — installable, standalone display, dark theme
+- `sw.js` — cache-first za statiku, network-first za navigaciju
+- Radi offline (keširani resursi)
 
 ---
 
@@ -34,358 +223,156 @@
 | Playfair Display | 400, 700, 400i | Naslovi, hero tekst |
 | Cormorant Garamond | 300, 400, 300i | Body tekst, opisi |
 
----
-
-## Struktura fajlova
-
-```
-mato-website/
-├── .github/
-│   └── workflows/
-│       └── deploy.yml              ← GitHub Actions CI/CD
-├── index.html                      ← Produkcijski fajl
-├── 404.html                        ← Custom 404 stranica
-├── robots.txt                      ← SEO crawler instrukcije
-├── sitemap.xml                     ← XML sitemap (hreflang en/de)
-├── index.v.1.html                  ← Originalna v1 kopija
-├── mato-portfolio-ORIGINAL-backup.html ← Backup originala
-├── mato-portfolio-REDESIGN-test.html   ← Radna kopija redesigna
-├── mato-portfolio-v4_43.html       ← Prethodna verzija
-├── mato-portfolio-v4_43.BACKUP.html    ← Backup prethodne verzije
-├── checklist.html                  ← Pregled optimizacija
-├── compress-videos.sh              ← ffmpeg skripta za kompresiju videa
-├── DOKUMENTACIJA.md                ← Ovaj fajl
-├── videos/                         ← Originalni video fajlovi
-│   ├── voda.mp4
-│   ├── delta.mp4
-│   ├── delta-team.mp4
-│   └── skok.mp4
-├── voda_compressed.mp4             ← Kompresovani videi (web ready)
-├── delta_compressed.mp4
-├── delta-team_compressed.mp4
-├── skok_compressed.mp4
-├── contact.mp4                     ← Original menu background video
-├── contact_compressed.mp4          ← Kompresovani menu video (981KB, web ready)
-└── hamburger-test.html             ← Standalone test fajl za hamburger meni
-```
+Učitavaju se sa Google Fonts sa `&subset=latin` (samo latinična slova) i `display=swap`.
 
 ---
 
-## Optimizacije — Checklist
+## Videi — Kompresija
 
-### ⚡ Performance (11)
-- ✅ `preconnect` za Google Fonts + cdnjs.cloudflare.com (DNS lookup speedup)
-- ✅ Logo kao vanjski fajl `logo.webp` — browser kešira, HTML ostaje malen (base64 je napuhao HTML za ~212KB — IZBJEGAVATI za slike >5KB)
-- ✅ Favicon inline SVG — nema vanjskog zahtjeva, radi bez servera
-- ✅ `will-change: transform` na animiranim elementima (GPU layer)
-- ✅ Video kompresija — 4 videa kompresovana za web via ffmpeg
-- ✅ **WebM video** — `voda_compressed.webm` + `skok_compressed.webm` (VP9, skok 25% manji)
-- ✅ **`<link rel="preload">`** za hero video — brži LCP (Largest Contentful Paint)
-- ✅ **`fetchpriority="high"`** na hero video elementu — Core Web Vitals poboljšanje
-- ✅ **Service Worker (`sw.js`)** — PWA offline podrška, cache-first za statiku
-- ✅ **`format-detection` meta** — sprječava iOS auto-linkovanje telefona/emaila
-- ✅ **Google Fonts `&subset=latin`** — učitava samo latinična slova, manji font request
+Batch skripta: `compress-videos.sh`
 
-### 🔍 SEO (29)
-- ✅ `<html lang="de-AT">` — primarni jezik austrijsko tržište
-- ✅ Title tag — sa ključnim riječima: Videograf, Fotograf, Österreich, Hochzeit, Imagefilm, Portrait
-- ✅ Meta description — na njemačkom kao primarni jezik (AT tržište)
-- ✅ Meta robots — `max-snippet:-1, max-image-preview:large, max-video-preview:-1`
-- ✅ Canonical URL → `https://matografie.at/`
-- ✅ hreflang alternates (en, de, x-default) — dvojezično austrijsko tržište
-- ✅ GEO meta — Linz koordinate (48.3069, 14.2858), regija AT-4
-- ✅ Open Graph — type, url, title, description, image, locale (de_AT), locale:alternate (en_US), site_name
-- ✅ Twitter Card (summary_large_image)
-- ✅ `sitemap.xml` — XML sitemap sa hreflang alternates
-- ✅ `robots.txt` — sa Sitemap referencom
-- ✅ **Person** JSON-LD — ime, zanimanje, telefon, email, adresa, sameAs, contactPoint (DE/EN/HR)
-- ✅ **LocalBusiness + ProfessionalService** JSON-LD — Google Maps, priceRange €€, openingHours, sameAs
-- ✅ **5x Service** JSON-LD — sa opisima i cijenama (od €350 do €1200)
-- ✅ **WebSite** JSON-LD — sa SearchAction
-- ✅ **WebPage + BreadcrumbList** JSON-LD
-- ✅ **ContactPage** JSON-LD — za #contact sekciju
-- ✅ **4x VideoObject** JSON-LD — Voda, Skok, Delta, Delta Team sa contentUrl
-- ✅ `sameAs` — Instagram, YouTube, Vimeo, TikTok (placeholder, čeka issue #10)
-- ✅ `og-image.jpg` — placeholder 1200×630px dark/gold (čeka issue #9)
-- ✅ `rel="noopener noreferrer"` na svim vanjskim linkovima
-- ✅ `preconnect` + `dns-prefetch` za Web3Forms API
-- ✅ **manifest.json** — PWA, short_name matografie, dark theme
-- ✅ Apple Touch Icon + apple-mobile-web-app meta tagovi
-- ✅ **FAQPage** JSON-LD — 6 pitanja na njemačkom (Hochzeitsfilm, gradovi, dostava, paket, foto+video, booking)
-- ✅ **Speakable** JSON-LD — označava sekcije za Google Assistant voice search
-- ✅ **`og:video`** + type/width/height — video preview pri dijeljenju linka na Facebook/LinkedIn
-- ✅ **`twitter:image:alt`** — alt tekst za Twitter/X card sliku (accessibility)
-- ✅ **`color-scheme: dark`** meta — browser ne bljesne bijelom bojom pri učitavanju
-
-### ♿ Pristupačnost — a11y (8)
-- ✅ `lang="en"` atribut na `<html>`
-- ✅ `prefers-reduced-motion` (animacije se gase za osjetljive korisnike)
-- ✅ Skip-to-content link (keyboard navigacija)
-- ✅ `role="main"` landmark
-- ✅ `aria-label` + `aria-expanded` na hamburger meniju
-- ✅ Form labels + `autocomplete` + `type="email"`
-- ✅ `focus-visible` outline na form poljima (keyboard UX)
-- ✅ Alt tekst na logo slici
-
-### 🎨 UX & Design (9)
-- ✅ WhatsApp / Viber / Signal dugmad u kontaktu
-- ✅ DE / EN jezik switcher (austrijsko tržište)
-- ✅ `scroll-behavior: smooth`
-- ✅ Hamburger meni — Aperture/Lens stil, samo mobile (≤700px), video u pozadini
-- ✅ Video lightbox (fullscreen prikaz portfolio videa)
-- ✅ Film grain canvas overlay (cinematski look)
-- ✅ GDPR Cookie consent banner (localStorage, OK/Decline, animated dismiss)
-- ✅ FAQ sekcija — 6 pitanja/odgovora (accordion), nav item, FAQPage schema
-- ✅ Mobile menu background video (`contact_compressed.mp4`) — fade in/out pri otvaranju menija
-
-### 📹 Hamburger Meni — Video Background
-
-**Fajlovi:**
-- `contact.mp4` — original (9.7MB, 1080x1920, 60fps)
-- `contact_compressed.mp4` — web verzija (981KB, 720x1280, 30fps, bez audia, `faststart`)
-
-**Kompresija komanda:**
 ```bash
-ffmpeg -i contact.mp4 -vf "scale=720:-2" -c:v libx264 -crf 28 -preset slow -r 30 -an -movflags +faststart contact_compressed.mp4
+# Primjer kompresije:
+ffmpeg -i input.mp4 -vf "scale=1920:-2" -c:v libx264 -crf 23 -preset slow -an -movflags +faststart output_compressed.mp4
 ```
 
-**Kako radi:**
-1. `<video id="menuVideo" class="menu-video">` — fiksiran iza menija (z-index:98), ispod .mobile-menu (z-index:99)
-2. `.mobile-menu` ima `background:rgba(10,10,10,0.75)` — polu-transparentno da video probija
-3. `.menu-video.visible { opacity:0.45 }` — fade in/out via CSS transition
-4. JS: na hamburger click → `menuVideo.play()` + `.visible` klasa; na zatvaranje → ukloni `.visible`, `pause()` nakon 600ms
+| Video | Original | Kompresovan | Smanjenje |
+|---|---|---|---|
+| contact.mp4 | 9.7MB | 981KB | 90% |
+| skok.mp4 | ~50MB | 12MB | 76% |
+| delta.mp4 | ~40MB | 9.2MB | 77% |
+| delta-team.mp4 | ~35MB | 8.2MB | 77% |
+| voda.mp4 | 12MB | 1.3MB | 89% |
 
-**Hamburger dugme — Aperture/Lens stil:**
-- Kružno dugme sa duplim lens-ringom (CSS `::before` / `::after`)
-- Rotira 90° kad je otvoren (`transform:rotate(90deg)`)
-- 3 linije unutar `.lines` wrappera → X animacija
-- Hover: zlatni glow efekt
-
-**Test fajl:** `hamburger-test.html` — standalone preview menija
-
-### 📱 Mobile Fixes (4)
-- ✅ Contact sekcija — `Let's shoot` centriran, `flex-start` za scroll, padding-bottom 320px
-- ✅ Services sekcija — `padding-bottom:200px` za Portrait card vidljivost
-- ✅ `-webkit-overflow-scrolling:touch` — iOS scroll fix
-- ✅ Contact button `Senden` — vidljiv i klikabilni na svim uređajima
-
-### 📱 Mobile Fixes — sesija 2026-03-21 (7)
-- ✅ iOS `100vh` bug — tipkovnica/address bar skriva sadržaj → Fix: `height:100dvh` na `.section`
-- ✅ Homepage buttons odsječeni — `padding-bottom:130px !important` na `#home` mobile
-- ✅ Footer kompaktan — sakriti Navigate + Legal kolone, zadržati brand + bottom bar (`display:none`)
-- ✅ EN/DE lang switcher centriran — `position:absolute;left:50%;transform:translateX(-50%)`
-- ✅ About layout — tekst overlay nad videom: `position:absolute;top:40%`, video `height:26vh`
-- ✅ Work — "The Reel" odsječen ispod nav → `padding-top:100px !important` na `#work` mobile
-- ✅ Services mobile — iOS scroll fix (issue #22 zatvoren)
-
-### 📱 Mobile Fixes — sesija 2026-03-30 (4)
-- ✅ About tekst — zamjenjen placeholder sa pravim njemačkim tekstom (rotating words)
-- ✅ Social media dugmad — uklonjena iz Contact + Footer (nema SM profila zasad)
-- ✅ Services mobile scroll — **iOS fix**: content wrapped u `.services-scroll-inner` (inner scrollable div), `#services` → `overflow:hidden`, inner → `overflow-y:auto; -webkit-overflow-scrolling:touch`
-- ✅ Footer copyright — `© 2025` → `© 2026`
-
-**Services iOS scroll fix — tehnika:** Problem: `position:fixed` elementi na iOS Safari ne podržavaju touch scroll. Rješenje: `#services` = `overflow:hidden`, unutar njega `.services-scroll-inner` = `overflow-y:auto; -webkit-overflow-scrolling:touch; height:100%`. Isti pattern kao `#work` / `.work-scroll`.
-
-### 🐳 Infrastruktura (7)
-- ✅ compress-videos.sh — ffmpeg batch skripta za kompresiju videa
-- ✅ 4 kompresirana video fajla na disku (web ready) + 2 WebM verzije (VP9)
-- ✅ **Hetzner VPS (157.180.67.68)** — produkcijski server, Ubuntu
-- ✅ **Docker container `mato-website`** — nginx:alpine, web root `/var/www/mato-website/html/`
-- ✅ **Traefik reverse proxy** — route `matografie.at` + SSL Let's Encrypt
-- ✅ GitHub Actions CI/CD — `workflow_dispatch` (ručno; auto-deploy aktivirati kroz issue #13)
-- ✅ Custom 404.html — dark/gold dizajn koji prati estetiku sajta
-- ✅ Service Worker (`sw.js`) — PWA offline, cache-first strategija
-
-### 📬 Forme & Komunikacija (1)
-- ✅ Kontakt forma — Web3Forms integracija (`access_key` konfiguriran), async submit, success/error feedback
-
-### 🔒 Sigurnost & GDPR (3)
-- ✅ Cookie consent banner — GDPR compliant, opt-in/opt-out, localStorage persistencija
-- ✅ Favicon PNG fallback — validan base64 PNG za starije browsere
-- ✅ `rel="noopener noreferrer"` — svi vanjski linkovi zaštićeni
-
----
-
-## SEO — Kako funkcionišu Keywords
-
-**`<meta name="keywords">`** — Google ga ignoriše od 2009. Bing ga djelimično koristi. Ostavljamo ga ali nije prioritet.
-
-**Što Google stvarno gleda (po važnosti):**
-1. **Title tag** — najvažniji signal, max 60 znakova
-2. **Meta description** — utječe na CTR (click-through rate), max 160 znakova
-3. **H1/H2 naslovi** — ključne riječi u naslovima sekcija
-4. **Tekst na stranici** — prirodno korištenje ključnih riječi
-5. **Schema.org markup** — strukturirani podaci za rich results
-6. **Backlinks** — vanjski linkovi koji pokazuju na sajt
-7. **Core Web Vitals** — brzina, stabilnost, interaktivnost
-
-**Trenutni title:** `Mato Davidovic — Videograf & Fotograf Österreich | Hochzeit · Imagefilm · Portrait`
-
-**Ciljane ključne riječi:**
-- Primarne: `Videograf Österreich`, `Fotograf Österreich`, `Hochzeitsvideograf`
-- Sekundarne: `Imagefilm Wien/Linz`, `Kameramann Linz`, `Drohnenaufnahmen Österreich`
-- Brand: `matografie`, `matografie.at`
-
----
-
-## Schema.org — Struktura
-
-```
-@graph
-├── Person (Mato Davidovic — kontakt, lokacija, vještine)
-├── LocalBusiness + ProfessionalService (Google Maps, priceRange €€)
-│   └── hasOfferCatalog
-│       ├── Service: Hochzeitsvideografie (od €1200)
-│       ├── Service: Imagefilm & Brand Commercial (od €800)
-│       ├── Service: Drohnenaufnahmen (od €400)
-│       ├── Service: Portrait & Lifestyle (od €350)
-│       └── Service: Travel & Dokumentarfilm
-├── WebSite (sa SearchAction)
-└── WebPage + BreadcrumbList
+**og-image.jpg:** Kadar iz `voda_compressed.mp4` na 2s timestampu, 1200×630px, 97KB.
+```bash
+ffmpeg -i videos/voda_compressed.mp4 -ss 00:00:02 -vframes 1 -vf "scale=1200:630:force_original_aspect_ratio=increase,crop=1200:630" -update 1 -q:v 1 og-image.jpg
 ```
 
 ---
 
-## GitHub Actions — CI/CD Setup
+## Hamburger Meni
 
-Fajl: `.github/workflows/deploy.yml`
-**Status: `workflow_dispatch`** — ručno pokretanje. VPS je spreman (157.180.67.68). Aktivirati auto-deploy kroz issue #13.
+**Stil:** Aperture/Lens kružno dugme (CSS `::before`/`::after` lens ring), rotira 90° kad je otvoren.
 
-### Aktivacija auto-deploya
-Kad VPS bude spreman, u `deploy.yml` promijeni:
-```yaml
-on:
-  workflow_dispatch:
-```
-u:
-```yaml
-on:
-  push:
-    branches:
-      - main
-```
-
-### Potrebni GitHub Secrets
-Dodati u: **GitHub repo → Settings → Secrets and variables → Actions**
-
-| Secret | Vrijednost |
-|---|---|
-| `VPS_HOST` | IP adresa Hetzner VPS-a |
-| `VPS_USER` | SSH korisnik (npr. `root`) |
-| `VPS_SSH_KEY` | Privatni SSH ključ (sadržaj `~/.ssh/id_rsa`) |
+**Video pozadina (mobile ≤700px):**
+- Fajl: `contact_compressed.mp4` (981KB, 720×1280, 30fps, bez audia)
+- Fiksiran iza menija (z-index:98), meni je polu-transparentan
+- Fade in/out via `.menu-video.visible { opacity:0.45 }`
+- JS: hamburger click → `play()` + `.visible`; zatvaranje → ukloni klasu, `pause()` nakon 600ms
 
 ---
 
-## Web3Forms — Kontakt Forma
+## Kontakt Forma (Web3Forms)
 
-- API endpoint: `https://api.web3forms.com/submit`
-- `access_key` konfiguriran direktno u `index.html` (JS sekcija ~linija 2650)
-- Bot protection: honeypot polje `botcheck` (hidden checkbox)
-- Feedback: inline success (zeleno) / error (crveno) poruke
-- Button tekst: `Senden`
-- Za promjenu email primaoca: [web3forms.com](https://web3forms.com) → promijeni `access_key`
-- **Napomena:** Web3Forms ne radi lokalno (`file://`, `localhost`) — testirati samo sa live domenom ili Cloudflare tunelom
+- API: `https://api.web3forms.com/submit`
+- `access_key` u `index.html` (JS sekcija)
+- Honeypot: skriveni `botcheck` checkbox (bot zaštita)
+- Feedback: inline zeleno/crveno
+- **Napomena:** Ne radi lokalno (`file://`) — samo sa live domenom
+
+Za promjenu email primaoca: **web3forms.com** → novi `access_key`.
 
 ---
 
-## Cookie Consent — GDPR
+## Cookie Consent & GDPR
 
-- Banner se pojavljuje **samo pri prvoj posjeti**
-- Korisnik bira: **OK** ili **Decline**
-- Izbor se čuva u `localStorage` (`cookie-consent: accepted/declined`)
-- Pri svakom sljedećem učitavanju banner se **ne prikazuje ponovo** — ovo je ispravno GDPR ponašanje
-- Privacy Policy link otvara Imprint/Privacy sekciju unutar sajta
+- Banner pri prvoj posjeti — **OK** ili **Decline**
+- Izbor se pamti u `localStorage` (`cookie-consent: accepted/declined`)
+- GA4 se aktivira **samo ako korisnik klikne OK**
+- `anonymize_ip: true` — GDPR compliant
+- Privacy Policy link → modal sa pravima korisnika (GDPR Art. 6)
 - **Reset za testiranje:** DevTools → Application → Local Storage → obriši `cookie-consent`
 
 ---
 
-## GA4 — Google Analytics Setup
+## Google Analytics 4
 
-- Kod je **komentarisan** u `index.html` (iza DNS prefetch sekcije, ~linija 52)
-- Poštuje cookie consent — aktivira se samo ako korisnik klikne **OK**
-- `anonymize_ip: true` — GDPR compliant
-- **Aktivacija:** See issue [#15](https://github.com/pop-filip/mato-website/issues/15)
-
-### Kako aktivirati (nakon go-live)
-1. analytics.google.com → Admin → Create Property → Web
-2. Kopiraj Measurement ID: `G-XXXXXXXXXX`
-3. U `index.html` pronađi blok s komentarom `GA4 — Google Analytics`
-4. Uncommentati `<script>` blok i zamijeniti `GA_MEASUREMENT_ID`
-5. Testirati u GA4 → DebugView
+- **Measurement ID:** `G-7GR6CR1J9G`
+- Aktivan na: `https://matografie.at`
+- Cookie-consent aware — pali se samo uz pristanak
+- **Search Console:** verifikovan, sitemap submitovan 2026-04-09
 
 ---
 
-## Heading Audit (2026-03-20)
+## GitHub Actions — CI/CD
 
-| Heading | Tekst | Status |
+Fajl: `.github/workflows/deploy.yml`
+
+**Trigger:** `push → main`
+
+**Koraci:**
+1. Checkout koda
+2. rsync fajlova na `/var/www/mato-website/html/` (preskače `.git`, `*.mp4`, `node_modules`)
+3. `docker exec mato-website nginx -s reload`
+
+**Secrets (postavljeni):**
+
+| Secret | Vrijednost |
+|---|---|
+| `VPS_HOST` | 157.180.67.68 |
+| `VPS_USER` | root |
+| `VPS_SSH_KEY` | SSH privatni ključ |
+
+**Napomena:** MP4 videi se ne deployaju automatski (preveliki za rsync pri svakom pushu). Videi se deployaju ručno jednom: `rsync -avz videos/ root@157.180.67.68:/var/www/mato-website/html/videos/`
+
+---
+
+## Nginx Config (Server)
+
+Lokacija: `/var/www/mato-website/nginx.conf`
+
+- gzip kompresija (html, css, js, json, svg)
+- Security headeri u svakom location bloku (nginx inheritance bug fix)
+- HTML: `no-cache` — uvijek svježe
+- Assets: `30d immutable` — agresivni caching
+- SPA fallback: `try_files $uri $uri/ /index.html`
+- Error: `error_page 404 /404.html`
+
+---
+
+## Accessibility (a11y)
+
+- `lang="de-AT"` na `<html>` elementu
+- Skip-to-content link (keyboard navigacija)
+- `role="main"`, `role="dialog"` landmarks
+- `aria-label`, `aria-expanded`, `aria-hidden` na interaktivnim elementima
+- `sr-only` klasa na form labelama (vidljivo screen readerima)
+- `@media prefers-reduced-motion` — sve animacije se gase
+- Form `autocomplete` atributi, `type="email"` validacija
+
+---
+
+## Heading Struktura (SEO)
+
+| Heading | Tekst | Napomena |
 |---|---|---|
-| H1 (visually-hidden) | `Mato Davidovic — Videograf & Fotograf Österreich \| Hochzeitsfilm · Imagefilm · Portrait` | ✅ Optimizirano |
-| H2 Services | `My Services` + hidden: `Videografie & Fotografie Österreich: Hochzeitsfilm, Imagefilm, Drohnen, Portrait` | ✅ Optimizirano |
-| H3 Service items | Cinematic, Wedding, Travel, Brand, Portrait | ✅ Opisni |
-| H2 Work | `The Reel / Das Portfolio` | ✅ Dvojezično |
-| H2 Contact | `Let's shoot` + hidden: `Videograf & Fotograf anfragen \| Linz, Österreich` | ✅ Optimizirano |
+| H1 (visually-hidden) | `Mato Davidovic — Videograf & Fotograf Österreich` | SEO, nevidljiv korisnicima |
+| H2 Services | `My Services` + hidden keyword tekst | Dvojezično |
+| H3 Services | Cinematic, Wedding, Travel, Brand, Portrait | Opisni |
+| H2 Work | `The Reel / Das Portfolio` | Dvojezično |
+| H2 Contact | `Let's shoot` + hidden keyword tekst | Optimizirano |
 
-**Tehnika:** `<span class="visually-hidden">` — vidljiv search engineu i screen readerima, nevidljiv korisnicima. Dizajn ostaje netaknut.
-
----
-
-## Nginx Security Headers — DJELIMIČNO (issue #12)
-
-Nginx config na serveru (`/var/www/mato-website/nginx.conf`) već ima: `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, `HSTS`. Fali još `Content-Security-Policy`.
-
-Dodati CSP u `/var/www/mato-website/nginx.conf`:
-
-```nginx
-add_header X-Frame-Options "DENY";
-add_header X-Content-Type-Options "nosniff";
-add_header Referrer-Policy "strict-origin-when-cross-origin";
-add_header Permissions-Policy "camera=(), microphone=(), geolocation=()";
-add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
-add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://api.web3forms.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data:; connect-src https://api.web3forms.com;";
-```
+**Tehnika:** `<span class="visually-hidden">` — vidljiv Googleu, nevidljiv korisnicima.
 
 ---
 
-## GitHub Issues — Tracker
+## GitHub Issues — Status
 
-Sve otvorene zadatke pratimo na: **https://github.com/pop-filip/mato-website/issues**
-
-| Issue | Naslov | Prioritet | Ovisi o |
-|---|---|---|---|
-| ~~[#6](https://github.com/pop-filip/mato-website/issues/6)~~ | ~~Go Live — Hetzner VPS + domena `matografie.at`~~ | ✅ Zatvoreno | — |
-| [#9](https://github.com/pop-filip/mato-website/issues/9) | `og-image.jpg` — prava fotografija (1200×630) | 🔴 Visok | — |
-| [#10](https://github.com/pop-filip/mato-website/issues/10) | Social media linkovi — footer + schema sameAs | 🟡 Srednji | — |
-| [#11](https://github.com/pop-filip/mato-website/issues/11) | Google Search Console — verifikacija + sitemap | 🔴 Visok | #6 |
-| [#12](https://github.com/pop-filip/mato-website/issues/12) | Nginx security headers (CSP, HSTS, X-Frame-Options) | 🟡 Srednji | #6 |
-| [#13](https://github.com/pop-filip/mato-website/issues/13) | GitHub Actions — Secrets + aktivacija auto-deploya | 🔴 Visok | #6 |
-| [#14](https://github.com/pop-filip/mato-website/issues/14) | VideoObject schema — pravi datumi i opisi videa | 🟢 Nizak | — |
-| [#15](https://github.com/pop-filip/mato-website/issues/15) | GA4 — Google Analytics aktivacija | 🟡 Srednji | #6 |
-| ~~[#16](https://github.com/pop-filip/mato-website/issues/16)~~ | ~~Heading audit — H2/H3 keyword optimizacija~~ | ✅ Zatvoreno | — |
-| [#17](https://github.com/pop-filip/mato-website/issues/17) | Blog / Case Studies — individualne project stranice | 🟡 Srednji | #6 |
-| [#18](https://github.com/pop-filip/mato-website/issues/18) | E2E testovi — Playwright smoke tests | 🟡 Srednji | #6 |
-| [#19](https://github.com/pop-filip/mato-website/issues/19) | Next.js migracija — long-term skalabilnost | 🟢 Nizak | — |
-| [#21](https://github.com/pop-filip/mato-website/issues/21) | Work: "The Reel" odsječen ispod nav bara na mobile | ✅ Zatvoreno | — |
-| ~~[#22](https://github.com/pop-filip/mato-website/issues/22)~~ | ~~Services mobile — iOS scroll ne radi, rebuild potreban~~ | ✅ Zatvoreno | — |
-| [#23](https://github.com/pop-filip/mato-website/issues/23) | About mobile — layout review na različitim veličinama ekrana | 🟡 Srednji | — |
-
-### Redoslijed rada
-
-```
-Odmah (sajt je LIVE od 2026-04-09):
-  #13 → GitHub Secrets + aktivacija auto-deploya
-  #11 → Google Search Console verifikacija + sitemap submit
-  #15 → GA4 aktivacija (kod u index.html, samo uncommentati)
-  #12 → CSP security header (ostali headeri već su na serveru)
-
-Uskoro:
-  #9  → og-image.jpg prava fotografija (1200×630)
-  #10 → social media linkovi (kad se kreiraju profili)
-  #14 → VideoObject schema — pravi datumi i opisi
-  #23 → About mobile layout review
-  #20 → Work "The Reel" mobile review
-
-Long-term:
-  #17 → Blog / Case Studies (kad ima trafika)
-  #18 → Playwright E2E testovi
-  #19 → Next.js migracija (razmotriti 6 mj. nakon go-live)
-```
+| Issue | Naslov | Status |
+|---|---|---|
+| ~~#6~~ | Go Live — Hetzner VPS + domena | ✅ Zatvoreno |
+| ~~#9~~ | og-image.jpg — prava fotografija | ✅ Zatvoreno (B&W portrait, voda 2s) |
+| ~~#11~~ | Google Search Console | ✅ Zatvoreno (verifikovan + sitemap) |
+| ~~#12~~ | Nginx security headers (CSP, HSTS) | ✅ Zatvoreno (kompletan stack) |
+| ~~#13~~ | GitHub Actions auto-deploy | ✅ Zatvoreno (aktivan, tesiran) |
+| ~~#15~~ | GA4 Analytics | ✅ Zatvoreno (G-7GR6CR1J9G) |
+| ~~#20~~ | Mobile: Work "The Reel" cut off | ✅ Zatvoreno (padding fix) |
+| ~~#21~~ | Work: The Reel ispod nava | ✅ Zatvoreno |
+| ~~#22~~ | Services mobile iOS scroll | ✅ Zatvoreno |
+| ~~#23~~ | Mobile: About layout | ✅ Zatvoreno (konsolidovani CSS) |
+| #10 | Social media linkovi | ⏳ Čeka Mato (SM profili) |
+| #14 | VideoObject datumi/opisi | ⏳ Čeka Mato (datumi snimanja) |
+| #17 | Blog / Case Studies | 🔮 Long-term |
+| #18 | E2E testovi (Playwright) | 🔮 Long-term |
+| #19 | Next.js migracija | 🔮 Long-term |
