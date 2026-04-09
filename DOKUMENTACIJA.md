@@ -10,7 +10,7 @@
 | Font Awesome | 6.5.0 | Ikonice (WhatsApp, Viber, Signal, socijalne mreže) |
 | nginx | alpine | Web server (Docker kontejner) |
 | Docker | — | Lokalni development i deployment |
-| Cloudflare Tunnel | — | HTTPS pristup bez portforwardinga |
+| Traefik | v2 | Reverse proxy + Let's Encrypt SSL (Docker, Hetzner VPS) |
 | ffmpeg | — | Video kompresija |
 | Web3Forms | — | Kontakt forma (serverless email) |
 | GitHub Actions | — | CI/CD auto-deploy na Hetzner VPS |
@@ -186,11 +186,13 @@ ffmpeg -i contact.mp4 -vf "scale=720:-2" -c:v libx264 -crf 28 -preset slow -r 30
 
 **Services iOS scroll fix — tehnika:** Problem: `position:fixed` elementi na iOS Safari ne podržavaju touch scroll. Rješenje: `#services` = `overflow:hidden`, unutar njega `.services-scroll-inner` = `overflow-y:auto; -webkit-overflow-scrolling:touch; height:100%`. Isti pattern kao `#work` / `.work-scroll`.
 
-### 🐳 Infrastruktura (6)
+### 🐳 Infrastruktura (7)
 - ✅ compress-videos.sh — ffmpeg batch skripta za kompresiju videa
 - ✅ 4 kompresirana video fajla na disku (web ready) + 2 WebM verzije (VP9)
-- ✅ Cloudflare Quick Tunnel (HTTPS za demo/testiranje)
-- ✅ GitHub Actions CI/CD — `workflow_dispatch` (ručno, aktivan kad VPS bude spreman)
+- ✅ **Hetzner VPS (157.180.67.68)** — produkcijski server, Ubuntu
+- ✅ **Docker container `mato-website`** — nginx:alpine, web root `/var/www/mato-website/html/`
+- ✅ **Traefik reverse proxy** — route `matografie.at` + SSL Let's Encrypt
+- ✅ GitHub Actions CI/CD — `workflow_dispatch` (ručno; auto-deploy aktivirati kroz issue #13)
 - ✅ Custom 404.html — dark/gold dizajn koji prati estetiku sajta
 - ✅ Service Worker (`sw.js`) — PWA offline, cache-first strategija
 
@@ -247,7 +249,7 @@ ffmpeg -i contact.mp4 -vf "scale=720:-2" -c:v libx264 -crf 28 -preset slow -r 30
 ## GitHub Actions — CI/CD Setup
 
 Fajl: `.github/workflows/deploy.yml`
-**Status: `workflow_dispatch`** — ručno pokretanje, automatski deploy deaktiviran dok VPS nije spreman.
+**Status: `workflow_dispatch`** — ručno pokretanje. VPS je spreman (157.180.67.68). Aktivirati auto-deploy kroz issue #13.
 
 ### Aktivacija auto-deploya
 Kad VPS bude spreman, u `deploy.yml` promijeni:
@@ -327,9 +329,11 @@ Dodati u: **GitHub repo → Settings → Secrets and variables → Actions**
 
 ---
 
-## Nginx Security Headers — TODO (nakon VPS setup-a)
+## Nginx Security Headers — DJELIMIČNO (issue #12)
 
-Dodati u nginx config kad server bude live:
+Nginx config na serveru (`/var/www/mato-website/nginx.conf`) već ima: `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, `HSTS`. Fali još `Content-Security-Policy`.
+
+Dodati CSP u `/var/www/mato-website/nginx.conf`:
 
 ```nginx
 add_header X-Frame-Options "DENY";
@@ -348,7 +352,7 @@ Sve otvorene zadatke pratimo na: **https://github.com/pop-filip/mato-website/iss
 
 | Issue | Naslov | Prioritet | Ovisi o |
 |---|---|---|---|
-| [#6](https://github.com/pop-filip/mato-website/issues/6) | Go Live — Hetzner VPS + domena `matografie.at` | 🔴 Visok | — |
+| ~~[#6](https://github.com/pop-filip/mato-website/issues/6)~~ | ~~Go Live — Hetzner VPS + domena `matografie.at`~~ | ✅ Zatvoreno | — |
 | [#9](https://github.com/pop-filip/mato-website/issues/9) | `og-image.jpg` — prava fotografija (1200×630) | 🔴 Visok | — |
 | [#10](https://github.com/pop-filip/mato-website/issues/10) | Social media linkovi — footer + schema sameAs | 🟡 Srednji | — |
 | [#11](https://github.com/pop-filip/mato-website/issues/11) | Google Search Console — verifikacija + sitemap | 🔴 Visok | #6 |
@@ -367,19 +371,21 @@ Sve otvorene zadatke pratimo na: **https://github.com/pop-filip/mato-website/iss
 ### Redoslijed rada
 
 ```
-Sada (lokalno):
-  #9  → og-image.jpg prava fotografija
-  #10 → social media linkovi (kad se kreiraju profili)
+Odmah (sajt je LIVE od 2026-04-09):
+  #13 → GitHub Secrets + aktivacija auto-deploya
+  #11 → Google Search Console verifikacija + sitemap submit
+  #15 → GA4 aktivacija (kod u index.html, samo uncommentati)
+  #12 → CSP security header (ostali headeri već su na serveru)
 
-Nakon go-live (#6):
-  #13 → GitHub Secrets + auto-deploy
-  #11 → Google Search Console
-  #12 → Nginx security headers
-  #15 → GA4 aktivacija (kod već u index.html, samo uncommentati)
-  #14 → VideoObject finalizacija
-  #18 → Playwright E2E testovi
-  #17 → Blog / Case Studies (kad ima trafika)
+Uskoro:
+  #9  → og-image.jpg prava fotografija (1200×630)
+  #10 → social media linkovi (kad se kreiraju profili)
+  #14 → VideoObject schema — pravi datumi i opisi
+  #23 → About mobile layout review
+  #20 → Work "The Reel" mobile review
 
 Long-term:
+  #17 → Blog / Case Studies (kad ima trafika)
+  #18 → Playwright E2E testovi
   #19 → Next.js migracija (razmotriti 6 mj. nakon go-live)
 ```
