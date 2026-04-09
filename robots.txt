@@ -1,4 +1,14 @@
 User-agent: *
 Allow: /
 
+Disallow: /mato-portfolio-v4_43.html
+Disallow: /mato-portfolio-v4_43.BACKUP.html
+Disallow: /mato-portfolio-ORIGINAL-backup-20260316.html
+Disallow: /mato-portfolio-REDESIGN-test.html
+Disallow: /hamburger-test.html
+Disallow: /index.v.1.html
+Disallow: /checklist.html
+Disallow: /DOKUMENTACIJA.md
+Disallow: /STATUS.md
+
 Sitemap: https://matografie.at/sitemap.xml
