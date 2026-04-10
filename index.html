@@ -576,17 +576,20 @@ nav{
 
 /* Eyebrow */
 .home-eyebrow{
-  color:#e2b96f;
+  color:#fff;
   font-size:clamp(.85rem,2vw,1.1rem);
-  letter-spacing:.35em;
+  letter-spacing:.9em;
   text-transform:uppercase;
-  font-weight:700;
+  font-weight:300;
   text-align:center;
   margin-bottom:1.8rem;
-  opacity:0;transform:translateY(12px);
-  transition:opacity .8s ease, transform .8s ease;
+  opacity:0;
+  transition:opacity 1.4s ease, letter-spacing 1.8s cubic-bezier(0.16,1,0.3,1);
 }
-.home-eyebrow.in{opacity:1;transform:translateY(0);}
+.home-eyebrow.in{
+  opacity:1;
+  letter-spacing:.35em;
+}
 
 /* Headline */
 #home h1{
@@ -706,8 +709,8 @@ nav{
 .about-video-wrap{
   position:relative;
   width:100%;
-  height:38vh;
-  min-height:180px;
+  height:44vh;
+  min-height:200px;
   flex-shrink:0;
   overflow:hidden;
 }
@@ -2378,9 +2381,14 @@ body.lang-en [data-de]{display:none !important;}
       <div class="st-left"><span data-en>Hi, I'm Mato,</span><span data-de>Hi, ich bin Mato,</span></div>
       <div class="st-right">
         <div class="st-track" id="stTrack">
-          <span class="st-word active"><span data-en>I tell stories</span><span data-de>ich erzähle Geschichten</span></span>
-          <span class="st-word"><span data-en>I capture moments</span><span data-de>ich fange Momente ein</span></span>
-          <span class="st-word"><span data-en>I make images come alive</span><span data-de>ich mache Bilder lebendig</span></span>
+          <span class="st-word active"><span data-en>I tell stories</span><span data-de>Ich erzähle Geschichten</span></span>
+          <span class="st-word"><span data-en>I capture moments</span><span data-de>Ich fange Momente ein</span></span>
+          <span class="st-word"><span data-en>I make images come alive</span><span data-de>Ich mache Bilder lebendig</span></span>
+          <span class="st-word"><span data-en>I chase the light</span><span data-de>Ich jage das Licht</span></span>
+          <span class="st-word"><span data-en>I freeze time</span><span data-de>Ich halte Zeit an</span></span>
+          <span class="st-word"><span data-en>I find beauty in details</span><span data-de>Ich finde Schönheit im Detail</span></span>
+          <span class="st-word"><span data-en>I craft visual poetry</span><span data-de>Ich schaffe visuelle Poesie</span></span>
+          <span class="st-word"><span data-en>I create memories</span><span data-de>Ich schaffe Erinnerungen</span></span>
         </div>
       </div>
     </div>
@@ -2800,6 +2808,9 @@ window.addEventListener('load', () => {
     site.style.transition = 'opacity 1.4s ease 0.5s';
     site.style.opacity = '1';
 
+    // Hero entrance fires as site becomes visible
+    setTimeout(() => triggerHeroEntrance(), 600);
+
     setTimeout(() => {
       intro.classList.add('done');
       document.body.style.overflow = '';
@@ -3016,8 +3027,7 @@ document.querySelectorAll('#navList li, #mobileMenu li').forEach(li=>{
   li.addEventListener('click',()=>_patchedActivate(li.dataset.section,li.dataset.color,li.dataset.accent));
 });
 
-// Fire on initial load after site fades in
-setTimeout(triggerHeroEntrance, 300);
+// Hero entrance triggered from doReveal() inside intro sequence
 
 
 // ── LANGUAGE SWITCHER ────────────────────────────────────────────────────────
