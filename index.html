@@ -576,10 +576,13 @@ nav{
 
 /* Eyebrow */
 .home-eyebrow{
-  color:rgba(226,185,111,0.75);
-  font-size:.65rem;letter-spacing:.45em;text-transform:uppercase;
+  color:#e2b96f;
+  font-size:clamp(.85rem,2vw,1.1rem);
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  font-weight:700;
   text-align:center;
-  margin-bottom:1.4rem;
+  margin-bottom:1.8rem;
   opacity:0;transform:translateY(12px);
   transition:opacity .8s ease, transform .8s ease;
 }
@@ -606,6 +609,21 @@ nav{
   transition:opacity .8s ease .35s, transform .8s ease .35s;
 }
 #home p.in{opacity:1;transform:translateY(0);}
+
+/* Hero title */
+.hero-title{
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(3.5rem,9vw,7.5rem);
+  font-weight:700;
+  color:#fff;
+  line-height:1.0;
+  letter-spacing:-2px;
+  margin:.4rem 0 .6rem;
+  opacity:0;transform:translateY(22px);
+  transition:opacity .9s ease .15s, transform .9s cubic-bezier(0.22,1,0.36,1) .15s;
+}
+.hero-title.in{opacity:1;transform:translateY(0);}
+.hero-title em{font-style:italic;color:#e2b96f;}
 
 /* CTAs */
 .home-btns{
@@ -2319,6 +2337,19 @@ body.lang-en [data-de]{display:none !important;}
   <!-- Film grain canvas -->
   <canvas id="home-canvas"></canvas>
 
+  <!-- Hero content -->
+  <div class="hero-content">
+    <div class="home-eyebrow" id="homeEyebrow"><span data-en>Videographer &amp; Photographer</span><span data-de>Videograf &amp; Fotograf</span></div>
+    <div class="home-btns" id="homeBtns">
+      <button class="btn-gold" onclick="activate('about','#0d0d0d','#e2b96f')">
+        <span data-en>About me</span><span data-de>Über mich</span>
+      </button>
+      <button class="btn-ghost" onclick="activate('work','#0a0a0a','#e2b96f')">
+        <span data-en>Portfolio</span><span data-de>Portfolio</span>
+      </button>
+    </div>
+  </div>
+
   <!-- Mute toggle -->
   <button class="mute-btn" id="muteBtn" title="Toggle sound">🔇</button>
 
@@ -2956,8 +2987,9 @@ function triggerHeroEntrance(){
   const els = [
     {id:'homeEyebrow', delay:0},
     {id:'homeH1',      delay:120},
-    {id:'homeBtns',    delay:400},
-    {id:'homeStats',   delay:540},
+    {id:'homeP',       delay:280},
+    {id:'homeBtns',    delay:450},
+    {id:'homeStats',   delay:600},
   ];
   els.forEach(({id,delay})=>{
     const el = document.getElementById(id);
@@ -2971,7 +3003,7 @@ const _patchedActivate = function(id,color,accent){
   _origAct(id,color,accent);
   if(id==='home'){
     // Reset then re-animate
-    ['homeEyebrow','homeH1','homeBtns','homeStats'].forEach(i=>{
+    ['homeEyebrow','homeH1','homeP','homeBtns','homeStats'].forEach(i=>{
       const el=document.getElementById(i);
       if(el){el.classList.remove('in');void el.offsetWidth;}
     });
@@ -3280,5 +3312,17 @@ function toggleFaq(btn){
 </script>
 </div>
   <script src="https://www.youtube.com/iframe_api"></script>
+
+<!-- Iris AI Chat Widget -->
+<script
+  src="https://digitalnature.at/widget/iris-widget.js"
+  data-server="https://matografie.at/iris-api"
+  data-client-id="matografie"
+  data-name="Mato Assistant"
+  data-color="#fb923c"
+  data-position="right"
+  data-quick-replies="Wedding films|Commercial video|How to book?"
+></script>
+
 </body>
 </html>
