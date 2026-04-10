@@ -1,6 +1,6 @@
 # matografie.at — Tehnička Dokumentacija
 
-**Posljednji update:** 2026-04-09
+**Posljednji update:** 2026-04-10
 **Status:** LIVE ✅
 
 ---
@@ -357,6 +357,69 @@ Lokacija: `/var/www/mato-website/nginx.conf`
 
 ---
 
+## Changelog — April 2026
+
+### 2026-04-09 / 2026-04-10
+
+#### Hero video — lokalni MP4 umjesto YouTube
+- Zamijenjen YouTube iframe sa HTML5 `<video>` tagom
+- Fajl: `videos/voda_compressed.mp4` (1.3MB) — radi lokalno i na mobilnom
+- Atributi: `autoplay muted loop playsinline preload="auto"`
+- Mute toggle dugme: klik mijenja `video.muted` + ikonu 🔇/🔊
+
+#### EN/DE — kompletni audit i prijevod
+- Kompletno prevedeno: FAQ (svih 6 pitanja), Services (svih 5 stavki), Contact (h2, podnaslov, forma), Work (labele)
+- Sistem: `data-en` / `data-de` atributi + CSS `body.lang-de [data-en]{display:none}`
+- Form placeholderi: `data-ph-en` / `data-ph-de` → JS `setLang()` mijenja `placeholder`
+- Select opcije: `option[data-en]` → `opt.textContent = opt.getAttribute('data-' + lang)`
+- Prijevod se pamti u `localStorage('mato-lang')`
+
+#### About sekcija — kompletni redesign
+- **Desktop i mobile:** column layout — "Hi, I'm Mato" gore, rotating animation dole
+- **Mobile 50/50:** video `50dvh` gore, text `50dvh` dole (`@media max-width:700px`)
+- **Desktop:** video `38vh` gore, text `flex:1` dole
+- **Rotating words animacija** (3 fraze, mijenja se svakih 2.5s):
+  - EN: "I tell stories" / "I capture moments" / "I make images come alive"
+  - DE: "ich erzähle Geschichten" / "ich fange Momente ein" / "ich mache Bilder lebendig"
+- `.split-text-wrap { flex-direction:column; align-items:center; }` — radi za desktop i mobile
+- `about-text-wrap overflow:visible` — animacija se ne reže
+
+#### Navbar — Dynamic Island / notch podrška
+- Mobile media query: `padding-top: env(safe-area-inset-top, 0px)`
+- `height: calc(64px + env(safe-area-inset-top, 0px))`
+- `align-items: flex-end` + `padding-bottom: 8px` — logo/hamburger ne ulaze u notch zonu
+- Desktop ostaje nepromijenjen (`align-items:center`, `height:80px`)
+- Logo smanjen: `nav-brand img { height:72px }` (bio 103px — strčavao iz nava)
+
+#### Services — mobile snap scroll (IntersectionObserver)
+- Zamijenjen stari swipe carousel sa CSS `scroll-snap-type:y mandatory`
+- Svaki service = `100dvh`, `scroll-snap-align:start`, `scroll-snap-stop:always`
+- 5 gradient pozadina (plava, narandžasta, zelena, ljubičasta, amber)
+- Dots navigacija: `position:fixed; right:18px` — klik → `scrollIntoView({behavior:'smooth'})`
+- IntersectionObserver (threshold 0.5) detektuje aktivan slide → ažurira aktivan dot
+- `.text-panel { padding:0 !important }` — fix za lijevo pomjereni sadržaj na mobilnom
+
+#### Z-index stack — finalni raspored
+| Element | z-index |
+|---|---|
+| nav | 100 |
+| hamburger menu | 99 |
+| menu video bg | 98 |
+| footer | 70 |
+| #about | 60 |
+| modali | 1000 |
+
+- Footer podignut sa 50 → **70** da bude vidljiv iznad About sekcije
+- `about-text-wrap padding-bottom:5rem` — sadržaj ne ulazi ispod footera
+
+#### mobile-preview.html
+- Nova stranica za lokalni pregled mobilnog dizajna
+- iPhone 14 mockup (390×844) sa Dynamic Island, status barom, side buttons
+- Iframe koji učitava `index.html` sa mobilnim viewport-om
+- Ne deployuje se na server (`--exclude='mobile-preview.html'`)
+
+---
+
 ## GitHub Issues — Status
 
 | Issue | Naslov | Status |
@@ -369,8 +432,12 @@ Lokacija: `/var/www/mato-website/nginx.conf`
 | ~~#15~~ | GA4 Analytics | ✅ Zatvoreno (G-7GR6CR1J9G) |
 | ~~#20~~ | Mobile: Work "The Reel" cut off | ✅ Zatvoreno (padding fix) |
 | ~~#21~~ | Work: The Reel ispod nava | ✅ Zatvoreno |
-| ~~#22~~ | Services mobile iOS scroll | ✅ Zatvoreno |
-| ~~#23~~ | Mobile: About layout | ✅ Zatvoreno (konsolidovani CSS) |
+| ~~#22~~ | Services mobile iOS scroll | ✅ Zatvoreno (snap scroll) |
+| ~~#23~~ | Mobile: About layout | ✅ Zatvoreno (50/50 split) |
+| ~~#24~~ | Hero video — lokalni MP4 | ✅ Zatvoreno (voda_compressed.mp4) |
+| ~~#25~~ | EN/DE kompletni audit | ✅ Zatvoreno |
+| ~~#26~~ | About rotating words animacija | ✅ Zatvoreno |
+| ~~#27~~ | Dynamic Island navbar fix | ✅ Zatvoreno |
 | #10 | Social media linkovi | ⏳ Čeka Mato (SM profili) |
 | #14 | VideoObject datumi/opisi | ⏳ Čeka Mato (datumi snimanja) |
 | #17 | Blog / Case Studies | 🔮 Long-term |
