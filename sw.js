@@ -1,7 +1,7 @@
 // matografie.at — Service Worker
 // Cache-first strategy za statičke resurse, network-first za navigaciju
 
-const CACHE_NAME = 'matografie-v1';
+const CACHE_NAME = 'matografie-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
