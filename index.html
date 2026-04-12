@@ -102,7 +102,7 @@
       "jobTitle": "Videograf & Fotograf",
       "description": "Professioneller Videograf und Fotograf in Österreich. Spezialisiert auf Hochzeitsfilme, Imagefilme, Brand Commercials und Portrait Photography.",
       "image": "https://matografie.at/og-image.jpg",
-      "email": "info@mato-production.com",
+      "email": "info@matografie.at",
       "telephone": "+436603780309",
       "address": {
         "@type": "PostalAddress",
@@ -119,7 +119,7 @@
       "contactPoint": {
         "@type": "ContactPoint",
         "telephone": "+436603780309",
-        "email": "info@mato-production.com",
+        "email": "info@matografie.at",
         "contactType": "customer service",
         "availableLanguage": ["German", "English", "Croatian"]
       }
@@ -134,7 +134,7 @@
       "logo": "https://matografie.at/og-image.jpg",
       "description": "Professionelle Videografie und Fotografie in Österreich. Hochzeitsfilme, Imagefilme, Brand Commercials und Portrait Photography. Wien · Linz · Salzburg.",
       "telephone": "+436603780309",
-      "email": "info@mato-production.com",
+      "email": "info@matografie.at",
       "priceRange": "€€",
       "currenciesAccepted": "EUR",
       "address": {
@@ -973,7 +973,7 @@
   <div class="contact-wrap">
     <div class="contact-info">
       <div class="contact-line"><span>Linz, Austria</span></div>
-      <div class="contact-line"><span><a href="mailto:info@mato-production.com" style="color:inherit">info@mato-production.com</a></span></div>
+      <div class="contact-line"><span><a href="mailto:info@matografie.at" style="color:inherit">info@matografie.at</a></span></div>
       <div class="msg-btns">
         <a class="msg-btn whatsapp" href="https://wa.me/436603780309" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i>WhatsApp</a>
         <a class="msg-btn viber" href="viber://chat?number=%2B436603780309" target="_blank" rel="noopener"><i class="fab fa-viber"></i>Viber</a>
@@ -1039,7 +1039,7 @@
       <ul class="footer-links">
         <li><button onclick="document.getElementById('termsModal').classList.add('open')"><span data-en>Terms &amp; Conditions</span><span data-de>AGB</span></button></li>
         <li><button onclick="document.getElementById('privacyModal').classList.add('open')"><span data-en>Privacy Policy</span><span data-de>Datenschutz</span></button></li>
-        <li><a href="mailto:info@mato-production.com">info@mato-production.com</a></li>
+        <li><a href="mailto:info@matografie.at">info@matografie.at</a></li>
         <li><a>Linz, Austria</a></li>
       </ul>
     </div>
@@ -1568,7 +1568,7 @@ document.getElementById('contact-form').addEventListener('submit', async functio
     msg.style.background = 'rgba(239,68,68,0.1)';
     msg.style.border = '1px solid rgba(239,68,68,0.3)';
     msg.style.color = '#ef4444';
-    msg.textContent = '✗ Something went wrong. Please email info@mato-production.com directly.';
+    msg.textContent = '✗ Something went wrong. Please email info@matografie.at directly.';
     btn.textContent = 'Senden';
     btn.disabled = false;
   }
@@ -1613,5 +1613,39 @@ function toggleFaq(btn){
   data-quick-replies="Wedding film 🎬|Hochzeitsfilm 🎬|Prices / Preise 💶|Availability 2026 📅|Do you travel? ✈️|How to book? 📩"
 ></script>
 
+<!-- GA4 Enhanced Events -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var scrollMarks = {25: false, 50: false, 75: false, 90: false};
+  window.addEventListener('scroll', function() {
+    var h = document.documentElement;
+    var scrollPct = Math.round((h.scrollTop || document.body.scrollTop) / ((h.scrollHeight || document.body.scrollHeight) - h.clientHeight) * 100);
+    Object.keys(scrollMarks).forEach(function(mark) {
+      if (!scrollMarks[mark] && scrollPct >= parseInt(mark)) {
+        scrollMarks[mark] = true;
+        gtag('event', 'scroll_depth', { depth: mark + '%', page: window.location.pathname });
+      }
+    });
+  }, { passive: true });
+  document.querySelectorAll('a[href^="mailto:"], a[href^="tel:"]').forEach(function(el) {
+    el.addEventListener('click', function() {
+      gtag('event', 'contact_click', { method: el.href.split(':')[0], page: window.location.pathname });
+    });
+  });
+  document.querySelectorAll('a.btn, a.cta, button[type="submit"], .hero a, .cta-section a, [class*="contact"] a').forEach(function(el) {
+    el.addEventListener('click', function() {
+      gtag('event', 'cta_click', { label: (el.innerText || el.textContent).trim().substring(0, 50), page: window.location.pathname });
+    });
+  });
+  document.querySelectorAll('video').forEach(function(video, i) {
+    video.addEventListener('play', function() {
+      gtag('event', 'video_play', { video_index: i, page: window.location.pathname });
+    });
+    video.addEventListener('ended', function() {
+      gtag('event', 'video_complete', { video_index: i, page: window.location.pathname });
+    });
+  });
+});
+</script>
 </body>
 </html>
