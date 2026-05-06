@@ -981,6 +981,11 @@ footer{
   letter-spacing:.06em;text-transform:uppercase;transition:color .2s;font-family:inherit;
 }
 .footer-bottom-links button:hover{color:rgba(226,185,111,0.7);}
+.footer-bottom-links a{
+  font-size:.57rem;color:rgba(255,255,255,0.18);
+  text-decoration:none;letter-spacing:.06em;text-transform:uppercase;transition:color .2s;
+}
+.footer-bottom-links a:hover{color:rgba(226,185,111,0.7);}
 
 /* RESPONSIVE */
 @media(min-width:701px){

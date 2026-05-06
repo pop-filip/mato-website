@@ -1,10 +1,12 @@
 // matografie.at — Service Worker
 // Cache-first strategy za statičke resurse, network-first za navigaciju
 
-const CACHE_NAME = 'matografie-v2';
+const CACHE_NAME = 'matografie-v3';
+const OFFLINE_URL = '/offline.html';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
+  '/offline.html',
   '/manifest.json',
   '/videos/voda_compressed.mp4',
   'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap',
@@ -40,7 +42,7 @@ self.addEventListener('fetch', e => {
   // Network-first za navigaciju (uvijek svježa HTML stranica)
   if (e.request.mode === 'navigate') {
     e.respondWith(
-      fetch(e.request).catch(() => caches.match('/index.html'))
+      fetch(e.request).catch(() => caches.match(OFFLINE_URL))
     );
     return;
   }
