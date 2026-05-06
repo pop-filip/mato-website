@@ -645,10 +645,10 @@
   <div class="about-video-wrap">
     <video
       muted loop playsinline
-      preload="metadata"
+      preload="none"
       id="aboutVideo">
-      <source src="videos/skok_compressed.webm" type="video/webm">
       <source src="videos/skok_compressed.mp4"  type="video/mp4">
+      <source src="videos/skok_compressed.webm" type="video/webm">
     </video>
   </div>
 
@@ -769,7 +769,7 @@
 <section class="section" id="work">
 
   <!-- Global video background (swaps on row hover) -->
-  <video id="work-bg-video" autoplay muted loop playsinline preload="metadata" src="videos/delta-team_compressed.mp4"></video>
+  <video id="work-bg-video" muted loop playsinline preload="none" src="videos/delta-team_compressed.mp4"></video>
   <div id="work-bg-overlay"></div>
 
   <!-- Scrollable content wrapper -->
@@ -1100,7 +1100,7 @@ window.addEventListener('load', () => {
   document.body.style.overflow = 'hidden';
 
   // Mobile: skip long intro (Lighthouse penalty), desktop keeps full 3s cinematic feel
-  const introDelay = window.matchMedia('(max-width: 768px)').matches ? 800 : 3000;
+  const introDelay = window.matchMedia('(max-width: 768px)').matches ? 800 : 1500;
   setTimeout(doReveal, introDelay);
 
   // Nav selector
@@ -1147,6 +1147,10 @@ function activate(id,color,accent){
       av.play().catch(()=>{});
     }
     if(window._startAboutShatter) window._startAboutShatter();
+  }
+  if(id==='work'){
+    const bv = document.getElementById('work-bg-video');
+    if(bv && !bv._everPlayed){ bv._everPlayed=true; bv.load(); bv.play().catch(()=>{}); }
   }
   mobileMenu.classList.remove('open');
   hamburger.classList.remove('open');
@@ -1244,38 +1248,7 @@ if(svcEl) svcEl.addEventListener('scroll',updateServices,{passive:true});
 
 
 
-// ── FILM GRAIN ───────────────────────────────────────────────────────────────
-(function(){
-  if(window.matchMedia('(max-width: 768px)').matches) return;
-  const canvas = document.getElementById('home-canvas');
-  if(!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let lastTime = 0;
-  const FPS = 12;
-  const interval = 1000 / FPS;
-
-  function resize(){
-    canvas.width  = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-  }
-  resize();
-
-  function grain(ts){
-    requestAnimationFrame(grain);
-    if(ts - lastTime < interval) return;
-    lastTime = ts;
-    const w = canvas.width, h = canvas.height;
-    const img = ctx.createImageData(w, h);
-    const d   = img.data;
-    for(let i=0;i<d.length;i+=4){
-      const v = Math.random()*255|0;
-      d[i]=d[i+1]=d[i+2]=v; d[i+3]=18;
-    }
-    ctx.putImageData(img,0,0);
-  }
-  requestAnimationFrame(grain);
-  window.addEventListener('resize', resize);
-})();
+// ── FILM GRAIN — handled by CSS (see style.css #home::after) ─────────────────
 
 // ── HERO ENTRANCE ─────────────────────────────────────────────────────────────
 function triggerHeroEntrance(){
