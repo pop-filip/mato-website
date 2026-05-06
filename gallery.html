@@ -198,8 +198,10 @@ body.lang-en [data-de]{display:none !important;}
   padding:0 1.5rem 4rem;
   max-width:1280px;margin:0 auto;width:100%;
 }
-.gallery-item{
+.gallery-card{
   break-inside:avoid;margin-bottom:.7rem;
+}
+.gallery-item{
   position:relative;border-radius:8px;overflow:hidden;
   cursor:pointer;background:rgba(255,255,255,0.03);
 }
@@ -248,10 +250,7 @@ body.lang-en [data-de]{display:none !important;}
   backdrop-filter:blur(4px);
 }
 .vid-meta{
-  position:absolute;bottom:0;left:0;right:0;z-index:2;
-  padding:.9rem 1rem .75rem;
-  background:linear-gradient(to top, rgba(0,0,0,0.82) 0%, transparent 100%);
-  pointer-events:none;
+  padding:.6rem .2rem .2rem;
 }
 .vid-meta-title{
   font-family:'Playfair Display',Georgia,serif;
@@ -260,7 +259,11 @@ body.lang-en [data-de]{display:none !important;}
 }
 .vid-meta-year{
   font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
-  color:rgba(226,185,111,0.75);
+  color:rgba(226,185,111,0.75);margin-bottom:.2rem;
+}
+.vid-meta-desc{
+  font-size:.72rem;color:rgba(255,255,255,0.38);
+  letter-spacing:.02em;line-height:1.4;
 }
 
 /* ═══ EMPTY / LOADING ═══ */
@@ -621,6 +624,9 @@ function setLang(lang){
     grid.style.display = 'block';
 
     items.forEach((item, idx)=>{
+      const card = document.createElement('div');
+      card.className = 'gallery-card';
+
       const el = document.createElement('div');
       el.className = 'gallery-item';
 
@@ -640,17 +646,25 @@ function setLang(lang){
           <div class="play-badge">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           </div>
-          ${(item.title||item.year) ? `
-          <div class="vid-meta">
-            ${item.title ? `<div class="vid-meta-title">${item.title}</div>` : ''}
-            ${item.year ? `<div class="vid-meta-year">${item.year}</div>` : ''}
-          </div>` : ''}
           <span class="type-badge">Video</span>
         `;
       }
 
       el.addEventListener('click', ()=>openLightbox(idx));
-      grid.appendChild(el);
+      card.appendChild(el);
+
+      if(item.type==='video' && (item.title||item.year||item.description)){
+        const meta = document.createElement('div');
+        meta.className = 'vid-meta';
+        meta.innerHTML = `
+          ${item.year ? `<div class="vid-meta-year">${item.year}</div>` : ''}
+          ${item.title ? `<div class="vid-meta-title">${item.title}</div>` : ''}
+          ${item.description ? `<div class="vid-meta-desc">${item.description}</div>` : ''}
+        `;
+        card.appendChild(meta);
+      }
+
+      grid.appendChild(card);
     });
   }
 
