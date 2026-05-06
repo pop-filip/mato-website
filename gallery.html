@@ -247,6 +247,21 @@ body.lang-en [data-de]{display:none !important;}
   padding:.25rem .55rem;border-radius:10px;pointer-events:none;
   backdrop-filter:blur(4px);
 }
+.vid-meta{
+  position:absolute;bottom:0;left:0;right:0;z-index:2;
+  padding:.9rem 1rem .75rem;
+  background:linear-gradient(to top, rgba(0,0,0,0.82) 0%, transparent 100%);
+  pointer-events:none;
+}
+.vid-meta-title{
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:.88rem;font-weight:400;color:#fff;
+  line-height:1.2;margin-bottom:.2rem;
+}
+.vid-meta-year{
+  font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(226,185,111,0.75);
+}
 
 /* ═══ EMPTY / LOADING ═══ */
 .gallery-empty{text-align:center;padding:6rem 1.5rem;display:none;}
@@ -570,14 +585,17 @@ function setLang(lang){
   const lbPrev  = document.getElementById('lbPrev');
   const lbNext  = document.getElementById('lbNext');
 
-  fetch(GALLERY_JSON + '?v=' + Date.now())
-    .then(r=>{ if(!r.ok) throw new Error(); return r.json(); })
-    .then(data=>{
-      allItems = (data.items||[]).sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
-      loading.style.display = 'none';
-      applyFilter('image');
-    })
-    .catch(()=>{ loading.style.display='none'; showEmpty(); });
+  Promise.all([
+    fetch(GALLERY_JSON + '?v=' + Date.now()).then(r=>r.ok?r.json():{}),
+    fetch('gallery/meta.json?v=' + Date.now()).then(r=>r.ok?r.json():{}).catch(()=>({}))
+  ]).then(([data, meta])=>{
+    allItems = (data.items||[]).sort((a,b)=>new Date(b.date||0)-new Date(a.date||0)).map(item=>{
+      const m = meta[item.file] || {};
+      return {...item, title: m.title||item.title||'', year: m.year||'', description: m.description||''};
+    });
+    loading.style.display = 'none';
+    applyFilter('image');
+  }).catch(()=>{ loading.style.display='none'; showEmpty(); });
 
   document.getElementById('filterBar').addEventListener('click', e=>{
     const btn = e.target.closest('.filter-btn');
@@ -618,6 +636,11 @@ function setLang(lang){
           <div class="play-badge">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           </div>
+          ${(item.title||item.year) ? `
+          <div class="vid-meta">
+            ${item.title ? `<div class="vid-meta-title">${item.title}</div>` : ''}
+            ${item.year ? `<div class="vid-meta-year">${item.year}</div>` : ''}
+          </div>` : ''}
           <span class="type-badge">Video</span>
         `;
       }
