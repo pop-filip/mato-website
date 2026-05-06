@@ -226,6 +226,7 @@ nav{
   77% {transform:translate(-3%,6%);}
   88% {transform:translate(5%,-5%);}
 }
+@media(max-width:768px){#home::after{display:none;}}
 
 /* #home::before removed — video bg handles depth */
 
