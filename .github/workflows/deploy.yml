@@ -16,7 +16,7 @@ jobs:
       - name: Deploy via rsync
         uses: burnett01/rsync-deployments@7.0.1
         with:
-          switches: -avz --delete --exclude='.git' --exclude='*.mp4' --exclude='*.mp4' --exclude='node_modules'
+          switches: -avz --delete --exclude='.git' --exclude='*.mp4' --exclude='node_modules' --exclude='gallery/'
           path: ./
           remote_path: /var/www/mato-website/html/
           remote_host: ${{ secrets.VPS_HOST }}
