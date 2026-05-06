@@ -82,12 +82,13 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="matografie">
 
-<!-- Preload hero video for faster LCP -->
+<!-- Preload critical assets -->
 <link rel="preload" href="logo.webp" as="image" type="image/webp">
-<link rel="preload" href="contact_compressed.mp4" as="video" type="video/mp4">
+<link rel="preload" href="videos/voda_compressed.mp4" as="video" type="video/mp4">
 <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap&subset=latin" rel="stylesheet">
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap&subset=latin" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap&subset=latin" rel="stylesheet"></noscript>
 
 <!-- ═══ SCHEMA.ORG — Structured Data ═══ -->
 <script type="application/ld+json">
@@ -1098,8 +1099,9 @@ window.addEventListener('load', () => {
   // Lock scroll during intro
   document.body.style.overflow = 'hidden';
 
-  // Logo breathes in (2.2s), then reveal begins at 3.0s
-  setTimeout(doReveal, 3000);
+  // Mobile: skip long intro (Lighthouse penalty), desktop keeps full 3s cinematic feel
+  const introDelay = window.matchMedia('(max-width: 768px)').matches ? 800 : 3000;
+  setTimeout(doReveal, introDelay);
 
   // Nav selector
   setTimeout(() => moveSelector(document.querySelector('#navList li.active')), 100);
@@ -1244,18 +1246,24 @@ if(svcEl) svcEl.addEventListener('scroll',updateServices,{passive:true});
 
 // ── FILM GRAIN ───────────────────────────────────────────────────────────────
 (function(){
+  if(window.matchMedia('(max-width: 768px)').matches) return;
   const canvas = document.getElementById('home-canvas');
   if(!canvas) return;
   const ctx = canvas.getContext('2d');
-  let frame = 0;
+  let lastTime = 0;
+  const FPS = 12;
+  const interval = 1000 / FPS;
 
   function resize(){
     canvas.width  = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
   }
+  resize();
 
-  function grain(){
-    resize();
+  function grain(ts){
+    requestAnimationFrame(grain);
+    if(ts - lastTime < interval) return;
+    lastTime = ts;
     const w = canvas.width, h = canvas.height;
     const img = ctx.createImageData(w, h);
     const d   = img.data;
@@ -1264,10 +1272,8 @@ if(svcEl) svcEl.addEventListener('scroll',updateServices,{passive:true});
       d[i]=d[i+1]=d[i+2]=v; d[i+3]=18;
     }
     ctx.putImageData(img,0,0);
-    frame++;
-    requestAnimationFrame(grain);
   }
-  grain();
+  requestAnimationFrame(grain);
   window.addEventListener('resize', resize);
 })();
 
