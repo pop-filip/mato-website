@@ -435,8 +435,7 @@ footer{
 <div class="page">
 
   <div class="filter-bar" id="filterBar">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="image"><span data-en>Photos</span><span data-de>Fotos</span></button>
+    <button class="filter-btn active" data-filter="image"><span data-en>Photos</span><span data-de>Fotos</span></button>
     <button class="filter-btn" data-filter="video">Videos</button>
   </div>
 
@@ -576,7 +575,7 @@ function setLang(lang){
     .then(data=>{
       allItems = (data.items||[]).sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
       loading.style.display = 'none';
-      applyFilter('all');
+      applyFilter('image');
     })
     .catch(()=>{ loading.style.display='none'; showEmpty(); });
 
