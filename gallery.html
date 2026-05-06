@@ -311,10 +311,17 @@ body.lang-en [data-de]{display:none !important;}
   transition:color .2s,transform .2s;font-family:inherit;
 }
 .lb-close:hover{color:#fff;transform:rotate(90deg);}
-.lb-caption{
-  position:absolute;bottom:-2rem;left:0;right:0;
-  text-align:center;font-size:.68rem;letter-spacing:.15em;
-  text-transform:uppercase;color:rgba(255,255,255,0.3);
+.lb-video-info{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:.8rem 1.2rem;
+  background:linear-gradient(to top,rgba(0,0,0,0.85),transparent);
+}
+.lb-video-title{
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:.95rem;font-weight:400;color:#fff;margin-bottom:.25rem;
+}
+.lb-video-desc{
+  font-size:.72rem;color:rgba(255,255,255,0.5);letter-spacing:.03em;
 }
 .lb-prev,.lb-next{
   position:fixed;top:50%;transform:translateY(-50%);
@@ -585,17 +592,14 @@ function setLang(lang){
   const lbPrev  = document.getElementById('lbPrev');
   const lbNext  = document.getElementById('lbNext');
 
-  Promise.all([
-    fetch(GALLERY_JSON + '?v=' + Date.now()).then(r=>r.ok?r.json():{}),
-    fetch('gallery/meta.json?v=' + Date.now()).then(r=>r.ok?r.json():{}).catch(()=>({}))
-  ]).then(([data, meta])=>{
-    allItems = (data.items||[]).sort((a,b)=>new Date(b.date||0)-new Date(a.date||0)).map(item=>{
-      const m = meta[item.file] || {};
-      return {...item, title: m.title||item.title||'', year: m.year||'', description: m.description||''};
-    });
-    loading.style.display = 'none';
-    applyFilter('image');
-  }).catch(()=>{ loading.style.display='none'; showEmpty(); });
+  fetch(GALLERY_JSON + '?v=' + Date.now())
+    .then(r=>{ if(!r.ok) throw new Error(); return r.json(); })
+    .then(data=>{
+      allItems = (data.items||[]).sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
+      loading.style.display = 'none';
+      applyFilter('image');
+    })
+    .catch(()=>{ loading.style.display='none'; showEmpty(); });
 
   document.getElementById('filterBar').addEventListener('click', e=>{
     const btn = e.target.closest('.filter-btn');
@@ -675,14 +679,18 @@ function setLang(lang){
     if(item.type==='image'){
       lbInner.innerHTML = `
         <img src="${GALLERY_BASE}${item.file}" alt="${item.title||''}">
-        ${item.title ? `<div class="lb-caption">${item.title}</div>` : ''}
       `;
     } else {
+      const meta = [item.title, item.year].filter(Boolean).join(' · ');
       lbInner.innerHTML = `
         <div class="lb-video-wrap">
           <video src="${GALLERY_BASE}${item.file}" controls autoplay playsinline></video>
+          ${(meta||item.description) ? `
+          <div class="lb-video-info">
+            ${meta ? `<div class="lb-video-title">${meta}</div>` : ''}
+            ${item.description ? `<div class="lb-video-desc">${item.description}</div>` : ''}
+          </div>` : ''}
         </div>
-        ${item.title ? `<div class="lb-caption">${item.title}</div>` : ''}
       `;
     }
   }
