@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="de-AT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Mato Davidovic Visual Production</title>
+<meta name="description" content="Portfolio von Mato Davidovic — Hochzeit, Portrait, Imagefilm, Commercial. Wien · Linz · Salzburg.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://matografie.at/portfolio">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230a0a0a'/%3E%3Ctext x='32' y='50' font-family='Georgia%2C %22Times New Roman%22%2C serif' font-size='46' font-weight='400' fill='%23c8a45a' text-anchor='middle' letter-spacing='-1'%3Em%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#080808">
+<meta name="color-scheme" content="dark">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"></noscript>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7GR6CR1J9G"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  if(localStorage.getItem('cookie-consent') === 'accepted') {
+    gtag('config', 'G-7GR6CR1J9G', { anonymize_ip: true });
+  }
+</script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:#080808;color:#fff;font-family:'Segoe UI',system-ui,sans-serif;height:100%;overflow:hidden;}
+
+/* ═══ NAV ═══ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;background:rgba(8,8,8,0.9);backdrop-filter:blur(12px);
+  height:80px;border-bottom:1px solid rgba(255,255,255,0.04);
+}
+.nav-brand{display:flex;align-items:center;text-decoration:none;padding:4px 0;flex-shrink:0;}
+.nav-brand img{height:72px;width:auto;object-fit:contain;}
+.nav-label{
+  position:absolute;left:50%;transform:translateX(-50%);
+  font-size:.68rem;font-weight:700;letter-spacing:.4em;text-transform:uppercase;
+  color:rgba(255,255,255,0.35);
+}
+.nav-back{
+  display:flex;align-items:center;gap:.5rem;
+  text-decoration:none;color:rgba(255,255,255,0.3);
+  font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  transition:color .2s;border:1px solid rgba(255,255,255,0.08);
+  padding:.4rem .9rem;border-radius:20px;
+}
+.nav-back:hover{color:#e2b96f;border-color:rgba(226,185,111,0.3);}
+.nav-back svg{width:14px;height:14px;flex-shrink:0;}
+@keyframes mItemIn{to{opacity:1;transform:translateY(0);}}
+
+/* Lang switcher */
+.lang-switcher{display:flex;align-items:center;gap:2px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:3px;flex-shrink:0;}
+.lang-btn{font-size:.62rem;font-weight:700;letter-spacing:.08em;color:rgba(255,255,255,0.35);background:transparent;border:none;cursor:pointer;padding:4px 8px;border-radius:4px;transition:all .2s;text-transform:uppercase;}
+.lang-btn.active{background:#e2b96f;color:#0a0a0a;}
+.lang-btn:hover:not(.active){color:rgba(255,255,255,0.7);}
+
+/* Translation */
+body.lang-de [data-en]{display:none !important;}
+body.lang-en [data-de]{display:none !important;}
+
+/* ═══ PAGE LAYOUT ═══ */
+.page{
+  position:fixed;inset:0;top:80px;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+
+/* ═══ BACKGROUND VIDEO ═══ */
+#port-bg-video{
+  position:fixed;inset:0;width:100%;height:100%;
+  object-fit:cover;z-index:0;pointer-events:none;
+  opacity:0;transition:opacity .6s ease;
+}
+#port-bg-video.visible{opacity:0.18;}
+#port-bg-overlay{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:rgba(8,8,8,0.65);
+  opacity:0;transition:opacity .6s ease;
+}
+#port-bg-overlay.visible{opacity:1;}
+
+/* ═══ SCROLL WRAPPER ═══ */
+.port-scroll{
+  position:relative;z-index:2;
+  width:100%;height:100%;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:60px 0 120px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+
+/* ═══ HEADER ═══ */
+.port-header{
+  width:100%;max-width:780px;margin:0 auto 1.5rem;
+  display:flex;align-items:flex-end;justify-content:space-between;
+  padding:0 1rem;
+}
+.port-eyebrow{font-size:.62rem;letter-spacing:.35em;color:rgba(226,185,111,0.6);text-transform:uppercase;margin-bottom:.4rem;}
+.port-header h2{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:400;color:#fff;line-height:1;}
+.port-header h2 em{font-style:italic;color:#e2b96f;}
+.port-count{font-size:.62rem;letter-spacing:.25em;color:rgba(255,255,255,0.18);text-transform:uppercase;}
+
+/* ═══ PROJECT LIST ═══ */
+.project-list{
+  list-style:none;padding:0 0 200px;
+  width:100%;max-width:780px;margin:0 auto;
+  perspective:1400px;perspective-origin:50% 40%;
+}
+
+.project-row{
+  display:flex;align-items:center;justify-content:center;
+  padding:1.4rem 1rem;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  cursor:pointer;position:relative;
+  transform-style:preserve-3d;will-change:transform;
+  transform:translateZ(0) rotateX(0deg) rotateY(0deg);
+  transition:transform .25s cubic-bezier(0.23,1,0.32,1),background .2s,border-color .2s;
+}
+.project-row:first-child{border-top:1px solid rgba(255,255,255,0.06);}
+.project-row::before{
+  content:'';position:absolute;left:0;top:15%;bottom:15%;width:2px;
+  background:linear-gradient(to bottom,transparent,#e2b96f,transparent);
+  transform:scaleY(0);transform-origin:center;
+  transition:transform .3s cubic-bezier(0.34,1.56,0.64,1);border-radius:2px;
+}
+.project-row:hover::before{transform:scaleY(1);}
+.project-row:hover{background:rgba(226,185,111,0.04);border-color:rgba(226,185,111,0.15);}
+
+.proj-num{font-size:.62rem;letter-spacing:.25em;color:rgba(255,255,255,0.18);width:2.5rem;flex-shrink:0;position:absolute;left:1rem;}
+.proj-title{
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(1.1rem,2.5vw,1.8rem);font-weight:400;color:#fff;
+  text-align:center;transition:color .2s,transform .25s cubic-bezier(0.23,1,0.32,1);
+}
+.project-row:hover .proj-title{color:#f5eed9;transform:translateX(6px) translateZ(10px);}
+.proj-meta{display:flex;align-items:center;gap:1.2rem;flex-shrink:0;position:absolute;right:1rem;}
+.proj-tag{
+  font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(226,185,111,0.5);background:rgba(226,185,111,0.07);
+  border:1px solid rgba(226,185,111,0.15);padding:.18rem .55rem;border-radius:4px;
+}
+.proj-year{font-size:.68rem;color:rgba(255,255,255,0.2);letter-spacing:.1em;}
+.proj-arrow{
+  width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,0.1);
+  display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,0.25);font-size:.7rem;
+  transition:all .25s cubic-bezier(0.34,1.56,0.64,1);transform:translateZ(0);
+}
+.project-row:hover .proj-arrow{
+  border-color:#e2b96f;color:#e2b96f;
+  transform:translateX(4px) translateZ(12px) rotate(-45deg);
+  box-shadow:0 0 12px rgba(226,185,111,0.35);
+}
+
+/* Loading / empty */
+.port-loading{text-align:center;padding:5rem 1.5rem;}
+.loading-dots{display:inline-flex;gap:.4rem;}
+.loading-dots span{width:6px;height:6px;border-radius:50%;background:#e2b96f;opacity:0.3;animation:ldot 1.2s ease-in-out infinite;}
+.loading-dots span:nth-child(2){animation-delay:.2s;}
+.loading-dots span:nth-child(3){animation-delay:.4s;}
+@keyframes ldot{0%,80%,100%{opacity:.3;transform:scale(1);}40%{opacity:1;transform:scale(1.3);}}
+.port-empty{text-align:center;padding:5rem 1.5rem;display:none;}
+.port-empty p{color:rgba(255,255,255,0.2);font-size:.82rem;letter-spacing:.05em;}
+.port-empty.visible{display:block;}
+
+/* ═══ PROJECT DETAIL OVERLAY ═══ */
+.proj-detail{
+  position:fixed;inset:0;z-index:9999;
+  background:rgba(0,0,0,0);pointer-events:none;
+  transition:background .35s ease;
+}
+.proj-detail.open{background:rgba(0,0,0,0.97);pointer-events:all;}
+
+.proj-detail-inner{
+  position:absolute;inset:0;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  opacity:0;transform:translateY(32px);
+  transition:opacity .35s ease,transform .35s cubic-bezier(0.23,1,0.32,1);
+  padding:0 0 80px;
+}
+.proj-detail.open .proj-detail-inner{opacity:1;transform:translateY(0);}
+
+/* Close btn */
+.pd-close{
+  position:fixed;top:1.2rem;right:1.5rem;z-index:10001;
+  background:none;border:none;color:rgba(255,255,255,0.4);
+  font-size:2rem;cursor:pointer;line-height:1;
+  transition:color .2s,transform .2s;font-family:inherit;
+  display:none;
+}
+.proj-detail.open .pd-close{display:block;}
+.pd-close:hover{color:#e2b96f;transform:rotate(90deg);}
+
+/* Hero video */
+.pd-video-wrap{
+  width:100%;aspect-ratio:16/9;max-height:70vh;
+  background:#000;position:relative;overflow:hidden;
+}
+.pd-video-wrap video{width:100%;height:100%;object-fit:contain;display:block;}
+
+/* Content below video */
+.pd-content{
+  max-width:900px;margin:0 auto;padding:2.5rem 1.5rem 0;
+}
+.pd-meta-row{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;}
+.pd-category{
+  font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(226,185,111,0.7);background:rgba(226,185,111,0.08);
+  border:1px solid rgba(226,185,111,0.2);padding:.22rem .65rem;border-radius:4px;
+}
+.pd-year{font-size:.68rem;color:rgba(255,255,255,0.25);letter-spacing:.1em;}
+.pd-title{
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(1.6rem,4vw,2.8rem);font-weight:400;
+  color:#fff;line-height:1.1;margin-bottom:1rem;
+}
+.pd-title em{font-style:italic;color:#e2b96f;}
+.pd-desc{
+  font-size:.9rem;color:rgba(255,255,255,0.45);
+  line-height:1.7;letter-spacing:.02em;
+  max-width:620px;margin-bottom:2.5rem;
+}
+
+/* Photo grid */
+.pd-photos{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;
+}
+.pd-photo{border-radius:6px;overflow:hidden;cursor:pointer;aspect-ratio:3/2;}
+.pd-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s cubic-bezier(0.25,0.46,0.45,0.94);}
+.pd-photo:hover img{transform:scale(1.05);}
+
+/* Photo lightbox */
+.pd-lb{
+  position:fixed;inset:0;z-index:10002;
+  background:rgba(0,0,0,0.97);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .25s;
+  padding:1.5rem;
+}
+.pd-lb.open{opacity:1;pointer-events:all;}
+.pd-lb img{max-width:100%;max-height:90vh;border-radius:6px;object-fit:contain;}
+.pd-lb-close{position:absolute;top:1.2rem;right:1.5rem;background:none;border:none;color:rgba(255,255,255,0.45);font-size:2rem;cursor:pointer;transition:color .2s,transform .2s;line-height:1;font-family:inherit;}
+.pd-lb-close:hover{color:#e2b96f;transform:rotate(90deg);}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:700px){
+  nav{height:64px;}
+  .page{top:64px;}
+  .hamburger{display:flex;}
+  .nav-center{display:none;}
+  .lang-switcher{position:absolute;left:50%;transform:translateX(-50%);bottom:10px;top:auto;}
+  .port-scroll{padding:40px 0 100px;justify-content:flex-start;}
+  .project-row{transform:none !important;}
+  .proj-year,.proj-tag{display:none;}
+  .proj-title{font-size:clamp(1.2rem,5vw,1.8rem);}
+  .pd-photos{grid-template-columns:repeat(2,1fr);}
+  .pd-title{font-size:clamp(1.4rem,6vw,2.2rem);}
+}
+@media(max-width:480px){
+  .pd-photos{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">
+    <img src="logo.webp" alt="Mato Davidovic" width="1996" height="1046" fetchpriority="high">
+  </a>
+  <span class="nav-label">Portfolio</span>
+  <a class="nav-back" href="index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    <span data-en>Back</span><span data-de>Zurück</span>
+  </a>
+</nav>
+
+<!-- Background video -->
+<video id="port-bg-video" muted loop playsinline preload="none"></video>
+<div id="port-bg-overlay"></div>
+
+<div class="page">
+  <div class="port-scroll" id="portScroll">
+
+    <div class="port-loading" id="portLoading">
+      <div class="loading-dots"><span></span><span></span><span></span></div>
+    </div>
+
+    <div style="width:100%;max-width:780px;margin:0 auto;display:none;" id="portContent">
+      <div class="port-header">
+        <div>
+          <div class="port-eyebrow"><span data-en>Selected work</span><span data-de>Ausgewählte Arbeiten</span></div>
+          <h2><span data-en>The <em>Portfolio</em></span><span data-de>Das <em>Portfolio</em></span></h2>
+        </div>
+        <div class="port-count" id="portCount"></div>
+      </div>
+      <ul class="project-list" id="projectList"></ul>
+    </div>
+
+    <div class="port-empty" id="portEmpty">
+      <p><span data-en>No projects yet.</span><span data-de>Noch keine Projekte.</span></p>
+    </div>
+
+  </div>
+</div>
+
+<!-- Project detail overlay -->
+<div class="proj-detail" id="projDetail">
+  <button class="pd-close" id="pdClose">×</button>
+  <div class="proj-detail-inner" id="projDetailInner"></div>
+</div>
+
+<!-- Photo lightbox -->
+<div class="pd-lb" id="pdLb">
+  <button class="pd-lb-close" id="pdLbClose">×</button>
+  <img id="pdLbImg" src="" alt="">
+</div>
+
+<script>
+// ── Lang ──────────────────────────────────────────────────────
+function setLang(lang){
+  document.body.classList.remove('lang-en','lang-de');
+  document.body.classList.add('lang-'+lang);
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim().toLowerCase()===lang));
+  localStorage.setItem('mato-lang', lang);
+}
+(function(){ setLang(localStorage.getItem('mato-lang')||'en'); })();
+
+
+// ── Portfolio ─────────────────────────────────────────────────
+(function(){
+  const bgVideo   = document.getElementById('port-bg-video');
+  const bgOverlay = document.getElementById('port-bg-overlay');
+  const loading   = document.getElementById('portLoading');
+  const content   = document.getElementById('portContent');
+  const list      = document.getElementById('projectList');
+  const countEl   = document.getElementById('portCount');
+  const empty     = document.getElementById('portEmpty');
+  const detail    = document.getElementById('projDetail');
+  const detailInner = document.getElementById('projDetailInner');
+  const pdClose   = document.getElementById('pdClose');
+  const pdLb      = document.getElementById('pdLb');
+  const pdLbImg   = document.getElementById('pdLbImg');
+  const pdLbClose = document.getElementById('pdLbClose');
+
+  let projects = [];
+  let bgTimer = null;
+  let currentVideoSrc = '';
+
+  fetch('gallery/index.json?v=' + Date.now())
+    .then(r=>{ if(!r.ok) throw new Error(); return r.json(); })
+    .then(data=>{
+      projects = data.projects || [];
+      loading.style.display = 'none';
+      if(!projects.length){ empty.classList.add('visible'); return; }
+      countEl.textContent = projects.length + (projects.length===1 ? ' project' : ' projects');
+      renderList();
+      content.style.display = 'block';
+    })
+    .catch(()=>{ loading.style.display='none'; empty.classList.add('visible'); });
+
+  function renderList(){
+    list.innerHTML = '';
+    projects.forEach((proj, i)=>{
+      const li = document.createElement('li');
+      li.className = 'project-row';
+      li.innerHTML = `
+        <span class="proj-num">0${i+1}</span>
+        <span class="proj-title">${proj.title}</span>
+        <div class="proj-meta">
+          <span class="proj-tag">${proj.category||'Video'}</span>
+          <span class="proj-year">${proj.year||''}</span>
+          <div class="proj-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      `;
+
+      // Desktop: hover → swap background video
+      li.addEventListener('mouseenter',()=>swapBg(proj.heroVideo||''));
+      li.addEventListener('mouseleave',()=>hideBg());
+
+      // 3D tilt
+      li.addEventListener('mousemove', e=>{
+        const r = li.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        li.style.transform = `translateZ(0) rotateX(${-y*6}deg) rotateY(${x*6}deg)`;
+      });
+      li.addEventListener('mouseleave',()=>{ li.style.transform=''; });
+
+      li.addEventListener('click',()=>openDetail(proj));
+      list.appendChild(li);
+    });
+  }
+
+  function swapBg(src){
+    if(!src || src === currentVideoSrc) return;
+    currentVideoSrc = src;
+    bgVideo.src = src;
+    bgVideo.load();
+    bgVideo.play().catch(()=>{});
+    bgVideo.classList.add('visible');
+    bgOverlay.classList.add('visible');
+  }
+
+  function hideBg(){
+    bgVideo.classList.remove('visible');
+    bgOverlay.classList.remove('visible');
+    clearTimeout(bgTimer);
+    bgTimer = setTimeout(()=>{
+      bgVideo.pause();
+      bgVideo.src = '';
+      currentVideoSrc = '';
+    }, 600);
+  }
+
+  // ── Project detail ────────────────────────────────────────
+  function openDetail(proj){
+    const videos = proj.videos || [];
+    const photos = proj.photos || [];
+    const heroSrc = videos[0] ? videos[0].file : '';
+
+    detailInner.innerHTML = `
+      ${heroSrc ? `
+      <div class="pd-video-wrap">
+        <video src="${heroSrc}" controls autoplay playsinline preload="metadata"></video>
+      </div>` : ''}
+      <div class="pd-content">
+        <div class="pd-meta-row">
+          ${proj.category ? `<span class="pd-category">${proj.category}</span>` : ''}
+          ${proj.year ? `<span class="pd-year">${proj.year}</span>` : ''}
+        </div>
+        <div class="pd-title">${proj.title}</div>
+        ${proj.description ? `<div class="pd-desc">${proj.description}</div>` : ''}
+        ${photos.length ? `
+        <div class="pd-photos">
+          ${photos.map(p=>`
+            <div class="pd-photo" data-src="${p.file}">
+              <img src="${p.file}" alt="${proj.title}" loading="lazy">
+            </div>
+          `).join('')}
+        </div>` : ''}
+      </div>
+    `;
+
+    // Photo lightbox
+    detailInner.querySelectorAll('.pd-photo').forEach(el=>{
+      el.addEventListener('click',()=>openPhotoLb(el.dataset.src));
+    });
+
+    detail.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDetail(){
+    detail.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(()=>{
+      const vid = detailInner.querySelector('video');
+      if(vid){ vid.pause(); vid.src=''; }
+      detailInner.innerHTML = '';
+    }, 350);
+  }
+
+  pdClose.addEventListener('click', closeDetail);
+  detail.addEventListener('click', e=>{ if(e.target===detail) closeDetail(); });
+
+  // ── Photo lightbox ────────────────────────────────────────
+  function openPhotoLb(src){
+    pdLbImg.src = src;
+    pdLb.classList.add('open');
+  }
+  function closePhotoLb(){
+    pdLb.classList.remove('open');
+    pdLbImg.src = '';
+  }
+  pdLbClose.addEventListener('click', closePhotoLb);
+  pdLb.addEventListener('click', e=>{ if(e.target===pdLb) closePhotoLb(); });
+
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape'){
+      if(pdLb.classList.contains('open')) closePhotoLb();
+      else if(detail.classList.contains('open')) closeDetail();
+    }
+  });
+})();
+</script>
+</body>
+</html>
