@@ -39,20 +39,73 @@ nav{
 }
 .nav-brand{display:flex;align-items:center;text-decoration:none;padding:4px 0;flex-shrink:0;}
 .nav-brand img{height:72px;width:auto;object-fit:contain;}
-.nav-label{
-  position:absolute;left:50%;transform:translateX(-50%);
-  font-size:.68rem;font-weight:700;letter-spacing:.4em;text-transform:uppercase;
-  color:rgba(255,255,255,0.35);
+.nav-center{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;}
+.nav-list{display:flex;list-style:none;position:relative;margin:0;padding:0;}
+.hori-selector{
+  position:absolute;height:100%;top:0;left:0;
+  transition:left .5s cubic-bezier(0.68,-0.55,0.265,1.55),width .5s cubic-bezier(0.68,-0.55,0.265,1.55);
+  background:#fff;border-radius:12px 12px 0 0;margin-top:8px;pointer-events:none;z-index:0;
 }
-.nav-back{
-  display:flex;align-items:center;gap:.5rem;
-  text-decoration:none;color:rgba(255,255,255,0.3);
-  font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
-  transition:color .2s;border:1px solid rgba(255,255,255,0.08);
-  padding:.4rem .9rem;border-radius:20px;
+.hori-selector .left,.hori-selector .right{position:absolute;width:22px;height:22px;background:#fff;bottom:0;}
+.hori-selector .right{right:-22px;}
+.hori-selector .left{left:-22px;}
+.hori-selector .right::before,.hori-selector .left::before{
+  content:'';position:absolute;width:44px;height:44px;border-radius:50%;background:rgba(8,8,8,0.9);
 }
-.nav-back:hover{color:#e2b96f;border-color:rgba(226,185,111,0.3);}
-.nav-back svg{width:14px;height:14px;flex-shrink:0;}
+.hori-selector .right::before{bottom:0;right:-22px;}
+.hori-selector .left::before{bottom:0;left:-22px;}
+.nav-list li{position:relative;z-index:1;}
+.nav-list li a{
+  display:flex;align-items:center;gap:6px;color:rgba(255,255,255,0.45);text-decoration:none;
+  font-size:.72rem;font-weight:600;padding:17px 13px;transition:color .4s;white-space:nowrap;
+  cursor:pointer;letter-spacing:.5px;text-transform:uppercase;
+}
+.nav-list li.active a{color:#111;filter:brightness(0.2);}
+.nav-list li a:hover{color:rgba(255,255,255,0.85);}
+/* Hamburger */
+.hamburger{
+  display:none;align-items:center;justify-content:center;
+  width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;z-index:200;
+  background:transparent;position:relative;padding:0;
+  transition:transform .4s cubic-bezier(0.23,1,0.32,1);
+}
+.hamburger::before{content:'';position:absolute;inset:0;border-radius:50%;border:1.5px solid rgba(200,169,126,0.35);transition:border-color .3s,box-shadow .3s;}
+.hamburger::after{content:'';position:absolute;inset:7px;border-radius:50%;border:1px solid rgba(200,169,126,0.15);transition:border-color .3s;}
+.hamburger:hover::before{border-color:rgba(200,169,126,0.7);box-shadow:0 0 16px rgba(200,169,126,0.2);}
+.hamburger.open{transform:rotate(90deg);}
+.hamburger.open::before{border-color:rgba(200,169,126,0.8);}
+.hamburger .lines{display:flex;flex-direction:column;gap:5px;align-items:center;}
+.hamburger .lines span{display:block;height:1.5px;border-radius:2px;background:rgba(200,169,126,0.75);transition:transform .38s cubic-bezier(0.23,1,0.32,1),opacity .25s,width .3s;}
+.hamburger .lines span:nth-child(1){width:20px;}
+.hamburger .lines span:nth-child(2){width:14px;align-self:flex-start;margin-left:3px;}
+.hamburger .lines span:nth-child(3){width:20px;}
+.hamburger:hover .lines span{background:rgba(200,169,126,1);}
+.hamburger.open .lines span:nth-child(1){transform:translateY(6.5px) rotate(45deg);width:20px;background:#c8a97e;}
+.hamburger.open .lines span:nth-child(2){opacity:0;transform:scaleX(0);}
+.hamburger.open .lines span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);width:20px;background:#c8a97e;}
+/* Mobile menu */
+.mobile-menu{
+  display:none;position:fixed;inset:0;top:calc(64px + env(safe-area-inset-top,0px));
+  background:#080808;z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:0;
+}
+.mobile-menu.open{display:flex;}
+.mobile-menu li{list-style:none;width:100%;text-align:center;position:relative;z-index:1;}
+.mobile-menu li+li{border-top:1px solid rgba(226,185,111,0.08);width:60%;margin:0 auto;}
+.mobile-menu li a{
+  display:block;padding:18px 0;font-family:'Playfair Display',serif;
+  color:rgba(255,255,255,0.45);font-size:clamp(1.5rem,6vw,2.2rem);font-weight:800;
+  letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+  cursor:pointer;transition:color .2s,letter-spacing .3s;line-height:1;
+}
+.mobile-menu li a:hover,.mobile-menu li.active a{color:#e2b96f;letter-spacing:.2em;}
+.mobile-menu li{opacity:0;transform:translateY(14px);}
+.mobile-menu.open li{animation:mItemIn .45s cubic-bezier(0.23,1,0.32,1) forwards;}
+.mobile-menu.open li:nth-child(1){animation-delay:.12s;}
+.mobile-menu.open li:nth-child(2){animation-delay:.19s;}
+.mobile-menu.open li:nth-child(3){animation-delay:.26s;}
+.mobile-menu.open li:nth-child(4){animation-delay:.33s;}
+.mobile-menu.open li:nth-child(5){animation-delay:.40s;}
+.mobile-menu.open li:nth-child(6){animation-delay:.47s;}
 @keyframes mItemIn{to{opacity:1;transform:translateY(0);}}
 
 /* Lang switcher */
@@ -269,16 +322,40 @@ body.lang-en [data-de]{display:none !important;}
 </head>
 <body>
 
-<nav>
-  <a class="nav-brand" href="index.html">
+<nav id="navbar">
+  <a class="nav-brand" href="index.html" onclick="sessionStorage.setItem('skipIntro','1')">
     <img src="logo.webp" alt="Mato Davidovic" width="1996" height="1046" fetchpriority="high">
   </a>
-  <span class="nav-label">Portfolio</span>
-  <a class="nav-back" href="index.html">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-    <span data-en>Back</span><span data-de>Zurück</span>
-  </a>
+  <div class="nav-center">
+    <ul class="nav-list" id="navList">
+      <div class="hori-selector" id="selector"><div class="left"></div><div class="right"></div></div>
+      <li><a href="index.html" onclick="sessionStorage.setItem('skipIntro','1')"><span data-en>Home</span><span data-de>Start</span></a></li>
+      <li><a href="index.html#about" onclick="sessionStorage.setItem('skipIntro','1')"><span data-en>About</span><span data-de>Über mich</span></a></li>
+      <li><a href="index.html#services" onclick="sessionStorage.setItem('skipIntro','1')"><span data-en>Services</span><span data-de>Leistungen</span></a></li>
+      <li><a href="index.html#work" onclick="sessionStorage.setItem('skipIntro','1')"><span data-en>Work</span><span data-de>Work</span></a></li>
+      <li><a href="index.html#faq" onclick="sessionStorage.setItem('skipIntro','1')">FAQ</a></li>
+      <li class="active"><a href="portfolio.html"><span data-en>Portfolio</span><span data-de>Portfolio</span></a></li>
+      <li><a href="index.html#contact" onclick="sessionStorage.setItem('skipIntro','1')"><span data-en>Contact</span><span data-de>Kontakt</span></a></li>
+    </ul>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+    <div class="lines"><span></span><span></span><span></span></div>
+  </button>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('de')">DE</button>
+  </div>
 </nav>
+
+<ul class="mobile-menu" id="mobileMenu">
+  <li><a href="index.html" onclick="sessionStorage.setItem('skipIntro','1')"><span data-en>Home</span><span data-de>Start</span></a></li>
+  <li><a href="index.html#about" onclick="sessionStorage.setItem('skipIntro','1')"><span data-en>About</span><span data-de>Über mich</span></a></li>
+  <li><a href="index.html#services" onclick="sessionStorage.setItem('skipIntro','1')"><span data-en>Services</span><span data-de>Leistungen</span></a></li>
+  <li><a href="index.html#work" onclick="sessionStorage.setItem('skipIntro','1')"><span data-en>Work</span><span data-de>Work</span></a></li>
+  <li><a href="index.html#faq" onclick="sessionStorage.setItem('skipIntro','1')">FAQ</a></li>
+  <li class="active"><a href="portfolio.html"><span data-en>Portfolio</span><span data-de>Portfolio</span></a></li>
+  <li><a href="index.html#contact" onclick="sessionStorage.setItem('skipIntro','1')"><span data-en>Contact</span><span data-de>Kontakt</span></a></li>
+</ul>
 
 <!-- Background video -->
 <video id="port-bg-video" muted loop playsinline preload="none"></video>
@@ -322,6 +399,24 @@ body.lang-en [data-de]{display:none !important;}
 </div>
 
 <script>
+// ── Nav selector ─────────────────────────────────────────────
+(function(){
+  const sel = document.getElementById('selector');
+  const active = document.querySelector('#navList li.active');
+  function move(li){ if(!li||!sel) return; sel.style.left=li.offsetLeft+'px'; sel.style.width=li.offsetWidth+'px'; }
+  if(active) setTimeout(()=>move(active), 80);
+  window.addEventListener('resize',()=>move(document.querySelector('#navList li.active')));
+})();
+
+// ── Hamburger ─────────────────────────────────────────────────
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click',()=>{
+  const open = mobileMenu.classList.toggle('open');
+  hamburger.classList.toggle('open', open);
+  hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+
 // ── Lang ──────────────────────────────────────────────────────
 function setLang(lang){
   document.body.classList.remove('lang-en','lang-de');

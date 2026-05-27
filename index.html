@@ -1077,6 +1077,13 @@ window.addEventListener('load', () => {
     }, 1800);
   }
 
+  // Skip intro when coming from internal pages (e.g. portfolio)
+  if(sessionStorage.getItem('skipIntro')){
+    sessionStorage.removeItem('skipIntro');
+    doReveal();
+    return;
+  }
+
   // Lock scroll during intro
   document.body.style.overflow = 'hidden';
 
