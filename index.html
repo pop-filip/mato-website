@@ -376,7 +376,6 @@
     <li class="active" data-section="home"     data-color="#111"    data-accent="#e2b96f"><a><span data-en>Home</span><span data-de>Start</span></a></li>
     <li data-section="about"    data-color="#0d0d0d"  data-accent="#e2b96f"><a><span data-en>About</span><span data-de>Über mich</span></a></li>
     <li data-section="services" data-color="#0a0a0a"  data-accent="#e2b96f"><a><span data-en>Services</span><span data-de>Leistungen</span></a></li>
-    <li data-section="work"     data-color="#080808"  data-accent="#c084fc"><a><span data-en>Work</span><span data-de>Portfolio</span></a></li>
     <li data-section="faq"      data-color="#0a0a0a"  data-accent="#e2b96f"><a><span>FAQ</span></a></li>
     <li data-section="contact"  data-color="#0a0a0a"  data-accent="#fb923c"><a><span data-en>Contact</span><span data-de>Kontakt</span></a></li>
     <li><a href="portfolio.html" style="color:rgba(255,255,255,0.45);">Portfolio</a></li>
@@ -396,7 +395,6 @@
   <li class="active" data-section="home"     data-color="#111"    data-accent="#e2b96f"><a><span data-en>Home</span><span data-de>Start</span></a></li>
   <li data-section="about"    data-color="#0d0d0d"  data-accent="#e2b96f"><a><span data-en>About</span><span data-de>Über mich</span></a></li>
   <li data-section="services" data-color="#0a0a0a"  data-accent="#e2b96f"><a><span data-en>Services</span><span data-de>Leistungen</span></a></li>
-  <li data-section="work"     data-color="#080808"  data-accent="#c084fc"><a><span data-en>Work</span><span data-de>Portfolio</span></a></li>
   <li data-section="faq"      data-color="#0a0a0a"  data-accent="#e2b96f"><a><span>FAQ</span></a></li>
   <li data-section="contact"  data-color="#0a0a0a"  data-accent="#fb923c"><a><span data-en>Contact</span><span data-de>Kontakt</span></a></li>
   <li><a href="portfolio.html" style="color:rgba(255,255,255,0.45);">Portfolio</a></li>
@@ -616,9 +614,9 @@
       <button class="btn-gold" onclick="activate('about','#0d0d0d','#e2b96f')">
         <span data-en>About me</span><span data-de>Über mich</span>
       </button>
-      <button class="btn-ghost" onclick="activate('work','#0a0a0a','#e2b96f')">
+      <a class="btn-ghost" href="portfolio.html" onclick="sessionStorage.setItem('skipIntro','1')" style="text-decoration:none;">
         <span data-en>Portfolio</span><span data-de>Portfolio</span>
-      </button>
+      </a>
     </div>
   </div>
 
@@ -744,120 +742,6 @@
     <span class="sdot"></span>
   </div>
   </div><!-- /services-scroll-inner -->
-</div>
-
-<!-- WORK -->
-<section class="section" id="work">
-
-  <!-- Global video background (swaps on row hover) -->
-  <video id="work-bg-video" muted loop playsinline preload="none" src="videos/delta-team_compressed.mp4"></video>
-  <div id="work-bg-overlay"></div>
-
-  <!-- Scrollable content wrapper -->
-  <div class="work-scroll">
-
-  <!-- Header -->
-  <div class="work-header" style="flex-direction:column;align-items:center;justify-content:center;text-align:center;">
-    <div style="text-align:center;width:100%;">
-      <div class="work-eyebrow" style="text-align:center;"><span data-en>Selected work</span><span data-de>Ausgewählte Arbeiten</span></div>
-      <h2><span data-en>The <em>Reel</em></span><span data-de>Das <em>Portfolio</em></span></h2>
-    </div>
-    <div class="work-count"><span data-en>4 projects</span><span data-de>4 Projekte</span></div>
-  </div>
-
-  <!-- Project list -->
-  <ul class="project-list">
-
-    <li class="project-row" data-video="videos/voda_compressed.mp4" data-title="Voda" onclick="handleWorkRow(event,this)">
-      <div class="proj-row-inner">
-        <span class="proj-num">01</span>
-        <span class="proj-title">Voda</span>
-        <div class="proj-meta">
-          <span class="proj-tag">Video</span>
-          <span class="proj-year">2024</span>
-          <div class="proj-arrow"></div>
-        </div>
-      </div>
-      <div class="proj-preview">
-        <video class="proj-preview-vid" muted playsinline preload="none" loop></video>
-        <button class="proj-preview-btn" onclick="event.stopPropagation();openWorkFull('videos/voda_compressed.mp4','Voda')">
-           <span data-en>Watch fullscreen</span><span data-de>Vollbild ansehen</span>
-        </button>
-      </div>
-    </li>
-
-    <li class="project-row" data-video="videos/skok_compressed.mp4" data-title="Skok" onclick="handleWorkRow(event,this)">
-      <div class="proj-row-inner">
-        <span class="proj-num">02</span>
-        <span class="proj-title">Skok</span>
-        <div class="proj-meta">
-          <span class="proj-tag">Video</span>
-          <span class="proj-year">2024</span>
-          <div class="proj-arrow"></div>
-        </div>
-      </div>
-      <div class="proj-preview">
-        <video class="proj-preview-vid" muted playsinline preload="none" loop></video>
-        <button class="proj-preview-btn" onclick="event.stopPropagation();openWorkFull('videos/skok_compressed.mp4','Skok')">
-           <span data-en>Watch fullscreen</span><span data-de>Vollbild ansehen</span>
-        </button>
-      </div>
-    </li>
-
-    <li class="project-row" data-video="videos/delta_compressed.mp4" data-title="Delta" onclick="handleWorkRow(event,this)">
-      <div class="proj-row-inner">
-        <span class="proj-num">03</span>
-        <span class="proj-title">Delta</span>
-        <div class="proj-meta">
-          <span class="proj-tag">Video</span>
-          <span class="proj-year">2024</span>
-          <div class="proj-arrow"></div>
-        </div>
-      </div>
-      <div class="proj-preview">
-        <video class="proj-preview-vid" muted playsinline preload="none" loop></video>
-        <button class="proj-preview-btn" onclick="event.stopPropagation();openWorkFull('videos/delta_compressed.mp4','Delta')">
-           <span data-en>Watch fullscreen</span><span data-de>Vollbild ansehen</span>
-        </button>
-      </div>
-    </li>
-
-    <li class="project-row" data-video="videos/delta-team_compressed.mp4" data-title="Delta Team" onclick="handleWorkRow(event,this)">
-      <div class="proj-row-inner">
-        <span class="proj-num">04</span>
-        <span class="proj-title">Delta Team</span>
-        <div class="proj-meta">
-          <span class="proj-tag">Video</span>
-          <span class="proj-year">2024</span>
-          <div class="proj-arrow"></div>
-        </div>
-      </div>
-      <div class="proj-preview">
-        <video class="proj-preview-vid" muted playsinline preload="none" loop></video>
-        <button class="proj-preview-btn" onclick="event.stopPropagation();openWorkFull('videos/delta-team_compressed.mp4','Delta Team')">
-           <span data-en>Watch fullscreen</span><span data-de>Vollbild ansehen</span>
-        </button>
-      </div>
-    </li>
-
-  </ul>
-
-  </div><!-- /work-scroll -->
-
-</section>
-
-<!-- FULL PAGE VIDEO PLAYER -->
-<div class="work-fullpage" id="workFullpage" onclick="if(event.target===this)closeWorkFull()">
-  <div class="wfp-modal">
-    <div class="wfp-bar">
-      <span class="wfp-title" id="wfpTitle"></span>
-      <div class="wfp-actions">
-        <button class="wfp-fs" onclick="document.getElementById('wfpVideo').requestFullscreen()">⛶ Fullscreen</button>
-        <button class="wfp-close" onclick="closeWorkFull()">×</button>
-      </div>
-    </div>
-    <video id="wfpVideo" controls playsinline></video>
-  </div>
 </div>
 
 <!-- FAQ -->
@@ -1011,7 +895,7 @@
         <li><a onclick="activate('home','#0a0a0a','#e2b96f')" style="cursor:pointer"><span data-en>Home</span><span data-de>Start</span></a></li>
         <li><a onclick="activate('about','#0d0d0d','#e2b96f')" style="cursor:pointer"><span data-en>About</span><span data-de>Über mich</span></a></li>
         <li><a onclick="activate('services','#0a0a0a','#e2b96f')" style="cursor:pointer"><span data-en>Services</span><span data-de>Leistungen</span></a></li>
-        <li><a onclick="activate('work','#080808','#c084fc')" style="cursor:pointer"><span data-en>Work</span><span data-de>Portfolio</span></a></li>
+        <li><a href="portfolio.html" onclick="sessionStorage.setItem('skipIntro','1')" style="cursor:pointer"><span data-en>Portfolio</span><span data-de>Portfolio</span></a></li>
         <li><a onclick="activate('faq','#0a0a0a','#e2b96f')" style="cursor:pointer">FAQ</a></li>
         <li><a onclick="activate('contact','#0a0a0a','#fb923c')" style="cursor:pointer"><span data-en>Contact</span><span data-de>Kontakt</span></a></li>
       </ul>
@@ -1135,10 +1019,6 @@ function activate(id,color,accent){
       av.play().catch(()=>{});
     }
     if(window._startAboutShatter) window._startAboutShatter();
-  }
-  if(id==='work'){
-    const bv = document.getElementById('work-bg-video');
-    if(bv && !bv._everPlayed){ bv._everPlayed=true; bv.load(); bv.play().catch(()=>{}); }
   }
   mobileMenu.classList.remove('open');
   hamburger.classList.remove('open');
@@ -1326,51 +1206,6 @@ function setLang(lang) {
 
 
 
-// ── WORK PAGE: bg video always visible, swaps on hover ───────────────────────
-(function(){
-  const bgVideo   = document.getElementById('work-bg-video');
-  const bgOverlay = document.getElementById('work-bg-overlay');
-  if(!bgVideo) return;
-
-  // Show bg video immediately when work section activates
-  bgVideo.classList.add('visible');
-  bgOverlay.classList.add('visible');
-
-  let currentSrc = bgVideo.src;
-
-  document.querySelectorAll('.project-row').forEach(row => {
-    row.addEventListener('mouseenter', () => {
-      const src = row.dataset.video;
-      if(!src || src === currentSrc) return;
-      currentSrc = src;
-      bgVideo.src = src;
-      bgVideo.load();
-      bgVideo.play().catch(()=>{});
-    });
-  });
-})();
-
-function openWorkFull(src, title){
-  const fp    = document.getElementById('workFullpage');
-  const video = document.getElementById('wfpVideo');
-  const ttl   = document.getElementById('wfpTitle');
-  video.src   = src;
-  if(ttl) ttl.textContent = title;
-  fp.classList.add('open');
-  video.play();
-  document.body.style.overflow = 'hidden';
-}
-function closeWorkFull(){
-  const fp    = document.getElementById('workFullpage');
-  const video = document.getElementById('wfpVideo');
-  fp.classList.remove('open');
-  video.pause();
-  video.src = '';
-  document.body.style.overflow = '';
-}
-document.addEventListener('keydown', e => {
-  if(e.key === 'Escape') closeWorkFull();
-});
 
 // ── ABOUT SPLIT-TEXT WORD CYCLE ───────────────────────────────────────────────
 (function(){
@@ -1455,31 +1290,6 @@ document.addEventListener('keydown', e => {
   }
 })();
 
-// ── WORK ROW HANDLER (both desktop & mobile = fullscreen) ────────────────────
-function handleWorkRow(e, row){
-  openWorkFull(row.dataset.video, row.dataset.title);
-}
-
-// ── WORK ROWS 3D TILT ─────────────────────────────────────────────────────────
-(function(){
-  document.querySelectorAll('.project-row').forEach(function(row){
-    if(window.matchMedia('(max-width:700px)').matches) return;
-    row.addEventListener('mousemove', function(e){
-      var rect = row.getBoundingClientRect();
-      var x  = e.clientX - rect.left;
-      var y  = e.clientY - rect.top;
-      var cx = rect.width  / 2;
-      var cy = rect.height / 2;
-      var rotX = ((y - cy) / cy) * -3;
-      var rotY = ((x - cx) / cx) *  5;
-      row.style.transform =
-        'perspective(1200px) rotateX('+rotX+'deg) rotateY('+rotY+'deg) translateZ(6px)';
-    });
-    row.addEventListener('mouseleave', function(){
-      row.style.transform = '';
-    });
-  });
-})();
 
 // ── Cookie Consent ────────────────────────────────────────────────────────
 (function(){
@@ -1619,7 +1429,6 @@ document.addEventListener('DOMContentLoaded', function() {
     home:     ['#111','#e2b96f'],
     about:    ['#0d0d0d','#e2b96f'],
     services: ['#0a0a0a','#e2b96f'],
-    work:     ['#080808','#c084fc'],
     faq:      ['#0a0a0a','#e2b96f'],
     contact:  ['#0a0a0a','#fb923c']
   };
