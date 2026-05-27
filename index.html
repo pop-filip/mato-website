@@ -376,9 +376,9 @@
     <li class="active" data-section="home"     data-color="#111"    data-accent="#e2b96f"><a><span data-en>Home</span><span data-de>Start</span></a></li>
     <li data-section="about"    data-color="#0d0d0d"  data-accent="#e2b96f"><a><span data-en>About</span><span data-de>Über mich</span></a></li>
     <li data-section="services" data-color="#0a0a0a"  data-accent="#e2b96f"><a><span data-en>Services</span><span data-de>Leistungen</span></a></li>
+    <li data-section="portfolio" data-color="#080808"  data-accent="#e2b96f"><a><span data-en>Portfolio</span><span data-de>Portfolio</span></a></li>
     <li data-section="faq"      data-color="#0a0a0a"  data-accent="#e2b96f"><a><span>FAQ</span></a></li>
     <li data-section="contact"  data-color="#0a0a0a"  data-accent="#fb923c"><a><span data-en>Contact</span><span data-de>Kontakt</span></a></li>
-    <li><a href="portfolio.html" style="color:rgba(255,255,255,0.45);">Portfolio</a></li>
   </ul>
   </div>
   <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false"><div class="lines"><span></span><span></span><span></span></div></button>
@@ -395,9 +395,9 @@
   <li class="active" data-section="home"     data-color="#111"    data-accent="#e2b96f"><a><span data-en>Home</span><span data-de>Start</span></a></li>
   <li data-section="about"    data-color="#0d0d0d"  data-accent="#e2b96f"><a><span data-en>About</span><span data-de>Über mich</span></a></li>
   <li data-section="services" data-color="#0a0a0a"  data-accent="#e2b96f"><a><span data-en>Services</span><span data-de>Leistungen</span></a></li>
+  <li data-section="portfolio" data-color="#080808"  data-accent="#e2b96f"><a><span data-en>Portfolio</span><span data-de>Portfolio</span></a></li>
   <li data-section="faq"      data-color="#0a0a0a"  data-accent="#e2b96f"><a><span>FAQ</span></a></li>
   <li data-section="contact"  data-color="#0a0a0a"  data-accent="#fb923c"><a><span data-en>Contact</span><span data-de>Kontakt</span></a></li>
-  <li><a href="portfolio.html" style="color:rgba(255,255,255,0.45);">Portfolio</a></li>
 </ul>
 
 
@@ -614,9 +614,9 @@
       <button class="btn-gold" onclick="activate('about','#0d0d0d','#e2b96f')">
         <span data-en>About me</span><span data-de>Über mich</span>
       </button>
-      <a class="btn-ghost" href="portfolio.html" onclick="sessionStorage.setItem('skipIntro','1')" style="text-decoration:none;">
+      <button class="btn-ghost" onclick="activate('portfolio','#080808','#e2b96f')">
         <span data-en>Portfolio</span><span data-de>Portfolio</span>
-      </a>
+      </button>
     </div>
   </div>
 
@@ -742,6 +742,36 @@
     <span class="sdot"></span>
   </div>
   </div><!-- /services-scroll-inner -->
+</div>
+
+<!-- PORTFOLIO -->
+<section class="section" id="portfolio">
+  <video id="port-bg-video" muted loop playsinline preload="none"></video>
+  <div id="port-bg-overlay"></div>
+  <div class="port-scroll">
+    <div class="port-loading" id="portLoading"><div class="loading-dots"><span></span><span></span><span></span></div></div>
+    <div style="width:100%;max-width:780px;margin:0 auto;display:none;" id="portContent">
+      <div class="port-header">
+        <div>
+          <div class="port-eyebrow"><span data-en>Selected work</span><span data-de>Ausgewählte Arbeiten</span></div>
+          <h2><span data-en>The <em>Portfolio</em></span><span data-de>Das <em>Portfolio</em></span></h2>
+        </div>
+        <div class="port-count" id="portCount"></div>
+      </div>
+      <ul class="project-list" id="portList"></ul>
+    </div>
+    <div class="port-empty" id="portEmpty"><p><span data-en>No projects yet.</span><span data-de>Noch keine Projekte.</span></p></div>
+  </div>
+</section>
+
+<!-- PORTFOLIO DETAIL OVERLAY -->
+<div class="proj-detail" id="projDetail">
+  <button class="pd-close" id="pdClose">×</button>
+  <div class="proj-detail-inner" id="projDetailInner"></div>
+</div>
+<div class="pd-lb" id="pdLb">
+  <button class="pd-lb-close" id="pdLbClose">×</button>
+  <img id="pdLbImg" src="" alt="">
 </div>
 
 <!-- FAQ -->
@@ -895,7 +925,7 @@
         <li><a onclick="activate('home','#0a0a0a','#e2b96f')" style="cursor:pointer"><span data-en>Home</span><span data-de>Start</span></a></li>
         <li><a onclick="activate('about','#0d0d0d','#e2b96f')" style="cursor:pointer"><span data-en>About</span><span data-de>Über mich</span></a></li>
         <li><a onclick="activate('services','#0a0a0a','#e2b96f')" style="cursor:pointer"><span data-en>Services</span><span data-de>Leistungen</span></a></li>
-        <li><a href="portfolio.html" onclick="sessionStorage.setItem('skipIntro','1')" style="cursor:pointer"><span data-en>Portfolio</span><span data-de>Portfolio</span></a></li>
+        <li><a onclick="activate('portfolio','#080808','#e2b96f')" style="cursor:pointer"><span data-en>Portfolio</span><span data-de>Portfolio</span></a></li>
         <li><a onclick="activate('faq','#0a0a0a','#e2b96f')" style="cursor:pointer">FAQ</a></li>
         <li><a onclick="activate('contact','#0a0a0a','#fb923c')" style="cursor:pointer"><span data-en>Contact</span><span data-de>Kontakt</span></a></li>
       </ul>
@@ -1426,11 +1456,12 @@ document.addEventListener('DOMContentLoaded', function() {
 // Handle hash navigation from gallery links (e.g. index.html#about)
 (function(){
   var sectionMap = {
-    home:     ['#111','#e2b96f'],
-    about:    ['#0d0d0d','#e2b96f'],
-    services: ['#0a0a0a','#e2b96f'],
-    faq:      ['#0a0a0a','#e2b96f'],
-    contact:  ['#0a0a0a','#fb923c']
+    home:      ['#111','#e2b96f'],
+    about:     ['#0d0d0d','#e2b96f'],
+    services:  ['#0a0a0a','#e2b96f'],
+    portfolio: ['#080808','#e2b96f'],
+    faq:       ['#0a0a0a','#e2b96f'],
+    contact:   ['#0a0a0a','#fb923c']
   };
   var h = window.location.hash.replace('#','');
   if(h && sectionMap[h]){
@@ -1438,6 +1469,127 @@ document.addEventListener('DOMContentLoaded', function() {
       if(typeof activate === 'function') activate(h, sectionMap[h][0], sectionMap[h][1]);
     });
   }
+})();
+
+// ── PORTFOLIO ────────────────────────────────────────────────────────────────
+(function(){
+  const bgVideo   = document.getElementById('port-bg-video');
+  const bgOverlay = document.getElementById('port-bg-overlay');
+  const portLoad  = document.getElementById('portLoading');
+  const portCont  = document.getElementById('portContent');
+  const portList  = document.getElementById('portList');
+  const portCount = document.getElementById('portCount');
+  const portEmpty = document.getElementById('portEmpty');
+  const detail    = document.getElementById('projDetail');
+  const detailInner = document.getElementById('projDetailInner');
+  const pdClose   = document.getElementById('pdClose');
+  const pdLb      = document.getElementById('pdLb');
+  const pdLbImg   = document.getElementById('pdLbImg');
+  const pdLbClose = document.getElementById('pdLbClose');
+
+  let projects = [];
+  let loaded = false;
+  let bgTimer = null;
+  let currentVideoSrc = '';
+
+  function loadPortfolio(){
+    if(loaded) return;
+    loaded = true;
+    fetch('gallery/index.json?v=' + Date.now())
+      .then(r=>{ if(!r.ok) throw new Error(); return r.json(); })
+      .then(data=>{
+        projects = data.projects || [];
+        portLoad.style.display = 'none';
+        if(!projects.length){ portEmpty.classList.add('visible'); return; }
+        portCount.textContent = projects.length + (projects.length===1?' project':' projects');
+        renderList();
+        portCont.style.display = 'block';
+      })
+      .catch(()=>{ portLoad.style.display='none'; portEmpty.classList.add('visible'); });
+  }
+
+  function renderList(){
+    portList.innerHTML = '';
+    projects.forEach((proj,i)=>{
+      const li = document.createElement('li');
+      li.className = 'project-row';
+      li.innerHTML = `
+        <span class="proj-num">0${i+1}</span>
+        <span class="proj-title">${proj.title}</span>
+        <div class="proj-meta">
+          <span class="proj-tag">${proj.category||'Video'}</span>
+          <span class="proj-year">${proj.year||''}</span>
+          <div class="proj-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </div>`;
+      li.addEventListener('mouseenter',()=>swapBg(proj.heroVideo||''));
+      li.addEventListener('mouseleave',()=>hideBg());
+      li.addEventListener('mousemove',function(e){
+        const r=li.getBoundingClientRect();
+        const x=(e.clientX-r.left)/r.width-.5;
+        const y=(e.clientY-r.top)/r.height-.5;
+        li.style.transform=`translateZ(0) rotateX(${-y*6}deg) rotateY(${x*6}deg)`;
+      });
+      li.addEventListener('mouseleave',()=>{ li.style.transform=''; });
+      li.addEventListener('click',()=>openDetail(proj));
+      portList.appendChild(li);
+    });
+  }
+
+  function swapBg(src){
+    if(!src||src===currentVideoSrc) return;
+    currentVideoSrc=src;
+    bgVideo.src=src; bgVideo.load(); bgVideo.play().catch(()=>{});
+    bgVideo.classList.add('visible'); bgOverlay.classList.add('visible');
+  }
+  function hideBg(){
+    bgVideo.classList.remove('visible'); bgOverlay.classList.remove('visible');
+    clearTimeout(bgTimer);
+    bgTimer=setTimeout(()=>{ bgVideo.pause(); bgVideo.src=''; currentVideoSrc=''; },600);
+  }
+
+  function openDetail(proj){
+    const videos=proj.videos||[]; const photos=proj.photos||[];
+    const heroSrc=videos[0]?videos[0].file:'';
+    detailInner.innerHTML=`
+      ${heroSrc?`<div class="pd-video-wrap"><video src="${heroSrc}" controls autoplay playsinline preload="metadata"></video></div>`:''}
+      <div class="pd-content">
+        <div class="pd-meta-row">
+          ${proj.category?`<span class="pd-category">${proj.category}</span>`:''}
+          ${proj.year?`<span class="pd-year">${proj.year}</span>`:''}
+        </div>
+        <div class="pd-title">${proj.title}</div>
+        ${proj.description?`<div class="pd-desc">${proj.description}</div>`:''}
+        ${photos.length?`<div class="pd-photos">${photos.map(p=>`<div class="pd-photo" data-src="${p.file}"><img src="${p.file}" alt="${proj.title}" loading="lazy"></div>`).join('')}</div>`:''}
+      </div>`;
+    detailInner.querySelectorAll('.pd-photo').forEach(el=>{
+      el.addEventListener('click',()=>{ pdLbImg.src=el.dataset.src; pdLb.classList.add('open'); });
+    });
+    detail.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+  function closeDetail(){
+    detail.classList.remove('open');
+    document.body.style.overflow='';
+    setTimeout(()=>{ const v=detailInner.querySelector('video'); if(v){v.pause();v.src='';} detailInner.innerHTML=''; },350);
+  }
+
+  pdClose.addEventListener('click',closeDetail);
+  detail.addEventListener('click',e=>{ if(e.target===detail) closeDetail(); });
+  pdLbClose.addEventListener('click',()=>{ pdLb.classList.remove('open'); pdLbImg.src=''; });
+  pdLb.addEventListener('click',e=>{ if(e.target===pdLb){pdLb.classList.remove('open');pdLbImg.src='';} });
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){
+      if(pdLb.classList.contains('open')){ pdLb.classList.remove('open'); pdLbImg.src=''; }
+      else if(detail.classList.contains('open')) closeDetail();
+    }
+  });
+
+  // Load when portfolio section first activates
+  const origActivate = window.activate;
+  window.activate = function(id,color,accent){
+    origActivate(id,color,accent);
+    if(id==='portfolio') loadPortfolio();
+  };
 })();
 </script>
 <a class="wa-btn" href="https://wa.me/436603780309" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
