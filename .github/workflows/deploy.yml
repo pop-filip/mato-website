@@ -16,19 +16,34 @@ jobs:
       - name: Deploy via rsync
         uses: burnett01/rsync-deployments@7.0.1
         with:
-          switches: -avz --delete --exclude='.git' --exclude='*.mp4' --exclude='node_modules' --exclude='gallery/'
+          switches: -avz --delete --exclude='.git' --exclude='.github' --exclude='nginx/' --exclude='*.mp4' --exclude='node_modules' --exclude='gallery/'
           path: ./
           remote_path: /var/www/mato-website/html/
           remote_host: ${{ secrets.VPS_HOST }}
           remote_user: ${{ secrets.VPS_USER }}
           remote_key: ${{ secrets.VPS_SSH_KEY }}
 
-      - name: Reload nginx
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
         with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          script: |
-            docker exec mato-website nginx -s reload
-            echo "✅ matografie.at deployed at $(date)"
+          ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+
+      - name: Add server to known_hosts
+        run: ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      # nginx config je pod gitom od Agent Pipeline Faze 1 (nginx/nginx.conf).
+      # --inplace je obavezan: kontejner ima bind mount JEDNOG fajla, pa bi novi
+      # inode (običan rsync/cp/sed -i) ostao nevidljiv za nginx do restarta.
+      - name: Deploy nginx config + reload
+        env:
+          CONF: /var/www/mato-website/nginx.conf
+          KONTEJNER: mato-website
+        run: |
+          CIL="${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}"
+          ssh "$CIL" "cat $CONF > $CONF.prije-deploya"
+          rsync -avz --inplace --checksum nginx/nginx.conf "$CIL:$CONF"
+          ssh "$CIL" "docker exec $KONTEJNER nginx -t && docker exec $KONTEJNER nginx -s reload" || {
+            echo "::error::nginx -t pao, vraćam prethodni config"
+            ssh "$CIL" "cat $CONF.prije-deploya > $CONF && docker exec $KONTEJNER nginx -s reload"
+            exit 1
+          }
