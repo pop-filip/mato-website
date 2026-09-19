@@ -1,0 +1,18 @@
+# Agent Pipeline: ista objektivna provjera koju pokreće izvršilac, ali na svaki PR
+# koji dira config ili sajt. Ne deployuje ništa i nema pristup tajnama.
+name: Provjera (nginx + headeri)
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  provjera:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: .github/agent/provjera.sh
